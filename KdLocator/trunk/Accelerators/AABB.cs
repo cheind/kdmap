@@ -54,18 +54,38 @@ namespace Accelerators
 		/// </value>
 		public bool Empty {
 			get {
-				return false;
+				return 
+					VectorComparison.Equal(_min, new Vector(_min.Dimensions, Single.MaxValue)) &&
+					VectorComparison.Equal(_max, new Vector(_max.Dimensions, -Single.MaxValue));
 			}
 		}
 		
 		/// <summary>
-		/// Reset to empty state
+		/// Reset to empty state.
 		/// </summary>
 		public void Reset() {
+			VectorOps.Fill(_min, Single.MaxValue);
+			VectorOps.Fill(_max, -Single.MaxValue);
+		}
+		
+		/// <value>
+		/// Lower corner of AABB.
+		/// </value>
+		public IVector Lower {
+			get {
+				return _min;
+			}
 		}
 		
 		
-		
+		/// <value>
+		/// Upper corner of AABB.
+		/// </value>
+		public IVector Upper {
+			get {
+				return _max;
+			}
+		}
 		
 		private Vector _min;
 		private Vector _max;

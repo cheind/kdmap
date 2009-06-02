@@ -30,7 +30,7 @@ namespace Accelerators
 		/// </summary>
 		public static bool Equal(IVector a, IVector b) {
 			for (int i = 0; i < a.Dimensions; ++i) {
-				if (a[i] == b[i])
+				if (a[i] != b[i])
 					return false;
 			}
 			return true;
