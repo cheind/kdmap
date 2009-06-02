@@ -85,7 +85,7 @@ namespace Accelerators
 		/// </summary>
 		public static float Normalize(IVector a, IVector dest) {
 			float len = Length(a);
-			if (FloatComparison.IsCloseZero(len, FloatComparison.DefaultEps))
+			if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
 				throw new DivideByZeroException();
 			float inv_len = 1.0f/len;
 			for (int i = 0; i < a.Dimensions; ++i) {

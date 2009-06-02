@@ -41,15 +41,15 @@ namespace Accelerators
 		/// Test if a is close to b given a symmetric interval of eps.
 		/// </summary>
 		/// <param name="a">
-		public static bool IsClose(float a, float b, float eps) {
+		public static bool Close(float a, float b, float eps) {
 			return Math.Abs(a-b) <= eps;
 		}
 		
 		/// <summary>
 		/// Test if a is close to zero given the symmetric interval of eps.
 		/// </summary>
-		public static bool IsCloseZero(float a, float eps) {
-			return IsClose(a, 0.0f, eps);
+		public static bool CloseZero(float a, float eps) {
+			return Close(a, 0.0f, eps);
 		}
 	}
 }

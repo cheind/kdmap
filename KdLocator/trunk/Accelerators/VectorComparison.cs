@@ -26,11 +26,22 @@ namespace Accelerators
 	public class VectorComparison
 	{
 		/// <summary>
-		/// Compare two vectors for equal components using a symmetric interval.
+		/// Test if two vectors are component-wise equal.
 		/// </summary>
-		public static bool Equal(IVector a, IVector b, float eps) {
+		public static bool Equal(IVector a, IVector b) {
 			for (int i = 0; i < a.Dimensions; ++i) {
-				if (!FloatComparison.IsClose(a[i], b[i], eps))
+				if (a[i] == b[i])
+					return false;
+			}
+			return true;
+		}
+		
+		/// <summary>
+		/// Test if two vectors are component-wise close using a symmetric tolerance interval.
+		/// </summary>
+		public static bool Close(IVector a, IVector b, float eps) {
+			for (int i = 0; i < a.Dimensions; ++i) {
+				if (!FloatComparison.Close(a[i], b[i], eps))
 					return false;
 			}
 			return true;

@@ -16,6 +16,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace Accelerators
 {
@@ -26,10 +27,44 @@ namespace Accelerators
 	public class AABB
 	{
 		
+		/// <summary>
+		/// Create an empty AABB in n-dimensions (min > max).
+		/// </summary>
 		public AABB(int dimensions)
 		{
-			//_min = new Vector
+			_min = new Vector(dimensions, Single.MaxValue);
+			_max = new Vector(dimensions, -Single.MaxValue);
 		}
+		
+		/// <summary>
+		/// Enlarge AABB to contain the given vectors.
+		/// </summary>
+		public void Enlarge<T>(ICollection<T> values) where T : IVector {
+			foreach(IVector v in values) {
+				for(int i = 0; i < _min.Dimensions; ++i) {
+					float vi = v[i];
+					if (vi < _min[i]) _min[i] = vi;
+					if (vi > _max[i]) _max[i] = vi;
+				}
+			}
+		}
+		
+		/// <value>
+		/// Test if AABB is empty. 
+		/// </value>
+		public bool Empty {
+			get {
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Reset to empty state
+		/// </summary>
+		public void Reset() {
+		}
+		
+		
 		
 		
 		private Vector _min;
