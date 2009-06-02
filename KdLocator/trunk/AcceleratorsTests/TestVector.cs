@@ -34,11 +34,25 @@ namespace AcceleratorsTests
 			v1[0] = 1.0f; v1[1] = 2.0f;
 			
 			// Construct from other vector
-			Vector reference = VectorUtility.InitR3(1.0f, 2.0f, 3.0f);
+			Vector reference = new Vector(1.0f, 2.0f, 3.0f);
 			Vector v2 = new Accelerators.Vector(reference);
 			Assert.IsTrue(VectorComparison.Equal(reference, v2, FloatComparison.DefaultEps));
 			Vector v3 = new Accelerators.Vector((IVector)reference);
 			Assert.IsTrue(VectorComparison.Equal(reference, v3, FloatComparison.DefaultEps));
+			
+			// Construct from dimension and value
+			Vector v4 = new Vector(2, 1.0f);
+			Assert.AreEqual(1.0f, v4[0], FloatComparison.DefaultEps);
+			Assert.AreEqual(1.0f, v4[1], FloatComparison.DefaultEps);
+			
+			Vector v5 = new Vector(1.0f, 2.0f);
+			Assert.AreEqual(1.0f, v5[0], FloatComparison.DefaultEps);
+			Assert.AreEqual(2.0f, v5[1], FloatComparison.DefaultEps);
+			
+			Vector v6 = new Vector(1.0f, 2.0f, 3.0f);
+			Assert.AreEqual(1.0f, v6[0], FloatComparison.DefaultEps);
+			Assert.AreEqual(2.0f, v6[1], FloatComparison.DefaultEps);
+			Assert.AreEqual(3.0f, v6[2], FloatComparison.DefaultEps);
 		}
 	}
 }
