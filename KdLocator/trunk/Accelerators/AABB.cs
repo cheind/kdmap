@@ -87,6 +87,35 @@ namespace Accelerators
 			}
 		}
 		
+		/// <value>
+		/// Diagonal of AABB as vector from lower corner to upper corner 
+		/// </value>
+		public IVector Diagonal {
+			get {
+				return (_max - _min);
+			}
+		}
+		
+		/// <value>
+		/// Hyper-volume of AABB. 
+		/// </value>
+		public float Volume {
+			get {
+				float vol = 1.0f;
+				for (int i = 0; i < _min.Dimensions; ++i) {
+					vol *= this.Extension(i);
+				}
+				return vol;
+			}
+		}
+		
+		/// <summary>
+		/// Return the AABBs extension in the given dimension
+		/// </summary>
+		public float Extension(int dimension) {
+			return _max[dimension] - _min[dimension];
+		}
+		
 		private Vector _min;
 		private Vector _max;
 	}
