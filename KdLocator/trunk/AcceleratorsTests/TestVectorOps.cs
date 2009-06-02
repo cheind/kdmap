@@ -108,8 +108,5 @@ namespace AcceleratorsTests
 			Assert.AreEqual(2.0f, a[0], FloatComparison.DefaultEps);
 			Assert.AreEqual(2.0f, a[1], FloatComparison.DefaultEps);
 		}
-		
-		
-		
 	}
 }
