@@ -33,6 +33,28 @@ namespace Accelerators
 		}
 		
 		/// <summary>
+		/// Create vector of n-dimensions with equal coordinates
+		/// </summary>
+		public Vector(int dimensions, float val) {
+			_coordinates = new float[dimensions];
+			VectorOps.Fill(this, val);
+		}
+		
+		/// <summary>
+		/// Create a two-dimensional vector with coordinates explicitly set.
+		/// </summary>
+		public Vector(float x, float y) {
+			_coordinates = new float[2]{x, y};
+		}
+		
+		/// <summary>
+		/// Create a three-dimesional vector with coordinates explicitly set.
+		/// </summary>
+		public Vector(float x, float y, float z) {
+			_coordinates = new float[3]{x, y, z};
+		}
+		
+		/// <summary>
 		/// Copy construct from the given vector
 		/// </summary>
 		public Vector(Vector other) {
@@ -87,6 +109,18 @@ namespace Accelerators
 			get {
 				return VectorOps.Length(this);
 			}
+		}
+		
+		public static Accelerators.Vector InitR3(float x, float y, float z) {
+			Vector v = new Accelerators.Vector(3);
+			v[0] = x; v[1] = y; v[2] = z;
+			return v;
+		}
+		
+		public static Accelerators.Vector InitR2(float x, float y) {
+			Vector v = new Accelerators.Vector(2);
+			v[0] = x; v[1] = y;
+			return v;
 		}
 		
 		

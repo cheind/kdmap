@@ -38,6 +38,7 @@
     <Compile Include="VectorComparison.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="KdTree.cs" />
+    <Compile Include="AABB.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

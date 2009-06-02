@@ -102,5 +102,14 @@ namespace Accelerators
 				dest[i] = a[i];
 			}
 		}
+		
+		/// <summary>
+		/// Set each coordinate to the given value
+		/// </summary>
+		public static void Fill(IVector a, float val) {	
+			for (int i = 0; i < a.Dimensions; ++i) {
+				a[i] = val;
+			}
+		}
 	}
 }
