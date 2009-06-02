@@ -33,7 +33,7 @@ namespace AcceleratorsTests
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
 			VectorOps.Add(a, b, a);
-			Assert.IsTrue(VectorComparison.Equal(a, new Vector(0.0f, 5.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, new Vector(0.0f, 5.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
@@ -42,7 +42,7 @@ namespace AcceleratorsTests
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
 			VectorOps.Sub(a, b, a);
-			Assert.IsTrue(VectorComparison.Equal(a, new Vector(2.0f, -1.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0f, -1.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
@@ -50,7 +50,7 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			VectorOps.ScalarMul(a, 0.5f, a);
-			Assert.IsTrue(VectorComparison.Equal(a, new Vector(0.5f, 1.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, new Vector(0.5f, 1.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
@@ -58,21 +58,21 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
-			Assert.IsTrue(FloatComparison.IsClose(VectorOps.Inner(a,b), 5.0f, FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorOps.Inner(a,b), 5.0f, FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
 		public void TestSquareLength()
 		{
 			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.IsClose(VectorOps.SquareLength(a), 5.0f, FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorOps.SquareLength(a), 5.0f, FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
 		public void TestLength()
 		{
 			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.IsClose(VectorOps.Length(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorOps.Length(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
@@ -98,7 +98,7 @@ namespace AcceleratorsTests
 			Vector a = new Vector(3.0f, 4.0f);
 			Vector b = new Vector(2);
 			VectorOps.Copy(a, b);
-			Assert.IsTrue(VectorComparison.Equal(a, b, FloatComparison.DefaultEps));			
+			Assert.IsTrue(VectorComparison.Close(a, b, FloatComparison.DefaultEps));			
 		}
 		
 		[Test()]

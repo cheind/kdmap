@@ -36,9 +36,9 @@ namespace AcceleratorsTests
 			// Construct from other vector
 			Vector reference = new Vector(1.0f, 2.0f, 3.0f);
 			Vector v2 = new Accelerators.Vector(reference);
-			Assert.IsTrue(VectorComparison.Equal(reference, v2, FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(reference, v2, FloatComparison.DefaultEps));
 			Vector v3 = new Accelerators.Vector((IVector)reference);
-			Assert.IsTrue(VectorComparison.Equal(reference, v3, FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(reference, v3, FloatComparison.DefaultEps));
 			
 			// Construct from dimension and value
 			Vector v4 = new Vector(2, 1.0f);
@@ -71,9 +71,9 @@ namespace AcceleratorsTests
 			Vector a = new Vector(1.0f, 2.0f, 3.0f);
 			Vector b = new Vector(1.0f, 2.0f, 3.0f);
 			Vector c = a + b;
-			Assert.IsTrue(VectorComparison.Equal(c, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(c, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
 			a += b;
-			Assert.IsTrue(VectorComparison.Equal(a, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test]
@@ -81,9 +81,9 @@ namespace AcceleratorsTests
 			Vector a = new Vector(4.0f, 5.0f, 6.0f);
 			Vector b = new Vector(1.0f, 2.0f, 3.0f);
 			Vector c = a - b;
-			Assert.IsTrue(VectorComparison.Equal(c, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(c, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
 			a -= b;
-			Assert.IsTrue(VectorComparison.Equal(a, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
 		}
 	}
 }
