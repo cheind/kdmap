@@ -111,19 +111,6 @@ namespace Accelerators
 			}
 		}
 		
-		public static Accelerators.Vector InitR3(float x, float y, float z) {
-			Vector v = new Accelerators.Vector(3);
-			v[0] = x; v[1] = y; v[2] = z;
-			return v;
-		}
-		
-		public static Accelerators.Vector InitR2(float x, float y) {
-			Vector v = new Accelerators.Vector(2);
-			v[0] = x; v[1] = y;
-			return v;
-		}
-		
-		
 		private float[] _coordinates;
 	}
 }
