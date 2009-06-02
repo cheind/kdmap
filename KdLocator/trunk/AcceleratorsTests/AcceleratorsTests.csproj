@@ -38,7 +38,6 @@
   <ItemGroup>
     <Compile Include="TestVector.cs" />
     <Compile Include="TestVectorOps.cs" />
-    <Compile Include="VectorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

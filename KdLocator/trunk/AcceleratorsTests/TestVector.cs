@@ -54,5 +54,36 @@ namespace AcceleratorsTests
 			Assert.AreEqual(2.0f, v6[1], FloatComparison.DefaultEps);
 			Assert.AreEqual(3.0f, v6[2], FloatComparison.DefaultEps);
 		}
+		
+		[Test()]
+		public void TestIVectorInterface() {
+			Vector v = new Vector(1.0f, 2.0f, 3.0f);
+			IVector iv = v;
+			
+			Assert.AreEqual(3, iv.Dimensions);
+			Assert.AreEqual(1.0f, iv[0], FloatComparison.DefaultEps);
+			Assert.AreEqual(2.0f, iv[1], FloatComparison.DefaultEps);
+			Assert.AreEqual(3.0f, iv[2], FloatComparison.DefaultEps);
+		}
+		
+		[Test]
+		public void TestOperatorOverloadingPlus() {
+			Vector a = new Vector(1.0f, 2.0f, 3.0f);
+			Vector b = new Vector(1.0f, 2.0f, 3.0f);
+			Vector c = a + b;
+			Assert.IsTrue(VectorComparison.Equal(c, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+			a += b;
+			Assert.IsTrue(VectorComparison.Equal(a, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+		}
+		
+		[Test]
+		public void TestOperatorOverloadingSub() {
+			Vector a = new Vector(4.0f, 5.0f, 6.0f);
+			Vector b = new Vector(1.0f, 2.0f, 3.0f);
+			Vector c = a - b;
+			Assert.IsTrue(VectorComparison.Equal(c, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+			a -= b;
+			Assert.IsTrue(VectorComparison.Equal(a, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+		}
 	}
 }
