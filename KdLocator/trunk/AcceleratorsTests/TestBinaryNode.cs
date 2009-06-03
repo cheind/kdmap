@@ -86,5 +86,15 @@ namespace AcceleratorsTests
 		{
 			Assert.AreEqual("abcdefgh", MakeStringFromIteration(ExampleTree.PreOrder));
 		}
+		
+		[Test]
+		public void TestLeafvsIntermediateState()
+		{
+			CharNode root = ExampleTree;
+			Assert.IsTrue(root.Intermediate);
+			Assert.IsFalse(root.Leaf);
+			Assert.AreEqual("dfh", MakeStringFromIteration(root.Leafs));
+		}
+
 	}
 }

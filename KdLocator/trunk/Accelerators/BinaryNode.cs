@@ -110,6 +110,20 @@ namespace Accelerators
 			}
 		}
 		
+		/// <value>
+		/// Leaf-iteration from left to right 
+		/// </value>
+		public IEnumerable<InheritedType> Leafs {
+			get {
+				// Non-optimized version as all nodes are traversed and filtered accordingly.
+				// The data-structure used in BinaryNode is not capable of an optimized iteration.
+				foreach (InheritedType n in this.PreOrder) {
+					if (n.Leaf)
+						yield return n;
+				}
+			}
+		}
+		
 		private InheritedType _left;
 		private InheritedType _right;
 	}
