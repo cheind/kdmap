@@ -88,13 +88,20 @@ namespace AcceleratorsTests
 		}
 		
 		[Test]
-		public void TestLeafvsIntermediateState()
+		public void TestLeafVsIntermediateState()
 		{
 			CharNode root = ExampleTree;
 			Assert.IsTrue(root.Intermediate);
 			Assert.IsFalse(root.Leaf);
 			Assert.AreEqual("dfh", MakeStringFromIteration(root.Leafs));
 		}
+		
+		[Test]
+		public void TestLeafsTraversal()
+		{
+			Assert.AreEqual("dfh", MakeStringFromIteration(ExampleTree.Leafs));
+		}
+		
 
 	}
 }
