@@ -24,7 +24,7 @@ namespace AcceleratorsTests
 {
 	
 	[TestFixture()]
-	public class TestVectorOps
+	public class TestVectorExpressions
 	{
 		
 		[Test()]
@@ -32,7 +32,7 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
-			VectorOps.Add(a, b, a);
+			VectorExpressions.Add(a, b, a);
 			Assert.IsTrue(VectorComparison.Close(a, new Vector(0.0f, 5.0f), FloatComparison.DefaultEps));
 		}
 		
@@ -41,7 +41,7 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
-			VectorOps.Sub(a, b, a);
+			VectorExpressions.Sub(a, b, a);
 			Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0f, -1.0f), FloatComparison.DefaultEps));
 		}
 		
@@ -49,7 +49,7 @@ namespace AcceleratorsTests
 		public void TestScalarMul()
 		{
 			Vector a = new Vector(1.0f, 2.0f);
-			VectorOps.ScalarMul(a, 0.5f, a);
+			VectorExpressions.ScalarMul(a, 0.5f, a);
 			Assert.IsTrue(VectorComparison.Close(a, new Vector(0.5f, 1.0f), FloatComparison.DefaultEps));
 		}
 		
@@ -58,21 +58,21 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector b = new Vector(-1.0f, 3.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorOps.Inner(a,b), 5.0f, FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorExpressions.Inner(a,b), 5.0f, FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
 		public void TestSquareLength()
 		{
 			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorOps.SquareLength(a), 5.0f, FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorReductions.SquaredL2Norm(a), 5.0f, FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
 		public void TestLength()
 		{
 			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorOps.Length(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
+			Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
 		}
 		
 		[Test()]
@@ -80,9 +80,9 @@ namespace AcceleratorsTests
 		{
 			Vector a = new Vector(1.0f, 2.0f);
 			Vector na = new Vector(2);
-			float old_len = VectorOps.Normalize(a, na);
+			float old_len = VectorExpressions.Normalize(a, na);
 			Assert.AreEqual((float)Math.Sqrt(5.0f), old_len, FloatComparison.DefaultEps);
-			float new_len = VectorOps.Length(na);
+			float new_len = VectorReductions.L2Norm(na);
 			Assert.AreEqual(1.0f, new_len, FloatComparison.DefaultEps);
 		}
 		
@@ -90,21 +90,21 @@ namespace AcceleratorsTests
 		[ExpectedException(typeof(DivideByZeroException))]
 		public void TestNormalizeZero() {
 			Vector a =new Vector(0.0f, 0.0f);
-			VectorOps.Normalize(a, a);
+			VectorExpressions.Normalize(a, a);
 		}
 		
 		[Test()]
 		public void TestCopy() {
 			Vector a = new Vector(3.0f, 4.0f);
 			Vector b = new Vector(2);
-			VectorOps.Copy(a, b);
+			VectorExpressions.Copy(a, b);
 			Assert.IsTrue(VectorComparison.Close(a, b, FloatComparison.DefaultEps));			
 		}
 		
 		[Test()]
 		public void TestFill() {
 			Vector a = new Vector(2);
-			VectorOps.Fill(a, 2.0f);
+			VectorExpressions.Fill(a, 2.0f);
 			Assert.AreEqual(2.0f, a[0], FloatComparison.DefaultEps);
 			Assert.AreEqual(2.0f, a[1], FloatComparison.DefaultEps);
 		}

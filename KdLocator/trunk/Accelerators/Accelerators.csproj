@@ -33,12 +33,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IVector.cs" />
-    <Compile Include="VectorOps.cs" />
     <Compile Include="FloatComparison.cs" />
     <Compile Include="VectorComparison.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="KdTree.cs" />
     <Compile Include="AABB.cs" />
+    <Compile Include="VectorReductions.cs" />
+    <Compile Include="VectorExpressions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

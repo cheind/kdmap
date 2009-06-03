@@ -22,9 +22,9 @@ namespace Accelerators
 	
 	
 	/// <summary>
-	/// Defines operations on vectors
+	/// Defines unary and binary operations on vectors
 	/// </summary>
-	public class VectorOps
+	public class VectorExpressions
 	{
 		/// <summary>
 		/// Calculate component-wise subtraction of a and b. 
@@ -66,25 +66,13 @@ namespace Accelerators
 			}
 		}
 		
-		/// <summary>
-		/// Calculate the square-length (L2 norm) of the given vector.
-		/// </summary>
-		public static float SquareLength(IVector a) {
-			return Inner(a, a);
-		}
+
 		
 		/// <summary>
-		/// Calculate the length of the vector
-		/// </summary>
-		public static float Length(IVector a) {
-			return (float)Math.Sqrt(SquareLength(a));
-		}
-		
-		/// <summary>
-		/// Normalize the given vector.
+		/// Normalize the given vector using the L2 norm.
 		/// </summary>
 		public static float Normalize(IVector a, IVector dest) {
-			float len = Length(a);
+			float len = VectorReductions.L2Norm(a);
 			if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
 				throw new DivideByZeroException();
 			float inv_len = 1.0f/len;
