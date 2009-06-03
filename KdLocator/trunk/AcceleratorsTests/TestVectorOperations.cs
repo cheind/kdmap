@@ -62,20 +62,6 @@ namespace AcceleratorsTests
 		}
 		
 		[Test()]
-		public void TestSquareLength()
-		{
-			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorReductions.SquaredL2Norm(a), 5.0f, FloatComparison.DefaultEps));
-		}
-		
-		[Test()]
-		public void TestLength()
-		{
-			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
-		}
-		
-		[Test()]
 		public void TestNormalize()
 		{
 			Vector a = new Vector(1.0f, 2.0f);

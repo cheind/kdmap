@@ -39,7 +39,8 @@
     <Compile Include="TestVector.cs" />
     <Compile Include="TestAABB.cs" />
     <Compile Include="VectorSampling.cs" />
-    <Compile Include="TestVectorExpressions.cs" />
+    <Compile Include="TestVectorOperations.cs" />
+    <Compile Include="TestVectorReductions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">
