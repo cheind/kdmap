@@ -24,14 +24,56 @@ namespace Accelerators
 	public class KdTree<T> where T : IVector
 	{
 		
-		public KdTree(ICollection<T> other)
+		public KdTree(IEnumerable<T> vecs, ISubdivisionPolicy policy)
 		{
+			_subdiv_policy = policy;
+			_root = this.CreateRootNode(vecs);
+			this.RecursiveSplit(_root);
 		}
 		
-		public void Add(T v) {
+		private KdNode<T> CreateRootNode(IEnumerable<T> vecs) {
+			T first;
+			if (!this.FirstFromEnumerable(vecs, out first))
+				throw new ArgumentOutOfRangeException("Cannot work on empty collection");
+			
+			_dimensions = first.Dimensions;
+			
+			KdNode<T> n = new KdNode<T>();
+			n.Bounds = new AABB(_dimensions);
+			n.Bounds.Enlarge(vecs);
+			n.Vectors = new List<T>(vecs);
+			return n;
 		}
 		
-		public void Remove(T v) {
+		private bool FirstFromEnumerable(IEnumerable<T> vecs, out T first) {
+			bool non_empty = false;
+			using (IEnumerator<T> e = vecs.GetEnumerator()) {
+				if (e.MoveNext()) {
+					first = e.Current;
+					non_empty = true;
+				}
+			}
+			return non_empty;
 		}
+		
+		/// <summary>
+		/// Perform splitting as long as possible
+		/// </summary>
+		private void RecursiveSplit(KdNode<T> target) {
+			Stack<KdNode<T>> s = new Stack<KdNode<T>>();
+			s.Push(target);
+			while (s.Count > 0) {
+				KdNode<T> n = s.Pop();
+				if (_subdiv_policy.Split(n)) {
+					s.Push(n.Left);
+					s.Push(n.Right);
+				}
+			}
+		}
+		
+		
+		private ISubdivisionPolicy _subdiv_policy;
+		private int _dimensions;
+		private KdNode<T> _root;
 	}
 }

@@ -47,7 +47,7 @@ namespace Accelerators
 		/// <summary>
 		/// Enlarge AABB to contain the given vectors.
 		/// </summary>
-		public void Enlarge<T>(ICollection<T> values) where T : IVector {
+		public void Enlarge<T>(IEnumerable<T> values) where T : IVector {
 			foreach(IVector v in values) {
 				this.Enlarge(v);
 			}

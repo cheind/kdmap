@@ -62,7 +62,7 @@ namespace Accelerators
 		/// <value>
 		/// Vectors in within the bounds of this node.
 		/// </value>
-		public IList<T> Vectors {
+		public List<T> Vectors {
 			get {
 				return _vectors;
 			}
@@ -74,6 +74,6 @@ namespace Accelerators
 		private int _k;
 		private float _p;
 		private AABB _aabb;
-		private IList<T> _vectors;
+		private List<T> _vectors;
 	}
 }
