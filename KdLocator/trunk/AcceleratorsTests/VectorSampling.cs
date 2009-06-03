@@ -29,7 +29,7 @@ namespace AcceleratorsTests
 		/// <summary>
 		/// Samples vectors from the interval [lower,upper) in each dimension.
 		/// </summary>
-		public static ICollection<IVector> InAABB(int count, int dimensions, float lower, float upper, int seed) {
+		public static IEnumerable<IVector> InAABB(int count, int dimensions, float lower, float upper, int seed) {
 			IList<IVector> vecs = new List<IVector>();
 			Random r =  new Random(seed);
 			float len = upper - lower;
