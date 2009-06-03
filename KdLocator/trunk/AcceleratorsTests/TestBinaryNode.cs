@@ -93,13 +93,25 @@ namespace AcceleratorsTests
 			CharNode root = ExampleTree;
 			Assert.IsTrue(root.Intermediate);
 			Assert.IsFalse(root.Leaf);
-			Assert.AreEqual("dfh", MakeStringFromIteration(root.Leafs));
+			Assert.AreEqual("dfh", MakeStringFromIteration(root.Leaves));
 		}
 		
 		[Test]
 		public void TestLeafsTraversal()
 		{
-			Assert.AreEqual("dfh", MakeStringFromIteration(ExampleTree.Leafs));
+			Assert.AreEqual("dfh", MakeStringFromIteration(ExampleTree.Leaves));
+		}
+		
+		[Test]
+		public void TestAncestorTraversal()
+		{
+			CharNode root = ExampleTree;
+			Assert.AreEqual("a", MakeStringFromIteration(root.Ancestors));
+			
+			List<CharNode> leaves = new List<CharNode>(root.Leaves);
+			Assert.AreEqual("dcba", MakeStringFromIteration(leaves[0].Ancestors));
+			Assert.AreEqual("fea", MakeStringFromIteration(leaves[1].Ancestors));
+			Assert.AreEqual("hgea", MakeStringFromIteration(leaves[2].Ancestors));
 		}
 		
 
