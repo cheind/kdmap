@@ -41,6 +41,7 @@
     <Compile Include="VectorSampling.cs" />
     <Compile Include="TestVectorOperations.cs" />
     <Compile Include="TestVectorReductions.cs" />
+    <Compile Include="TestBinaryNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">
