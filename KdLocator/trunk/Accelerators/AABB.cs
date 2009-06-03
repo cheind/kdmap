@@ -37,15 +37,30 @@ namespace Accelerators
 		}
 		
 		/// <summary>
+		/// Copy construct AABB
+		/// </summary>
+		public AABB(AABB other) {
+			_min = new Vector(other._min);
+			_max = new Vector(other._max);
+		}
+		
+		/// <summary>
 		/// Enlarge AABB to contain the given vectors.
 		/// </summary>
 		public void Enlarge<T>(ICollection<T> values) where T : IVector {
 			foreach(IVector v in values) {
-				for(int i = 0; i < _min.Dimensions; ++i) {
-					float vi = v[i];
-					if (vi < _min[i]) _min[i] = vi;
-					if (vi > _max[i]) _max[i] = vi;
-				}
+				this.Enlarge(v);
+			}
+		}
+		
+		/// <summary>
+		/// Enlarge AABB to contain given vector
+		/// </summary>
+		public void Enlarge<T>(T v) where T : IVector {
+			for(int i = 0; i < this.Dimensions; ++i) {
+				float vi = v[i];
+				if (vi < _min[i]) _min[i] = vi;
+				if (vi > _max[i]) _max[i] = vi;
 			}
 		}
 		
@@ -55,8 +70,8 @@ namespace Accelerators
 		public bool Empty {
 			get {
 				return 
-					VectorComparison.Equal(_min, new Vector(_min.Dimensions, Single.MaxValue)) &&
-					VectorComparison.Equal(_max, new Vector(_max.Dimensions, -Single.MaxValue));
+					VectorComparison.Equal(_min, new Vector(this.Dimensions, Single.MaxValue)) &&
+					VectorComparison.Equal(_max, new Vector(this.Dimensions, -Single.MaxValue));
 			}
 		}
 		
@@ -66,6 +81,15 @@ namespace Accelerators
 		public void Reset() {
 			VectorOperations.Fill(_min, Single.MaxValue);
 			VectorOperations.Fill(_max, -Single.MaxValue);
+		}
+		
+		/// <value>
+		/// Access the number of dimensions 
+		/// </value>
+		public int Dimensions {
+			get {
+				return _min.Dimensions;
+			}
 		}
 		
 		/// <value>
@@ -93,19 +117,6 @@ namespace Accelerators
 		public IVector Diagonal {
 			get {
 				return (_max - _min);
-			}
-		}
-		
-		/// <value>
-		/// Hyper-volume of AABB. 
-		/// </value>
-		public float Volume {
-			get {
-				float vol = 1.0f;
-				for (int i = 0; i < _min.Dimensions; ++i) {
-					vol *= this.Extension(i);
-				}
-				return vol;
 			}
 		}
 		

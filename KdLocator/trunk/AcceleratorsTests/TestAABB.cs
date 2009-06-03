@@ -58,6 +58,38 @@ namespace AcceleratorsTests
 		
 		[Test]
 		public void TestEnlarge() {
+			AABB box = new AABB(2);
+			Vector a = new Vector(1.0f, 2.0f);
+			box.Enlarge(a);
+			Assert.IsFalse(box.Empty);
+			Assert.IsTrue(VectorComparison.Close(a, box.Lower, FloatComparison.DefaultEps));
+			Assert.IsTrue(VectorComparison.Close(a, box.Upper, FloatComparison.DefaultEps));
+			
+			Vector b = new Vector(-1.0f, 4.0f);
+			box.Enlarge(b);
+			Assert.AreEqual(box.Lower[0], -1.0f, FloatComparison.DefaultEps);
+			Assert.AreEqual(box.Lower[1], 2.0f, FloatComparison.DefaultEps);
+			Assert.AreEqual(box.Upper[0], 1.0f, FloatComparison.DefaultEps);
+			Assert.AreEqual(box.Upper[1], 4.0f, FloatComparison.DefaultEps);
+		}
+		
+		[Test]
+		public void TestDiagonal() {
+			AABB box = new AABB(2);
+			box.Enlarge(new Vector(1.0f, -2.0f));
+			box.Enlarge(new Vector(-1.0f, 5.0f));
+			Vector diag = (Vector)box.Diagonal;
+			Assert.AreEqual(diag[0], 2.0f, FloatComparison.DefaultEps);
+			Assert.AreEqual(diag[1], 7.0f, FloatComparison.DefaultEps);
+		}
+		
+		[Test]
+		public void TestExtension() {
+			AABB box = new AABB(2);
+			box.Enlarge(new Vector(1.0f, -2.0f));
+			box.Enlarge(new Vector(-1.0f, 5.0f));
+			Assert.AreEqual(box.Extension(0), 2.0f, FloatComparison.DefaultEps);
+			Assert.AreEqual(box.Extension(1), 7.0f, FloatComparison.DefaultEps);
 		}
 	}
 }
