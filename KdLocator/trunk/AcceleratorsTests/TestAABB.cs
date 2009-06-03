@@ -57,7 +57,7 @@ namespace AcceleratorsTests
 		}
 		
 		[Test]
-		public void TestEnlarge() {
+		public void TestEnlargeSingle() {
 			AABB box = new AABB(2);
 			Vector a = new Vector(1.0f, 2.0f);
 			box.Enlarge(a);
@@ -71,6 +71,16 @@ namespace AcceleratorsTests
 			Assert.AreEqual(box.Lower[1], 2.0f, FloatComparison.DefaultEps);
 			Assert.AreEqual(box.Upper[0], 1.0f, FloatComparison.DefaultEps);
 			Assert.AreEqual(box.Upper[1], 4.0f, FloatComparison.DefaultEps);
+		}
+		
+		[Test]
+		public void TestEnlargeCollection() {
+			AABB box = new AABB(2);
+			box.Enlarge(VectorSampling.InAABB(1000, 2, -1.0f, 1.0f, 10));
+			Assert.LessOrEqual(-1.0f , box.Lower[0]);
+			Assert.LessOrEqual(-1.0f , box.Lower[1]);
+			Assert.GreaterOrEqual(1.0f , box.Upper[0]);
+			Assert.GreaterOrEqual(1.0f , box.Upper[1]);
 		}
 		
 		[Test]
