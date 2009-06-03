@@ -64,8 +64,8 @@ namespace Accelerators
 		/// Reset to empty state.
 		/// </summary>
 		public void Reset() {
-			VectorExpressions.Fill(_min, Single.MaxValue);
-			VectorExpressions.Fill(_max, -Single.MaxValue);
+			VectorOperations.Fill(_min, Single.MaxValue);
+			VectorOperations.Fill(_max, -Single.MaxValue);
 		}
 		
 		/// <value>

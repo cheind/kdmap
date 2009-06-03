@@ -24,7 +24,7 @@ namespace Accelerators
 	/// <summary>
 	/// Defines unary and binary operations on vectors
 	/// </summary>
-	public class VectorExpressions
+	public class VectorOperations
 	{
 		/// <summary>
 		/// Calculate component-wise subtraction of a and b. 

@@ -39,7 +39,7 @@
     <Compile Include="KdTree.cs" />
     <Compile Include="AABB.cs" />
     <Compile Include="VectorReductions.cs" />
-    <Compile Include="VectorExpressions.cs" />
+    <Compile Include="VectorOperations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

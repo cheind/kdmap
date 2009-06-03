@@ -37,7 +37,7 @@ namespace Accelerators
 		/// </summary>
 		public Vector(int dimensions, float val) {
 			_coordinates = new float[dimensions];
-			VectorExpressions.Fill(this, val);
+			VectorOperations.Fill(this, val);
 		}
 		
 		/// <summary>
@@ -89,19 +89,19 @@ namespace Accelerators
 		
 		public static Vector operator+(Vector lhs, IVector rhs) {
 			Vector res = new Vector(lhs.Dimensions);
-			VectorExpressions.Add(lhs, rhs, res);
+			VectorOperations.Add(lhs, rhs, res);
 			return res;
 		}
 		
 		public static Vector operator-(Vector lhs, IVector rhs) {
 			Vector res = new Vector(lhs.Dimensions);
-			VectorExpressions.Sub(lhs, rhs, res);
+			VectorOperations.Sub(lhs, rhs, res);
 			return res;
 		}
 		
 		public static Vector operator*(Vector lhs, float s) {
 			Vector res = new Vector(lhs.Dimensions);
-			VectorExpressions.ScalarMul(lhs, s, res);
+			VectorOperations.ScalarMul(lhs, s, res);
 			return res;
 		}
 		

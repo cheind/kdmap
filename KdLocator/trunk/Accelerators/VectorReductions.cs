@@ -22,7 +22,7 @@ namespace Accelerators
 	
 	
 	/// <summary>
-	/// 
+	/// Reduction on vectors
 	/// </summary>
 	public class VectorReductions
 	{
@@ -30,7 +30,7 @@ namespace Accelerators
 		/// Calculate the square-length (L2 norm) of the given vector.
 		/// </summary>
 		public static float SquaredL2Norm(IVector a) {
-			return VectorExpressions.Inner(a, a);
+			return VectorOperations.Inner(a, a);
 		}
 		
 		/// <summary>
