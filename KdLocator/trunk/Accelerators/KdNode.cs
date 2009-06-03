@@ -21,6 +21,9 @@ using System.Collections.Generic;
 namespace Accelerators
 {
 
+	/// <summary>
+	/// A node in the kd-tree.
+	/// </summary>
 	public class KdNode<T> : BinaryNode<KdNode<T>> where T : IVector
 	{
 		/// <value>

@@ -31,6 +31,9 @@ namespace Accelerators
 			this.RecursiveSplit(_root);
 		}
 		
+		/// <summary>
+		/// Creates the root kd-tree node that contains the entire scene
+		/// </summary>
 		private KdNode<T> CreateRootNode(IEnumerable<T> vecs) {
 			T first;
 			if (!this.FirstFromEnumerable(vecs, out first))
@@ -45,6 +48,9 @@ namespace Accelerators
 			return n;
 		}
 		
+		/// <summary>
+		/// Find the first element in the Enumerable
+		/// </summary>
 		private bool FirstFromEnumerable(IEnumerable<T> vecs, out T first) {
 			bool non_empty = false;
 			using (IEnumerator<T> e = vecs.GetEnumerator()) {
