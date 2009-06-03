@@ -16,22 +16,24 @@
 // 
 
 using System;
-using System.Collections.Generic;
 
 namespace Accelerators
 {
-		
-	public class KdTree<T> where T : IVector
+	
+	
+	/// <summary>
+	/// Defines the split/collapse policies for kd-tree nodes
+	/// </summary>
+	public interface ISubdivisionPolicy
 	{
+		/// <summary>
+		/// Split the given node and return true when successful.
+		/// </summary>
+		bool Split<T>(KdNode<T> target) where T : IVector;
 		
-		public KdTree(ICollection<T> other)
-		{
-		}
-		
-		public void Add(T v) {
-		}
-		
-		public void Remove(T v) {
-		}
+		/// <summary>
+		/// Collapse the leaf-children of the given parental node and return true when successful.
+		/// </summary>
+		bool Collapse<T>(KdNode<T> parent) where T : IVector;
 	}
 }

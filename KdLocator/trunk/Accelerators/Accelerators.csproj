@@ -41,6 +41,8 @@
     <Compile Include="VectorReductions.cs" />
     <Compile Include="VectorOperations.cs" />
     <Compile Include="BinaryNode.cs" />
+    <Compile Include="KdNode.cs" />
+    <Compile Include="ISplitPolicy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
