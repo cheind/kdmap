@@ -32,6 +32,7 @@ namespace Accelerators
 		{
 			_left = null;
 			_right = null;
+			_parent = null;
 		}
 		
 		/// <value>
@@ -42,7 +43,11 @@ namespace Accelerators
 				return _left;
 			}
 			set {
+				if (_left != null)
+					_left.Parent = null;
 				_left = value;
+				if (_left != null)
+				_left.Parent = (InheritedType)this;
 			}
 		}
 		
@@ -54,7 +59,23 @@ namespace Accelerators
 				return _right;
 			}
 			set {
+				if (_right != null)
+					_right.Parent = null;
 				_right = value;
+				if (_right != null)
+				_right.Parent = (InheritedType)this;
+			}
+		}
+		
+		/// <value>
+		/// Access the parent
+		/// </value>
+		public InheritedType Parent {
+			get {
+				return _parent;
+			}
+			set {
+				_parent = value;
 			}
 		}
 		
@@ -64,6 +85,15 @@ namespace Accelerators
 		public bool Leaf {
 			get {
 				return _left == null && _right == null;
+			}
+		}
+		
+		/// <value>
+		/// Test if node is root 
+		/// </value>
+		public bool Root {
+			get {
+				return _parent == null;
 			}
 		}
 		
@@ -81,6 +111,7 @@ namespace Accelerators
 		/// </summary>
 		public InheritedType SetLeftChild(InheritedType n) {
 			this.Left = n;
+			n.Parent = (InheritedType)this;
 			return n;
 		}
 
@@ -89,6 +120,25 @@ namespace Accelerators
 		/// </summary>
 		public InheritedType SetRightChild(InheritedType n) {
 			this.Right = n;
+			n.Parent = (InheritedType)this;
+			return n;
+		}
+		
+		/// <summary>
+		/// Helper method
+		/// </summary>
+		public InheritedType UnSetLeftChild() {
+			InheritedType n = this.Left;
+			this.Left = null;
+			return n;
+		}
+
+		/// <summary>
+		/// Helper method
+		/// </summary>
+		public InheritedType UnSetRightChild() {
+			InheritedType n = this.Right;
+			this.Right = null;
 			return n;
 		}
 		
@@ -113,7 +163,7 @@ namespace Accelerators
 		/// <value>
 		/// Leaf-iteration from left to right 
 		/// </value>
-		public IEnumerable<InheritedType> Leafs {
+		public IEnumerable<InheritedType> Leaves {
 			get {
 				// Non-optimized version as all nodes are traversed and filtered accordingly.
 				// The data-structure used in BinaryNode is not capable of an optimized iteration.
@@ -124,8 +174,22 @@ namespace Accelerators
 			}
 		}
 		
+		/// <value>
+		/// Ancestor-iteration including the current node 
+		/// </value>
+		public IEnumerable<InheritedType> Ancestors {
+			get {
+				InheritedType n = (InheritedType)this;
+				do {
+					yield return n;
+					n = n.Parent;
+				} while (n != null);
+			}
+		}
+		
 		private InheritedType _left;
 		private InheritedType _right;
+		private InheritedType _parent;
 	}
 	
 }
