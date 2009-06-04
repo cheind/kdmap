@@ -43,6 +43,7 @@
     <Compile Include="BinaryNode.cs" />
     <Compile Include="KdNode.cs" />
     <Compile Include="ISubdivisionPolicy.cs" />
+    <Compile Include="MedianSubdivisionPolicy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
