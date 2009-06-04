@@ -24,6 +24,9 @@ namespace Accelerators
 	public class KdTree<T> where T : IVector
 	{
 		
+		/// <summary>
+		/// Instance a new kd-tree with the given collection of points
+		/// </summary>
 		public KdTree(IEnumerable<T> vecs, ISubdivisionPolicy policy)
 		{
 			_subdiv_policy = policy;
@@ -73,6 +76,7 @@ namespace Accelerators
 				if (_subdiv_policy.Split(n)) {
 					s.Push(n.Left);
 					s.Push(n.Right);
+					n.Vectors = null; // Vectors are only stored in leaf nodes
 				}
 			}
 		}
