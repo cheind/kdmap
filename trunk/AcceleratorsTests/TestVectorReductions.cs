@@ -40,5 +40,11 @@ namespace AcceleratorsTests
       Vector a = new Vector(1.0f, 2.0f);
       Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
     }
+    
+    [Test]
+    public void TestIndexNormInf() {
+      Vector a = new Vector(1.0f, 2.0f);
+      Assert.AreEqual(1, VectorReductions.IndexNormInf(a));
+    }
   }
 }

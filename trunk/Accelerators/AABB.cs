@@ -45,6 +45,14 @@ namespace Accelerators
     }
     
     /// <summary>
+    /// Construct from two corner points.
+    /// </summary>
+    public AABB(IVector lower, IVector upper) {
+      _min = new Vector(lower);
+      _max = new Vector(upper);
+    }
+    
+    /// <summary>
     /// Enlarge AABB to contain the given vectors.
     /// </summary>
     public void Enlarge<T>(IEnumerable<T> values) where T : IVector {
@@ -54,7 +62,7 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Enlarge AABB to contain given vector
+    /// Enlarge AABB to contain given vector.
     /// </summary>
     public void Enlarge<T>(T v) where T : IVector {
       for(int i = 0; i < this.Dimensions; ++i) {
@@ -62,6 +70,32 @@ namespace Accelerators
         if (vi < _min[i]) _min[i] = vi;
         if (vi > _max[i]) _max[i] = vi;
       }
+    }
+    
+    /// <summary>
+    /// Split AABB into two parts using an axis aligned splitting plane. The plane
+    /// is specified by the dimension it is orthogonal to and a position value on the
+    /// axis.
+    /// </summary>
+    public void Split(int dimension, float position, out AABB left, out AABB right) {
+      
+      if (this.Lower[dimension] > position || this.Upper[dimension] < position)
+        throw new ArgumentException("Split plane is outside of AABB");
+      
+      // -> x
+      // |           upperL     upperR
+      // v  +--------+--------+
+      // y  |        |        |
+      //    | left   | right  |
+      //    |        |        |
+      //    |        |        |
+      //    +--------+--------+
+      //    lowerL     lowerR
+      
+      left = new AABB(this);
+      right = new AABB(this);
+      left.Upper[dimension] = position;
+      right.Lower[dimension] = position;
     }
     
     /// <value>

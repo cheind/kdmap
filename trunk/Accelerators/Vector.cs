@@ -48,6 +48,13 @@ namespace Accelerators
     }
     
     /// <summary>
+    /// Create a one-dimensional vector with coordinates explicitly set.
+    /// </summary>
+    public Vector(float x) {
+      _coordinates = new float[1]{x};
+    }
+    
+    /// <summary>
     /// Create a three-dimesional vector with coordinates explicitly set.
     /// </summary>
     public Vector(float x, float y, float z) {
