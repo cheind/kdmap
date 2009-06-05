@@ -19,21 +19,21 @@ using System;
 
 namespace Accelerators
 {
-	
-	
-	/// <summary>
-	/// Defines the split/collapse policies for kd-tree nodes
-	/// </summary>
-	public interface ISubdivisionPolicy
-	{
-		/// <summary>
-		/// Split the given node and return true when successful.
-		/// </summary>
-		bool Split<T>(KdNode<T> target) where T : IVector;
-		
-		/// <summary>
-		/// Collapse the leaf-children of the given parental node and return true when successful.
-		/// </summary>
-		bool Collapse<T>(KdNode<T> parent) where T : IVector;
-	}
+  
+  
+  /// <summary>
+  /// Defines the split/collapse policies for kd-tree nodes
+  /// </summary>
+  public interface ISubdivisionPolicy
+  {
+    /// <summary>
+    /// Split the given node and return true when successful.
+    /// </summary>
+    bool Split<T>(KdNode<T> target) where T : IVector;
+    
+    /// <summary>
+    /// Collapse the leaf-children of the given parental node and return true when successful.
+    /// </summary>
+    bool Collapse<T>(KdNode<T> parent) where T : IVector;
+  }
 }

@@ -21,24 +21,24 @@ using Accelerators;
 
 namespace AcceleratorsTests
 {
-	
-	
-	[TestFixture()]
-	public class TestVectorReductions
-	{
-				
-		[Test()]
-		public void TestSquaredL2Norm()
-		{
-			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorReductions.SquaredL2Norm(a), 5.0f, FloatComparison.DefaultEps));
-		}
-		
-		[Test()]
-		public void TestL2Norm()
-		{
-			Vector a = new Vector(1.0f, 2.0f);
-			Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
-		}
-	}
+  
+  
+  [TestFixture()]
+  public class TestVectorReductions
+  {
+        
+    [Test()]
+    public void TestSquaredL2Norm()
+    {
+      Vector a = new Vector(1.0f, 2.0f);
+      Assert.IsTrue(FloatComparison.Close(VectorReductions.SquaredL2Norm(a), 5.0f, FloatComparison.DefaultEps));
+    }
+    
+    [Test()]
+    public void TestL2Norm()
+    {
+      Vector a = new Vector(1.0f, 2.0f);
+      Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (float)Math.Sqrt(5.0f), FloatComparison.DefaultEps));
+    }
+  }
 }

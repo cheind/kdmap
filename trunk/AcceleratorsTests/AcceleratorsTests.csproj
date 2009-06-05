@@ -52,7 +52,11 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
-      <Properties InternalTargetFrameworkVersion="3.5" />
+      <Properties InternalTargetFrameworkVersion="3.5">
+        <Policies>
+          <TextStylePolicy FileWidth="120" TabWidth="2" TabsToSpaces="True" NoTabsAfterNonTabs="False" RemoveTrailingWhitespace="False" EolMarker="Native" />
+        </Policies>
+      </Properties>
     </MonoDevelop>
   </ProjectExtensions>
 </Project>

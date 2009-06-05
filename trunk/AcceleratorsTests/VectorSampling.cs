@@ -21,26 +21,26 @@ using Accelerators;
 
 namespace AcceleratorsTests
 {
-	
-	
-	public class VectorSampling
-	{
-		
-		/// <summary>
-		/// Samples vectors from the interval [lower,upper) in each dimension.
-		/// </summary>
-		public static IEnumerable<IVector> InAABB(int count, int dimensions, float lower, float upper, int seed) {
-			IList<IVector> vecs = new List<IVector>();
-			Random r =  new Random(seed);
-			float len = upper - lower;
-			while (vecs.Count < count) {
-				Vector v = new Vector(dimensions);
-				for (int j = 0; j < v.Dimensions; ++j) {
-					v[j] = lower + (float)r.NextDouble() * len;
-				}
-				vecs.Add(v);
-			}
-			return vecs;
-		}
-	}
+  
+  
+  public class VectorSampling
+  {
+    
+    /// <summary>
+    /// Samples vectors from the interval [lower,upper) in each dimension.
+    /// </summary>
+    public static IEnumerable<IVector> InAABB(int count, int dimensions, float lower, float upper, int seed) {
+      IList<IVector> vecs = new List<IVector>();
+      Random r =  new Random(seed);
+      float len = upper - lower;
+      while (vecs.Count < count) {
+        Vector v = new Vector(dimensions);
+        for (int j = 0; j < v.Dimensions; ++j) {
+          v[j] = lower + (float)r.NextDouble() * len;
+        }
+        vecs.Add(v);
+      }
+      return vecs;
+    }
+  }
 }

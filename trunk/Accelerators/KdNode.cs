@@ -21,62 +21,62 @@ using System.Collections.Generic;
 namespace Accelerators
 {
 
-	/// <summary>
-	/// A node in the kd-tree.
-	/// </summary>
-	public class KdNode<T> : BinaryNode<KdNode<T>> where T : IVector
-	{
-		/// <value>
-		/// Access the split dimension.
-		/// </value>
-		public int SplitDimensions {
-			get {
-				return _k;
-			}
-			set {
-				_k = value;
-			}
-		}
-		
-		/// <value>
-		/// Access the location of the split. 
-		/// </value>
-		public float SplitLocation {
-			get {
-				return _p;
-			}
-			set {
-				_p = value;
-			}
-		}
-		
-		/// <value>
-		/// Axis aligned bounding box of this node.
-		/// </value>
-		public AABB Bounds {
-			get {
-				return _aabb;
-			}
-			set {
-				_aabb = value;
-			}
-		}
-		
-		/// <value>
-		/// Vectors in within the bounds of this node.
-		/// </value>
-		public List<T> Vectors {
-			get {
-				return _vectors;
-			}
-			set {
-				_vectors = value;
-			}
-		}
-		
-		private int _k;
-		private float _p;
-		private AABB _aabb;
-		private List<T> _vectors;
-	}
+  /// <summary>
+  /// A node in the kd-tree.
+  /// </summary>
+  public class KdNode<T> : BinaryNode<KdNode<T>> where T : IVector
+  {
+    /// <value>
+    /// Access the split dimension.
+    /// </value>
+    public int SplitDimensions {
+      get {
+        return _k;
+      }
+      set {
+        _k = value;
+      }
+    }
+    
+    /// <value>
+    /// Access the location of the split. 
+    /// </value>
+    public float SplitLocation {
+      get {
+        return _p;
+      }
+      set {
+        _p = value;
+      }
+    }
+    
+    /// <value>
+    /// Axis aligned bounding box of this node.
+    /// </value>
+    public AABB Bounds {
+      get {
+        return _aabb;
+      }
+      set {
+        _aabb = value;
+      }
+    }
+    
+    /// <value>
+    /// Vectors in within the bounds of this node.
+    /// </value>
+    public List<T> Vectors {
+      get {
+        return _vectors;
+      }
+      set {
+        _vectors = value;
+      }
+    }
+    
+    private int _k;
+    private float _p;
+    private AABB _aabb;
+    private List<T> _vectors;
+  }
 }

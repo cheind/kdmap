@@ -50,7 +50,7 @@
     <MonoDevelop>
       <Properties InternalTargetFrameworkVersion="3.5">
         <Policies>
-          <TextStylePolicy FileWidth="120" TabWidth="2" TabsToSpaces="False" NoTabsAfterNonTabs="False" RemoveTrailingWhitespace="False" EolMarker="Native" />
+          <TextStylePolicy FileWidth="120" TabWidth="2" TabsToSpaces="True" NoTabsAfterNonTabs="False" RemoveTrailingWhitespace="False" EolMarker="Native" />
         </Policies>
       </Properties>
     </MonoDevelop>

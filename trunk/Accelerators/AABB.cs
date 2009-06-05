@@ -20,114 +20,114 @@ using System.Collections.Generic;
 
 namespace Accelerators
 {
-	
-	/// <summary>
-	/// Axis-aligned bounding box
-	/// </summary>
-	public class AABB
-	{
-		
-		/// <summary>
-		/// Create an empty AABB in n-dimensions (min > max).
-		/// </summary>
-		public AABB(int dimensions)
-		{
-			_min = new Vector(dimensions, Single.MaxValue);
-			_max = new Vector(dimensions, -Single.MaxValue);
-		}
-		
-		/// <summary>
-		/// Copy construct AABB
-		/// </summary>
-		public AABB(AABB other) {
-			_min = new Vector(other._min);
-			_max = new Vector(other._max);
-		}
-		
-		/// <summary>
-		/// Enlarge AABB to contain the given vectors.
-		/// </summary>
-		public void Enlarge<T>(IEnumerable<T> values) where T : IVector {
-			foreach(IVector v in values) {
-				this.Enlarge(v);
-			}
-		}
-		
-		/// <summary>
-		/// Enlarge AABB to contain given vector
-		/// </summary>
-		public void Enlarge<T>(T v) where T : IVector {
-			for(int i = 0; i < this.Dimensions; ++i) {
-				float vi = v[i];
-				if (vi < _min[i]) _min[i] = vi;
-				if (vi > _max[i]) _max[i] = vi;
-			}
-		}
-		
-		/// <value>
-		/// Test if AABB is empty. 
-		/// </value>
-		public bool Empty {
-			get {
-				return 
-					VectorComparison.Equal(_min, new Vector(this.Dimensions, Single.MaxValue)) &&
-					VectorComparison.Equal(_max, new Vector(this.Dimensions, -Single.MaxValue));
-			}
-		}
-		
-		/// <summary>
-		/// Reset to empty state.
-		/// </summary>
-		public void Reset() {
-			VectorOperations.Fill(_min, Single.MaxValue);
-			VectorOperations.Fill(_max, -Single.MaxValue);
-		}
-		
-		/// <value>
-		/// Access the number of dimensions 
-		/// </value>
-		public int Dimensions {
-			get {
-				return _min.Dimensions;
-			}
-		}
-		
-		/// <value>
-		/// Lower corner of AABB.
-		/// </value>
-		public IVector Lower {
-			get {
-				return _min;
-			}
-		}
-		
-		
-		/// <value>
-		/// Upper corner of AABB.
-		/// </value>
-		public IVector Upper {
-			get {
-				return _max;
-			}
-		}
-		
-		/// <value>
-		/// Diagonal of AABB as vector from lower corner to upper corner 
-		/// </value>
-		public IVector Diagonal {
-			get {
-				return (_max - _min);
-			}
-		}
-		
-		/// <summary>
-		/// Return the AABBs extension in the given dimension
-		/// </summary>
-		public float Extension(int dimension) {
-			return _max[dimension] - _min[dimension];
-		}
-		
-		private Vector _min;
-		private Vector _max;
-	}
+  
+  /// <summary>
+  /// Axis-aligned bounding box
+  /// </summary>
+  public class AABB
+  {
+    
+    /// <summary>
+    /// Create an empty AABB in n-dimensions (min > max).
+    /// </summary>
+    public AABB(int dimensions)
+    {
+      _min = new Vector(dimensions, Single.MaxValue);
+      _max = new Vector(dimensions, -Single.MaxValue);
+    }
+    
+    /// <summary>
+    /// Copy construct AABB
+    /// </summary>
+    public AABB(AABB other) {
+      _min = new Vector(other._min);
+      _max = new Vector(other._max);
+    }
+    
+    /// <summary>
+    /// Enlarge AABB to contain the given vectors.
+    /// </summary>
+    public void Enlarge<T>(IEnumerable<T> values) where T : IVector {
+      foreach(IVector v in values) {
+        this.Enlarge(v);
+      }
+    }
+    
+    /// <summary>
+    /// Enlarge AABB to contain given vector
+    /// </summary>
+    public void Enlarge<T>(T v) where T : IVector {
+      for(int i = 0; i < this.Dimensions; ++i) {
+        float vi = v[i];
+        if (vi < _min[i]) _min[i] = vi;
+        if (vi > _max[i]) _max[i] = vi;
+      }
+    }
+    
+    /// <value>
+    /// Test if AABB is empty. 
+    /// </value>
+    public bool Empty {
+      get {
+        return 
+          VectorComparison.Equal(_min, new Vector(this.Dimensions, Single.MaxValue)) &&
+          VectorComparison.Equal(_max, new Vector(this.Dimensions, -Single.MaxValue));
+      }
+    }
+    
+    /// <summary>
+    /// Reset to empty state.
+    /// </summary>
+    public void Reset() {
+      VectorOperations.Fill(_min, Single.MaxValue);
+      VectorOperations.Fill(_max, -Single.MaxValue);
+    }
+    
+    /// <value>
+    /// Access the number of dimensions 
+    /// </value>
+    public int Dimensions {
+      get {
+        return _min.Dimensions;
+      }
+    }
+    
+    /// <value>
+    /// Lower corner of AABB.
+    /// </value>
+    public IVector Lower {
+      get {
+        return _min;
+      }
+    }
+    
+    
+    /// <value>
+    /// Upper corner of AABB.
+    /// </value>
+    public IVector Upper {
+      get {
+        return _max;
+      }
+    }
+    
+    /// <value>
+    /// Diagonal of AABB as vector from lower corner to upper corner 
+    /// </value>
+    public IVector Diagonal {
+      get {
+        return (_max - _min);
+      }
+    }
+    
+    /// <summary>
+    /// Return the AABBs extension in the given dimension
+    /// </summary>
+    public float Extension(int dimension) {
+      return _max[dimension] - _min[dimension];
+    }
+    
+    private Vector _min;
+    private Vector _max;
+  }
 }

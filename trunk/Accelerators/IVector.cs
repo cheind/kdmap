@@ -19,22 +19,22 @@ using System;
 
 namespace Accelerators
 {
-	
-	/// <summary>
-	/// Interface for n-dimensional vectors.
-	/// </summary>
-	public interface IVector
-	{
-		/// <summary>
-		/// Access the number of coordinates.
-		/// </summary>
-		int Dimensions {
-			get;
-		}
-		
-		float this[int index] {
-			get;
-			set;
-		}
-	}
+  
+  /// <summary>
+  /// Interface for n-dimensional vectors.
+  /// </summary>
+  public interface IVector
+  {
+    /// <summary>
+    /// Access the number of coordinates.
+    /// </summary>
+    int Dimensions {
+      get;
+    }
+    
+    float this[int index] {
+      get;
+      set;
+    }
+  }
 }
