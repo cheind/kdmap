@@ -19,98 +19,98 @@ using System;
 
 namespace Accelerators
 {
-	
-	/// <summary>
-	/// N-Dimensional vector implementation
-	/// </summary>
-	public class Vector : IVector
-	{
-		/// <summary>
-		/// Create a vector that can hold n-dimensions.
-		/// </summary>
-		public Vector(int dimensions) {
-			_coordinates = new float[dimensions];
-		}
-		
-		/// <summary>
-		/// Create vector of n-dimensions with equal coordinates
-		/// </summary>
-		public Vector(int dimensions, float val) {
-			_coordinates = new float[dimensions];
-			VectorOperations.Fill(this, val);
-		}
-		
-		/// <summary>
-		/// Create a two-dimensional vector with coordinates explicitly set.
-		/// </summary>
-		public Vector(float x, float y) {
-			_coordinates = new float[2]{x, y};
-		}
-		
-		/// <summary>
-		/// Create a three-dimesional vector with coordinates explicitly set.
-		/// </summary>
-		public Vector(float x, float y, float z) {
-			_coordinates = new float[3]{x, y, z};
-		}
-		
-		/// <summary>
-		/// Copy construct from the given vector
-		/// </summary>
-		public Vector(Vector other) {
-			_coordinates = (float[])other._coordinates.Clone();
-		}
-		
-		/// <summary>
-		/// Copy construct from a vector implementing the IVector interface
-		/// </summary>
-		public Vector(IVector other) {
-			_coordinates = new float[other.Dimensions];
-			for (int i = 0; i < Dimensions ; ++i )
-				_coordinates[i] = other[i];
-		}
+  
+  /// <summary>
+  /// N-Dimensional vector implementation
+  /// </summary>
+  public class Vector : IVector
+  {
+    /// <summary>
+    /// Create a vector that can hold n-dimensions.
+    /// </summary>
+    public Vector(int dimensions) {
+      _coordinates = new float[dimensions];
+    }
+    
+    /// <summary>
+    /// Create vector of n-dimensions with equal coordinates
+    /// </summary>
+    public Vector(int dimensions, float val) {
+      _coordinates = new float[dimensions];
+      VectorOperations.Fill(this, val);
+    }
+    
+    /// <summary>
+    /// Create a two-dimensional vector with coordinates explicitly set.
+    /// </summary>
+    public Vector(float x, float y) {
+      _coordinates = new float[2]{x, y};
+    }
+    
+    /// <summary>
+    /// Create a three-dimesional vector with coordinates explicitly set.
+    /// </summary>
+    public Vector(float x, float y, float z) {
+      _coordinates = new float[3]{x, y, z};
+    }
+    
+    /// <summary>
+    /// Copy construct from the given vector
+    /// </summary>
+    public Vector(Vector other) {
+      _coordinates = (float[])other._coordinates.Clone();
+    }
+    
+    /// <summary>
+    /// Copy construct from a vector implementing the IVector interface
+    /// </summary>
+    public Vector(IVector other) {
+      _coordinates = new float[other.Dimensions];
+      for (int i = 0; i < Dimensions ; ++i )
+        _coordinates[i] = other[i];
+    }
 
-		#region IVector implementation
-		public int Dimensions {
-			get {
-				return _coordinates.Length;
-			}
-		}
-		
-		public float this[int index] {
-			get {
-				return _coordinates[index];
-			}
-			set {
-				_coordinates[index] = value;
-			}
-		}
-		#endregion
-		
-		public static Vector operator+(Vector lhs, IVector rhs) {
-			Vector res = new Vector(lhs.Dimensions);
-			VectorOperations.Add(lhs, rhs, res);
-			return res;
-		}
-		
-		public static Vector operator-(Vector lhs, IVector rhs) {
-			Vector res = new Vector(lhs.Dimensions);
-			VectorOperations.Sub(lhs, rhs, res);
-			return res;
-		}
-		
-		public static Vector operator*(Vector lhs, float s) {
-			Vector res = new Vector(lhs.Dimensions);
-			VectorOperations.ScalarMul(lhs, s, res);
-			return res;
-		}
-		
-		public float L2Norm {
-			get {
-				return VectorReductions.L2Norm(this);
-			}
-		}
-		
-		private float[] _coordinates;
-	}
+    #region IVector implementation
+    public int Dimensions {
+      get {
+        return _coordinates.Length;
+      }
+    }
+    
+    public float this[int index] {
+      get {
+        return _coordinates[index];
+      }
+      set {
+        _coordinates[index] = value;
+      }
+    }
+    #endregion
+    
+    public static Vector operator+(Vector lhs, IVector rhs) {
+      Vector res = new Vector(lhs.Dimensions);
+      VectorOperations.Add(lhs, rhs, res);
+      return res;
+    }
+    
+    public static Vector operator-(Vector lhs, IVector rhs) {
+      Vector res = new Vector(lhs.Dimensions);
+      VectorOperations.Sub(lhs, rhs, res);
+      return res;
+    }
+    
+    public static Vector operator*(Vector lhs, float s) {
+      Vector res = new Vector(lhs.Dimensions);
+      VectorOperations.ScalarMul(lhs, s, res);
+      return res;
+    }
+    
+    public float L2Norm {
+      get {
+        return VectorReductions.L2Norm(this);
+      }
+    }
+    
+    private float[] _coordinates;
+  }
 }

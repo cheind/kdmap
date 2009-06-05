@@ -20,176 +20,176 @@ using System.Collections.Generic;
 
 namespace Accelerators
 {
-	
-	
-	/// <summary>
-	/// Single node in a binary tree. Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
-	/// </summary>
-	public class BinaryNode<InheritedType> where InheritedType : BinaryNode<InheritedType>
-	{
-		
-		public BinaryNode()
-		{
-			_left = null;
-			_right = null;
-			_parent = null;
-		}
-		
-		/// <value>
-		/// Access the left child
-		/// </value>
-		public InheritedType Left {
-			get {
-				return _left;
-			}
-			set {
-				if (_left != null)
-					_left.Parent = null;
-				_left = value;
-				if (_left != null)
-				_left.Parent = (InheritedType)this;
-			}
-		}
-		
-		/// <value>
-		/// Access the right child
-		/// </value>
-		public InheritedType Right {
-			get {
-				return _right;
-			}
-			set {
-				if (_right != null)
-					_right.Parent = null;
-				_right = value;
-				if (_right != null)
-				_right.Parent = (InheritedType)this;
-			}
-		}
-		
-		/// <value>
-		/// Access the parent
-		/// </value>
-		public InheritedType Parent {
-			get {
-				return _parent;
-			}
-			set {
-				_parent = value;
-			}
-		}
-		
-		/// <value>
-		/// Test if node is leaf 
-		/// </value>
-		public bool Leaf {
-			get {
-				return _left == null && _right == null;
-			}
-		}
-		
-		/// <value>
-		/// Test if node is root 
-		/// </value>
-		public bool Root {
-			get {
-				return _parent == null;
-			}
-		}
-		
-		/// <value>
-		/// Test if node is not a leaf 
-		/// </value>
-		public bool Intermediate {
-			get {
-				return !this.Leaf;
-			}
-		}
-		
-		/// <summary>
-		/// Helper method
-		/// </summary>
-		public InheritedType SetLeftChild(InheritedType n) {
-			this.Left = n;
-			n.Parent = (InheritedType)this;
-			return n;
-		}
+  
+  
+  /// <summary>
+  /// Single node in a binary tree. Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
+  /// </summary>
+  public class BinaryNode<InheritedType> where InheritedType : BinaryNode<InheritedType>
+  {
+    
+    public BinaryNode()
+    {
+      _left = null;
+      _right = null;
+      _parent = null;
+    }
+    
+    /// <value>
+    /// Access the left child
+    /// </value>
+    public InheritedType Left {
+      get {
+        return _left;
+      }
+      set {
+        if (_left != null)
+          _left.Parent = null;
+        _left = value;
+        if (_left != null)
+        _left.Parent = (InheritedType)this;
+      }
+    }
+    
+    /// <value>
+    /// Access the right child
+    /// </value>
+    public InheritedType Right {
+      get {
+        return _right;
+      }
+      set {
+        if (_right != null)
+          _right.Parent = null;
+        _right = value;
+        if (_right != null)
+        _right.Parent = (InheritedType)this;
+      }
+    }
+    
+    /// <value>
+    /// Access the parent
+    /// </value>
+    public InheritedType Parent {
+      get {
+        return _parent;
+      }
+      set {
+        _parent = value;
+      }
+    }
+    
+    /// <value>
+    /// Test if node is leaf 
+    /// </value>
+    public bool Leaf {
+      get {
+        return _left == null && _right == null;
+      }
+    }
+    
+    /// <value>
+    /// Test if node is root 
+    /// </value>
+    public bool Root {
+      get {
+        return _parent == null;
+      }
+    }
+    
+    /// <value>
+    /// Test if node is not a leaf 
+    /// </value>
+    public bool Intermediate {
+      get {
+        return !this.Leaf;
+      }
+    }
+    
+    /// <summary>
+    /// Helper method
+    /// </summary>
+    public InheritedType SetLeftChild(InheritedType n) {
+      this.Left = n;
+      n.Parent = (InheritedType)this;
+      return n;
+    }
 
-		/// <summary>
-		/// Helper method
-		/// </summary>
-		public InheritedType SetRightChild(InheritedType n) {
-			this.Right = n;
-			n.Parent = (InheritedType)this;
-			return n;
-		}
-		
-		/// <summary>
-		/// Helper method
-		/// </summary>
-		public InheritedType UnSetLeftChild() {
-			InheritedType n = this.Left;
-			this.Left = null;
-			return n;
-		}
+    /// <summary>
+    /// Helper method
+    /// </summary>
+    public InheritedType SetRightChild(InheritedType n) {
+      this.Right = n;
+      n.Parent = (InheritedType)this;
+      return n;
+    }
+    
+    /// <summary>
+    /// Helper method
+    /// </summary>
+    public InheritedType UnSetLeftChild() {
+      InheritedType n = this.Left;
+      this.Left = null;
+      return n;
+    }
 
-		/// <summary>
-		/// Helper method
-		/// </summary>
-		public InheritedType UnSetRightChild() {
-			InheritedType n = this.Right;
-			this.Right = null;
-			return n;
-		}
-		
-		/// <value>
-		/// Pre-order iteration 
-		/// </value>
-		public IEnumerable<InheritedType> PreOrder {
-			get {
-				Stack<InheritedType> s = new Stack<InheritedType>();
-				s.Push(this as InheritedType);
-				while (s.Count > 0) {
-					InheritedType n = s.Pop();
-					yield return n;
-					if (n.Right != null)
-						s.Push(n.Right);
-					if (n.Left != null)
-						s.Push(n.Left);
-				}
-			}
-		}
-		
-		/// <value>
-		/// Leaf-iteration from left to right 
-		/// </value>
-		public IEnumerable<InheritedType> Leaves {
-			get {
-				// Non-optimized version as all nodes are traversed and filtered accordingly.
-				// The data-structure used in BinaryNode is not capable of an optimized iteration.
-				foreach (InheritedType n in this.PreOrder) {
-					if (n.Leaf)
-						yield return n;
-				}
-			}
-		}
-		
-		/// <value>
-		/// Ancestor-iteration including the current node 
-		/// </value>
-		public IEnumerable<InheritedType> Ancestors {
-			get {
-				InheritedType n = (InheritedType)this;
-				do {
-					yield return n;
-					n = n.Parent;
-				} while (n != null);
-			}
-		}
-		
-		private InheritedType _left;
-		private InheritedType _right;
-		private InheritedType _parent;
-	}
-	
+    /// <summary>
+    /// Helper method
+    /// </summary>
+    public InheritedType UnSetRightChild() {
+      InheritedType n = this.Right;
+      this.Right = null;
+      return n;
+    }
+    
+    /// <value>
+    /// Pre-order iteration 
+    /// </value>
+    public IEnumerable<InheritedType> PreOrder {
+      get {
+        Stack<InheritedType> s = new Stack<InheritedType>();
+        s.Push(this as InheritedType);
+        while (s.Count > 0) {
+          InheritedType n = s.Pop();
+          yield return n;
+          if (n.Right != null)
+            s.Push(n.Right);
+          if (n.Left != null)
+            s.Push(n.Left);
+        }
+      }
+    }
+    
+    /// <value>
+    /// Leaf-iteration from left to right 
+    /// </value>
+    public IEnumerable<InheritedType> Leaves {
+      get {
+        // Non-optimized version as all nodes are traversed and filtered accordingly.
+        // The data-structure used in BinaryNode is not capable of an optimized iteration.
+        foreach (InheritedType n in this.PreOrder) {
+          if (n.Leaf)
+            yield return n;
+        }
+      }
+    }
+    
+    /// <value>
+    /// Ancestor-iteration including the current node 
+    /// </value>
+    public IEnumerable<InheritedType> Ancestors {
+      get {
+        InheritedType n = (InheritedType)this;
+        do {
+          yield return n;
+          n = n.Parent;
+        } while (n != null);
+      }
+    }
+    
+    private InheritedType _left;
+    private InheritedType _right;
+    private InheritedType _parent;
+  }
+  
 }

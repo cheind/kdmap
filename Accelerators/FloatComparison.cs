@@ -19,37 +19,37 @@ using System;
 
 namespace Accelerators
 {
-	
-	
-	/// <summary>
-	/// Helpers in floating point comparison
-	/// </summary>
-	public class FloatComparison
-	{
-		private static float default_eps = 1e-5f;
-		
-		/// <value>
-		/// Default epsilon interval. 
-		/// </value>
-		public static float DefaultEps {
-			get {
-				return default_eps;
-			}
-		}
-		
-		/// <summary>
-		/// Test if a is close to b given a symmetric interval of eps.
-		/// </summary>
-		/// <param name="a">
-		public static bool Close(float a, float b, float eps) {
-			return Math.Abs(a-b) <= eps;
-		}
-		
-		/// <summary>
-		/// Test if a is close to zero given the symmetric interval of eps.
-		/// </summary>
-		public static bool CloseZero(float a, float eps) {
-			return Close(a, 0.0f, eps);
-		}
-	}
+  
+  
+  /// <summary>
+  /// Helpers in floating point comparison
+  /// </summary>
+  public class FloatComparison
+  {
+    private static float default_eps = 1e-5f;
+    
+    /// <value>
+    /// Default epsilon interval. 
+    /// </value>
+    public static float DefaultEps {
+      get {
+        return default_eps;
+      }
+    }
+    
+    /// <summary>
+    /// Test if a is close to b given a symmetric interval of eps.
+    /// </summary>
+    /// <param name="a">
+    public static bool Close(float a, float b, float eps) {
+      return Math.Abs(a-b) <= eps;
+    }
+    
+    /// <summary>
+    /// Test if a is close to zero given the symmetric interval of eps.
+    /// </summary>
+    public static bool CloseZero(float a, float eps) {
+      return Close(a, 0.0f, eps);
+    }
+  }
 }

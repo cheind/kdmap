@@ -19,43 +19,43 @@ using System;
 
 namespace Accelerators
 {
-	
-	
-	/// <summary>
-	/// Reduction on vectors
-	/// </summary>
-	public class VectorReductions
-	{
-  	/// <summary>
-		/// Calculate the square-length (L2 norm) of the given vector.
-		/// </summary>
-		public static float SquaredL2Norm(IVector a) {
-			return VectorOperations.Inner(a, a);
-		}
-		
-		/// <summary>
-		/// Calculate the length of the vector
-		/// </summary>
-		public static float L2Norm(IVector a) {
-			return (float)Math.Sqrt(SquaredL2Norm(a));
-		}
-		
-		/// <summary>
-		/// Calculate the index of the element having the maximum absolut value.
-		/// Assumes at least a one-dimensional vector.
-		/// </summary>
-		public static int IndexNormInf(IVector a) {
-			float max_val = Math.Abs(a[0]);
-			int max_index = 0;
-			
-			for (int i = 1; i < a.Dimensions; ++i) {
-				float val = Math.Abs(a[i]);
-				if (val > max_val) {
-					max_val = val;
-					max_index = i;
-				}
-			}
-			return max_index;
-		}
-	}
+  
+  
+  /// <summary>
+  /// Reduction on vectors
+  /// </summary>
+  public class VectorReductions
+  {
+    /// <summary>
+    /// Calculate the square-length (L2 norm) of the given vector.
+    /// </summary>
+    public static float SquaredL2Norm(IVector a) {
+      return VectorOperations.Inner(a, a);
+    }
+    
+    /// <summary>
+    /// Calculate the length of the vector
+    /// </summary>
+    public static float L2Norm(IVector a) {
+      return (float)Math.Sqrt(SquaredL2Norm(a));
+    }
+    
+    /// <summary>
+    /// Calculate the index of the element having the maximum absolut value.
+    /// Assumes at least a one-dimensional vector.
+    /// </summary>
+    public static int IndexNormInf(IVector a) {
+      float max_val = Math.Abs(a[0]);
+      int max_index = 0;
+      
+      for (int i = 1; i < a.Dimensions; ++i) {
+        float val = Math.Abs(a[i]);
+        if (val > max_val) {
+          max_val = val;
+          max_index = i;
+        }
+      }
+      return max_index;
+    }
+  }
 }

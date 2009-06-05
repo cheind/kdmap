@@ -19,85 +19,85 @@ using System;
 
 namespace Accelerators
 {
-	
-	
-	/// <summary>
-	/// Defines unary and binary operations on vectors
-	/// </summary>
-	public class VectorOperations
-	{
-		/// <summary>
-		/// Calculate component-wise subtraction of a and b. 
-		/// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
-		/// </summary>
-		public static void Sub(IVector a, IVector b, IVector dest) {
-			for (int i = 0; i < a.Dimensions; ++i) {
-				dest[i] = a[i] - b[i];
-			}
-		}
-		
-		/// <summary>
-		/// Calculate component-wise addition of a and b.
-		/// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
-		/// </summary>
-		public static void Add(IVector a, IVector b, IVector dest) {
-			for (int i = 0; i < a.Dimensions; ++i) {
-				dest[i] = a[i] + b[i];
-			}
-		}
-		
-		/// <summary>
-		/// Calculate the inner product of two vectors.
-		/// </summary>
-		public static float Inner(IVector a, IVector b) {
-			float ip = 0.0f;
-			for (int i = 0; i < a.Dimensions; ++i) {
-				ip += a[i]*b[i];
-			}
-			return ip;
-		}
-		
-		/// <summary>
-		/// Calculate the component-wise multiplication with a scalar
-		/// </summary>
-		public static void ScalarMul(IVector a, float s, IVector dest) {
-			for (int i = 0; i < a.Dimensions; ++i) {
-				dest[i] = a[i] * s;
-			}
-		}
-		
+  
+  
+  /// <summary>
+  /// Defines unary and binary operations on vectors
+  /// </summary>
+  public class VectorOperations
+  {
+    /// <summary>
+    /// Calculate component-wise subtraction of a and b. 
+    /// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
+    /// </summary>
+    public static void Sub(IVector a, IVector b, IVector dest) {
+      for (int i = 0; i < a.Dimensions; ++i) {
+        dest[i] = a[i] - b[i];
+      }
+    }
+    
+    /// <summary>
+    /// Calculate component-wise addition of a and b.
+    /// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
+    /// </summary>
+    public static void Add(IVector a, IVector b, IVector dest) {
+      for (int i = 0; i < a.Dimensions; ++i) {
+        dest[i] = a[i] + b[i];
+      }
+    }
+    
+    /// <summary>
+    /// Calculate the inner product of two vectors.
+    /// </summary>
+    public static float Inner(IVector a, IVector b) {
+      float ip = 0.0f;
+      for (int i = 0; i < a.Dimensions; ++i) {
+        ip += a[i]*b[i];
+      }
+      return ip;
+    }
+    
+    /// <summary>
+    /// Calculate the component-wise multiplication with a scalar
+    /// </summary>
+    public static void ScalarMul(IVector a, float s, IVector dest) {
+      for (int i = 0; i < a.Dimensions; ++i) {
+        dest[i] = a[i] * s;
+      }
+    }
+    
 
-		
-		/// <summary>
-		/// Normalize the given vector using the L2 norm.
-		/// </summary>
-		public static float Normalize(IVector a, IVector dest) {
-			float len = VectorReductions.L2Norm(a);
-			if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
-				throw new DivideByZeroException();
-			float inv_len = 1.0f/len;
-			for (int i = 0; i < a.Dimensions; ++i) {
-				dest[i] = a[i] * inv_len;
-			}
-			return len;
-		}
-		
-		/// <summary>
-		/// Copy components of one vector to destination vector
-		/// </summary>
-		public static void Copy(IVector a, IVector dest) {
-			for (int i = 0; i < a.Dimensions; ++i) {
-				dest[i] = a[i];
-			}
-		}
-		
-		/// <summary>
-		/// Set each coordinate to the given value
-		/// </summary>
-		public static void Fill(IVector a, float val) {	
-			for (int i = 0; i < a.Dimensions; ++i) {
-				a[i] = val;
-			}
-		}
-	}
+    
+    /// <summary>
+    /// Normalize the given vector using the L2 norm.
+    /// </summary>
+    public static float Normalize(IVector a, IVector dest) {
+      float len = VectorReductions.L2Norm(a);
+      if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
+        throw new DivideByZeroException();
+      float inv_len = 1.0f/len;
+      for (int i = 0; i < a.Dimensions; ++i) {
+        dest[i] = a[i] * inv_len;
+      }
+      return len;
+    }
+    
+    /// <summary>
+    /// Copy components of one vector to destination vector
+    /// </summary>
+    public static void Copy(IVector a, IVector dest) {
+      for (int i = 0; i < a.Dimensions; ++i) {
+        dest[i] = a[i];
+      }
+    }
+    
+    /// <summary>
+    /// Set each coordinate to the given value
+    /// </summary>
+    public static void Fill(IVector a, float val) { 
+      for (int i = 0; i < a.Dimensions; ++i) {
+        a[i] = val;
+      }
+    }
+  }
 }
