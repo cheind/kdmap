@@ -44,6 +44,7 @@
     <Compile Include="KdNode.cs" />
     <Compile Include="ISubdivisionPolicy.cs" />
     <Compile Include="MedianSubdivisionPolicy.cs" />
+    <Compile Include="KdTreeQueries.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
