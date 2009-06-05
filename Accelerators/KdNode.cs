@@ -29,7 +29,7 @@ namespace Accelerators
     /// <value>
     /// Access the split dimension.
     /// </value>
-    public int SplitDimensions {
+    public int SplitDimension {
       get {
         return _k;
       }

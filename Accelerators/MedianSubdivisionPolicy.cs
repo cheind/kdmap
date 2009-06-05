@@ -21,6 +21,10 @@ using System.Collections.Generic;
 namespace Accelerators
 {
   
+  public class IntermediateNodeException: SplitException {}
+  public class BucketSizeNotReachedException : SplitException {}
+  public class DegenerateDatasetException : SplitException {}
+  
   
   public class MedianSubdivisionPolicy : ISubdivisionPolicy
   {
@@ -43,13 +47,13 @@ namespace Accelerators
     }
 
     #region ISubdivisionPolicy implementation
-    public bool Split<T> (KdNode<T> target) where T : IVector
+    public void Split<T> (KdNode<T> target) where T : IVector
     {
       // Sanity checks first
       if (target.Intermediate)
-        return false;
+        throw new IntermediateNodeException();
       if (target.Vectors.Count <= this.MaximumBucketSize)
-        return false;
+        throw new BucketSizeNotReachedException();
       
       // Find axis of maximum spread
       IVector diagonal = target.Bounds.Diagonal;
@@ -58,37 +62,45 @@ namespace Accelerators
       
       // Sanity check for degenerate data-sets
       if (FloatComparison.CloseZero(spread, FloatComparison.DefaultEps))
-        return false;
+        throw new DegenerateDatasetException();
       
       // Perform split
       
       // Sort based on chosen split-dimension
-      target.Vectors.Sort(new SingleDimensionComparer<T>(max_spread_id));                  
+      List<T> vecs = target.Vectors;    
+      vecs.Sort(new SingleDimensionComparer<T>(max_spread_id));                  
       // Fetch median
-      int median_location = MedianLocation(target.Vectors.Count);
-      float median_value = target.Vectors[median_location][max_spread_id];
+      int median_location = MedianLocation(vecs.Count);
+      float median_value = vecs[median_location][max_spread_id];
       
       // Need to scroll backward starting from median_location until we find an element < median_value
-      while (median_location > 0 && target.Vectors[median_location][max_spread_id] == median_value) {
-        --median_location;
+      // [0,median_location] -> left_child (<=median), (median_location, end) -> right_child (>median)
+      while (median_location < vecs.Count && vecs[median_location][max_spread_id] == median_value) {
+        ++median_location;
       }
       
-      // [0,median_location] -> left_child (<median), (median_location, end) -> right_child (>= median)
+      // If no value bigger than median is found, we have a degenerate split
+      // Assume the values [1,2,3,3,3,3,3] where the median is 3. Splitting at the median position would
+      // result in a right child that only contains 3s.
+      if (median_location == vecs.Count)
+        throw new DegenerateDatasetException();
       
+      // Instance children and update
+      KdNode<T> left = target.SetLeftChild(new KdNode<T>());
+      KdNode<T> right = target.SetRightChild(new KdNode<T>());
+      left.Vectors = vecs.GetRange(0, median_location);
+      right.Vectors = vecs.GetRange(median_location, vecs.Count - median_location);      
       
+      AABB left_aabb, right_aabb;
+      target.Bounds.Split(max_spread_id, median_value, out left_aabb, out right_aabb);
+      left.Bounds = left_aabb;
+      right.Bounds = right_aabb;
       
-      
-      if (median_location == target.Vectors.Count)
-        return false;
-        
-      
-      
-      target.SplitDimensions = max_spread_id;
-      
-      return true;
+      target.SplitDimension = max_spread_id;
+      target.SplitLocation = median_value;
     }
     
-    public bool Collapse<T> (KdNode<T> parent) where T : IVector
+    public void Collapse<T> (KdNode<T> parent) where T : IVector
     {
       throw new System.NotImplementedException();
     }

@@ -73,11 +73,12 @@ namespace Accelerators
       s.Push(target);
       while (s.Count > 0) {
         KdNode<T> n = s.Pop();
-        if (_subdiv_policy.Split(n)) {
+        try {
+          _subdiv_policy.Split(n);
           s.Push(n.Left);
           s.Push(n.Right);
           n.Vectors = null; // Vectors are only stored in leaf nodes
-        }
+        } catch (SplitException) {}
       }
     }
     

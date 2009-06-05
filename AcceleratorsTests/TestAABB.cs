@@ -101,5 +101,31 @@ namespace AcceleratorsTests
       Assert.AreEqual(box.Extension(0), 2.0f, FloatComparison.DefaultEps);
       Assert.AreEqual(box.Extension(1), 7.0f, FloatComparison.DefaultEps);
     }
+    
+    [Test]
+    public void TestSplit() {
+      AABB box = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      AABB left, right;
+      box.Split(1, 0.5f, out left, out right);
+      
+      Assert.AreEqual(-1.0f, left.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(-1.0f, left.Lower[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0f, left.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(0.5f, left.Upper[1], FloatComparison.DefaultEps);
+      
+      Assert.AreEqual(-1.0f, right.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(0.5f, right.Lower[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0f, right.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0f, right.Upper[1], FloatComparison.DefaultEps);
+    }
+    
+    [Test]
+    [ExpectedException(typeof(ArgumentException))]
+    public void TestSplitOutsidePlane() {
+      AABB box = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      AABB left, right;
+      box.Split(1, -1.1f, out left, out right);
+    }
+    
   }
 }

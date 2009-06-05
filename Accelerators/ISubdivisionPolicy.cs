@@ -20,6 +20,15 @@ using System;
 namespace Accelerators
 {
   
+  /// <summary>
+  /// Exception thrown when splitting of node is not possible.
+  /// </summary>
+  public class SplitException : ArgumentException {}
+  
+  /// <summary>
+  /// Exception thrown when collapsing of node is not possible.
+  /// </summary>
+  public class CollapseException : ArgumentException {}
   
   /// <summary>
   /// Defines the split/collapse policies for kd-tree nodes
@@ -29,11 +38,11 @@ namespace Accelerators
     /// <summary>
     /// Split the given node and return true when successful.
     /// </summary>
-    bool Split<T>(KdNode<T> target) where T : IVector;
+    void Split<T>(KdNode<T> target) where T : IVector;
     
     /// <summary>
     /// Collapse the leaf-children of the given parental node and return true when successful.
     /// </summary>
-    bool Collapse<T>(KdNode<T> parent) where T : IVector;
+    void Collapse<T>(KdNode<T> parent) where T : IVector;
   }
 }
