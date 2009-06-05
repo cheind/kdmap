@@ -21,7 +21,7 @@ using System.Collections.Generic;
 namespace Accelerators
 {
     
-  public class KdTree<T> where T : IVector
+  public partial class KdTree<T> where T : IVector
   {
     
     /// <summary>
@@ -79,6 +79,15 @@ namespace Accelerators
           s.Push(n.Right);
           n.Vectors = null; // Vectors are only stored in leaf nodes
         } catch (SplitException) {}
+      }
+    }
+    
+    /// <value>
+    /// Access the root node of the tree.
+    /// </value>
+    public KdNode<T> Root {
+      get {
+        return _root;
       }
     }
     

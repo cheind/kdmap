@@ -79,7 +79,7 @@ namespace Accelerators
     /// </summary>
     public void Split(int dimension, float position, out AABB left, out AABB right) {
       
-      if (this.Lower[dimension] > position || this.Upper[dimension] < position)
+      if (!Inside(dimension, position))
         throw new ArgumentException("Split plane is outside of AABB");
       
       // -> x
@@ -160,6 +160,25 @@ namespace Accelerators
     public float Extension(int dimension) {
       return _max[dimension] - _min[dimension];
     }
+    
+    /// <summary>
+    /// Test if given vector is contained in AABB
+    /// </summary>
+    public bool Inside(IVector x) {
+      for (int i = 0; i < this.Dimensions; ++i) {
+        if (!Inside(i, x[i]))
+          return false;
+      }
+      return true;
+    }
+    
+    /// <summary>
+    /// Test if the given axis aligned plane crosses the AABB
+    /// </summary>
+    private bool Inside(int dimension, float position) {
+      return this.Lower[dimension] <= position && this.Upper[dimension] >= position;
+    }
+      
     
     private Vector _min;
     private Vector _max;
