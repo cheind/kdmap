@@ -21,6 +21,9 @@ using System.Collections.Generic;
 namespace Accelerators
 {
     
+  /// <summary>
+  /// A kd-Tree implementation
+  /// </summary>
   public partial class KdTree<T> where T : IVector
   {
     
