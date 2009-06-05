@@ -19,8 +19,6 @@ using System;
 
 namespace Accelerators
 {
-  
-  
   public partial class KdTree<T> where T : IVector
   {
     
