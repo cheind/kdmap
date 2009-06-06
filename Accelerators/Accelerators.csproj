@@ -45,6 +45,8 @@
     <Compile Include="ISubdivisionPolicy.cs" />
     <Compile Include="MedianSubdivisionPolicy.cs" />
     <Compile Include="KdTreeQueries.cs" />
+    <Compile Include="Ball.cs" />
+    <Compile Include="IBoundingVolume.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
