@@ -118,6 +118,20 @@ namespace Accelerators
       }
     }
     
+    public override string ToString ()
+    {
+      System.Text.StringBuilder sb = new System.Text.StringBuilder();
+      sb.Append('[');
+      for(int i = 0; i < Dimensions; ++i) {
+        sb.Append(_coordinates[i]);
+        if (i < Dimensions - 1)
+          sb.Append(',');
+      }
+      sb.Append(']');
+      return sb.ToString();
+    }
+
+    
     private float[] _coordinates;
   }
 }

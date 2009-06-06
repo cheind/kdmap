@@ -183,6 +183,14 @@ namespace AcceleratorsTests
       Assert.IsTrue(a.Intersect(g));
     }
     
+    [Test]
+    public void TestClassifyPlane() {
+      AABB a = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(1, -2.0f));
+      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 2.0f));
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.5f));
+    }
+    
     
   }
 }

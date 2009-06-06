@@ -186,6 +186,22 @@ namespace Accelerators
     }
     
     /// <summary>
+    /// Determine the location of the given axis aligned plane relative to the position of the
+    /// bounding volume.
+    /// </summary>
+    public EPlanePosition ClassifyPlane(int dimension, float position) {
+      float li = Lower[dimension];
+      float ui = Upper[dimension];
+      
+      if (position < li)
+        return EPlanePosition.LeftOfBV;
+      else if (position > ui)
+        return EPlanePosition.RightOfBV;
+      else
+        return EPlanePosition.IntersectingBV;
+    }
+    
+    /// <summary>
     /// Calculate the closest point on/inside this AABB to the given query point.
     /// </summary>
     public IVector Closest(IVector x) {
@@ -203,6 +219,12 @@ namespace Accelerators
       }
       return closest;
     }
+    
+    public override string ToString ()
+    {
+      return string.Format("[AABB: Lower={0}, Upper={1}]", Lower, Upper);
+    }
+
     
     /// <summary>
     /// Test if the given axis aligned plane crosses the AABB

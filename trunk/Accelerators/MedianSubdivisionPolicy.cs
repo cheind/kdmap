@@ -26,6 +26,9 @@ namespace Accelerators
   public class DegenerateDatasetException : SplitException {}
   
   
+  /// <summary>
+  /// Subdivision policy based on median of the axis of maximum spread.
+  /// </summary>
   public class MedianSubdivisionPolicy : ISubdivisionPolicy
   {
     
