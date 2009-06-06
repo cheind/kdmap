@@ -38,11 +38,10 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Find the stored element corresponding to the given location. If multiple elements within
-    /// the tolerance of eps exist, the first one encountered is returned. The parameter eps is here
-    /// defined as the component-wise symmetric interval that two coordiantes are allowed to deviate from.
+    /// Find the stored element corresponding to the given location. This is an exact search and
+    /// does thus not allow for a tolerance to be specified.
     /// </summary>
-    public T Find(IVector x, float eps) {
+    public T Find(IVector x) {
       // If point is not within root-bounds we can exit early
       if (!this.Root.Bounds.Inside(x))
         return default(T);
@@ -53,7 +52,7 @@ namespace Accelerators
       
       // Scan
       foreach(T t in leaf.Vectors) {
-        if (VectorComparison.Close(x, t, eps))
+        if (VectorComparison.Equal(x, t))
           return t;
       }
      
