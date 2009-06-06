@@ -37,6 +37,8 @@ namespace Accelerators
   {
     /// <summary>
     /// Split the given node and return true when successful.
+    /// Vectors to the left or on the split-plane are assumed to go into the left child. All others are placed in
+    /// the right child.
     /// </summary>
     void Split<T>(KdNode<T> target) where T : IVector;
     
