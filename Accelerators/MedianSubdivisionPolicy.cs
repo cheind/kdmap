@@ -27,19 +27,28 @@ namespace Accelerators
   
   
   /// <summary>
-  /// Subdivision policy based on median of the axis of maximum spread.
+  /// Subdivision policy based on median of the axis of maximum spread. This leads to 
+  /// quite balanced tree. Split-planes are inserted in areas of high density.
   /// </summary>
   public class MedianSubdivisionPolicy : ISubdivisionPolicy
   {
-    
+    /// <summary>
+    /// Construct with default bucket size.
+    /// </summary>
     public MedianSubdivisionPolicy() {
       _max_bucket_size = 25;
     }
     
+    /// <summary>
+    /// Construct with maximum bucket size.
+    /// </summary>
     public MedianSubdivisionPolicy(int max_bucket_size) {
       _max_bucket_size = max_bucket_size;
     }
     
+    /// <value>
+    /// Access the bucket size. 
+    /// </value>
     public int MaximumBucketSize {
       get {
         return _max_bucket_size;
