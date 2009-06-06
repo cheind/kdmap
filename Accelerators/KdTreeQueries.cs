@@ -16,6 +16,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace Accelerators
 {
@@ -58,6 +59,40 @@ namespace Accelerators
      
       // Nothing found
       return default(T);      
+    }
+    
+    /// <summary>
+    /// Find all elements that are inside the given bounding volume
+    /// </summary>
+    public IEnumerable<T> FindInsideVolume(IBoundingVolume bv) {
+     
+      // Test against root node
+      if (bv.Intersect(this.Root.Bounds)) {
+        // Init search
+        Stack<KdNode<T>> s = new Stack<KdNode<T>>();
+        s.Push(this.Root);
+        
+        while (s.Count > 0) {
+          KdNode<T> n = s.Pop();
+          if (n.Leaf) {
+            foreach (T t in n.Vectors) {
+              if (bv.Inside(t))
+                yield return t;
+            }
+          } else { // Intermediate node
+            // Classify against split plane
+            EPlanePosition pos = bv.ClassifyPlane(n.SplitDimension, n.SplitLocation);
+            if (pos == EPlanePosition.LeftOfBV) {
+              s.Push(n.Right);
+            } else if (pos == EPlanePosition.RightOfBV) {
+              s.Push(n.Left);
+            } else {
+              s.Push(n.Right);
+              s.Push(n.Left);
+            }
+          }
+        }
+      }
     }
     
   }

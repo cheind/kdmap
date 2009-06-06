@@ -18,6 +18,7 @@
 using System;
 using NUnit.Framework;
 using Accelerators;
+using System.Collections.Generic;
 
 namespace AcceleratorsTests
 {
@@ -82,6 +83,96 @@ namespace AcceleratorsTests
       
       x = tree.Find(new Vector(1.3f));
       Assert.IsNull(x);
+    }
+    
+    [Test]
+    public void FindInsideVolumeNumerically()
+    {
+      Vector[] vecs = new Vector[]{new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f), new Vector(3.0f, 3.0f)};
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
+      
+      List<Vector> found = new List<Vector>(
+        tree.FindInsideVolume(
+          new AABB(new Vector(0.5f, 0.5f), new Vector(2.5f, 2.5f))
+        )
+      );
+      
+      Assert.AreEqual(found.Count, 2);
+      Assert.IsTrue(VectorComparison.Equal(vecs[1], found[0]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[2], found[1]));
+      
+      found =  new List<Vector>(
+        tree.FindInsideVolume(
+          new AABB(new Vector(0.0f, 0.0f), new Vector(0.5f, 0.5f))
+        )
+      );
+      
+      Assert.IsEmpty(found);
+
+      found =  new List<Vector>(
+        tree.FindInsideVolume(
+          new AABB(new Vector(-2.0f, -2.0f), new Vector(4.5f, 4.5f))
+        )
+      );
+      
+      Assert.AreEqual(4, found.Count);
+      Assert.IsTrue(VectorComparison.Equal(vecs[0], found[0]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[1], found[1]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[2], found[2]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[3], found[3]));
+    }
+    
+    class CountingBV : IBoundingVolume {
+      
+      public CountingBV(AABB aabb) {
+        _aabb = aabb;
+        _count = 0;
+      }
+      
+      public int Count {
+        get {
+          return _count;
+        }
+      }
+      
+     
+      #region IBoundingVolume implementation
+      public bool Inside (IVector x)
+      {
+        _count += 1;
+        return _aabb.Inside(x);
+      }
+      
+      public bool Intersect (AABB aabb)
+      {
+        return _aabb.Intersect(aabb);
+      }
+      
+      public EPlanePosition ClassifyPlane (int dimension, float position)
+      {
+        return _aabb.ClassifyPlane(dimension, position);
+      }
+      
+      public int Dimensions {
+        get {
+          return _aabb.Dimensions;
+        }
+      }
+      #endregion 
+      
+      private AABB _aabb;
+      private int _count;
+    }
+    
+    [Test]
+    public void FindInsideVolumeAnalytically() {
+      Vector[] vecs = new Vector[]{new Vector(-1.0f, -1.0f), new Vector(0.0f, 0.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f)};
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
+     
+      CountingBV cbv = new CountingBV(new AABB(new Vector(0.5f, 0.5f), new Vector(2.5f, 2.5f)));
+      List<Vector> found = new List<Vector>(tree.FindInsideVolume(cbv));
+      Assert.AreEqual(2, cbv.Count);
+      Assert.AreEqual(2, found.Count);
     }
   }
 }

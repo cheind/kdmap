@@ -21,10 +21,19 @@ namespace Accelerators
 {
   
   /// <summary>
+  /// Defines the position of an axis aligned plane relative to a bounding volume.
+  /// </summary>
+  public enum EPlanePosition{
+    LeftOfBV,
+    RightOfBV,
+    IntersectingBV
+  }
+  
+  /// <summary>
   /// Interface that allows bounding volume queries.
   /// </summary>
   public interface IBoundingVolume
-  {
+  { 
     /// <value>
     /// Access the dimensionality of the bounding volume.
     /// </value>
@@ -43,6 +52,11 @@ namespace Accelerators
     /// </summary>
     bool Intersect(AABB aabb);
     
+    /// <summary>
+    /// Determine the location of the given axis aligned plane relative to the position of the
+    /// bounding volume.
+    /// </summary>
+    EPlanePosition ClassifyPlane(int dimension, float position);
     
   }
 }

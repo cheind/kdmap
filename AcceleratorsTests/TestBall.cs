@@ -68,5 +68,17 @@ namespace AcceleratorsTests
       Assert.IsTrue(a.Intersect(f));
       Assert.IsTrue(a.Intersect(g));
     }
+    
+    [Test]
+    public void TestClassifyPlane() {
+      Ball a = new Ball(new Vector(0.0f, 1.0f), 1.0f);
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(0, -1.0f));
+      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(0, -2.0f));
+      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(0, 2.0f));
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.0f));
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 2.0f));
+      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(1, -1.0f));
+      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 3.0f));
+    }
   }
 }

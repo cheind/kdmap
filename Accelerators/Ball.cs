@@ -104,6 +104,23 @@ namespace Accelerators
       return Inside(closest);
     }
     
+    /// <summary>
+    /// Determine the location of the given axis aligned plane relative to the position of the
+    /// bounding volume.
+    /// </summary>
+    public EPlanePosition ClassifyPlane(int dimension, float position) {
+      float li = Center[dimension] - Radius;
+      float ui = Center[dimension] + Radius;
+      
+      if (position < li)
+        return EPlanePosition.LeftOfBV;
+      else if (position > ui)
+        return EPlanePosition.RightOfBV;
+      else
+        return EPlanePosition.IntersectingBV;
+    }
+    
+    
     private Vector _center;
     private float _radius;
     private float _radius2;
