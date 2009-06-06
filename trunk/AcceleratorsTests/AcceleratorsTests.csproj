@@ -44,6 +44,7 @@
     <Compile Include="TestBinaryNode.cs" />
     <Compile Include="TestMedianSubdivisionPolicy.cs" />
     <Compile Include="TestKdTree.cs" />
+    <Compile Include="TestBall.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

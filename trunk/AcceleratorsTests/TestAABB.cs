@@ -18,6 +18,7 @@
 using System;
 using NUnit.Framework;
 using Accelerators;
+using System.Collections.Generic;
 
 namespace AcceleratorsTests
 {
@@ -126,6 +127,62 @@ namespace AcceleratorsTests
       AABB left, right;
       box.Split(1, -1.1f, out left, out right);
     }
+    
+    [Test]
+    public void TestClosestOnSurface() {
+      AABB box = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      IVector closest = box.Closest(new Vector(-2.0f, -0.5f));
+      Assert.AreEqual(-1.0f, closest[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(-0.5f, closest[1], FloatComparison.DefaultEps);
+      
+      closest = box.Closest(new Vector(3.0f, 3.0f));
+      Assert.AreEqual(1.0f, closest[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0f, closest[1], FloatComparison.DefaultEps);
+      
+      closest = box.Closest(new Vector(0.5f, 0.5f));
+      Assert.AreEqual(0.5f, closest[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(0.5f, closest[1], FloatComparison.DefaultEps);
+    }
+    
+    [Test]
+    public void TestInside() {
+      AABB box = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      
+      // Perform a monte-carlo integration test
+      const int count = 1000;
+      List<IVector> vecs  = new List<IVector>(VectorSampling.InAABB(count, 2, -2.0f, 2.0f, 10));
+      
+      int inside = 0;
+      foreach (IVector v in vecs) {
+        if (box.Inside(v))
+          inside += 1;
+      }
+      
+      float ratio = (float)inside / count;
+      float volume_outer_box = 4.0f * 4.0f;
+      float volume_inner_box = volume_outer_box * ratio;
+      
+      Assert.AreEqual(4.0f, volume_inner_box, 0.1f);
+    }
+    
+    [Test]
+    public void TestIntersect() {
+      AABB a = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
+      AABB b = new AABB(new Vector(0.5f, 0.5f), new Vector(0.6f, 0.6f)); // completely inside of a
+      AABB c = new AABB(new Vector(-2.5f, -2.5f), new Vector(-2.4f, -2.4f)); // completely outside of a
+      AABB d = new AABB(new Vector(2.5f, 2.5f), new Vector(2.6f, 2.6f)); // completely outside of a
+      AABB e = new AABB(new Vector(0.5f, 0.5f), new Vector(2.6f, 2.6f)); // partially inside of a
+      AABB f = new AABB(new Vector(1.0f, 1.0f), new Vector(2.6f, 2.6f)); // partially inside of a (touching)
+      AABB g = new AABB(new Vector(-2.0f, -2.0f), new Vector(2.6f, 2.6f)); // completely containing a
+      
+      Assert.IsTrue(a.Intersect(b));
+      Assert.IsFalse(a.Intersect(c));
+      Assert.IsFalse(a.Intersect(d));
+      Assert.IsTrue(a.Intersect(e));
+      Assert.IsTrue(a.Intersect(f));
+      Assert.IsTrue(a.Intersect(g));
+    }
+    
     
   }
 }

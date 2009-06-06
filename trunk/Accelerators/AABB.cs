@@ -24,7 +24,7 @@ namespace Accelerators
   /// <summary>
   /// Axis-aligned bounding box
   /// </summary>
-  public class AABB
+  public class AABB : IBoundingVolume
   {
     
     /// <summary>
@@ -118,15 +118,6 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Access the number of dimensions 
-    /// </value>
-    public int Dimensions {
-      get {
-        return _min.Dimensions;
-      }
-    }
-    
-    /// <value>
     /// Lower corner of AABB.
     /// </value>
     public IVector Lower {
@@ -161,6 +152,15 @@ namespace Accelerators
       return _max[dimension] - _min[dimension];
     }
     
+    /// <value>
+    /// Access the number of dimensions 
+    /// </value>
+    public int Dimensions {
+      get {
+        return _min.Dimensions;
+      }
+    }
+    
     /// <summary>
     /// Test if given vector is contained in AABB
     /// </summary>
@@ -173,10 +173,49 @@ namespace Accelerators
     }
     
     /// <summary>
+    /// Test if AABB overlaps given AABB
+    /// </summary>
+    public bool Intersect(AABB aabb) {
+      // Perform a per-dimension overlapping interval test and early exit if
+      // a single interval is none overlapping
+      for (int i = 0; i < this.Dimensions; ++i) {
+        if (!OverlapInterval(this.Lower[i], this.Upper[i], aabb.Lower[i], aabb.Upper[i]))
+          return false;
+      }
+      return true;
+    }
+    
+    /// <summary>
+    /// Calculate the closest point on/inside this AABB to the given query point.
+    /// </summary>
+    public IVector Closest(IVector x) {
+      Vector closest = new Vector(this.Dimensions);
+      for (int i = 0; i < this.Dimensions; ++i) {
+        // Closest is given by: lower[i] if x[i] < lower[i], upper[i] if x[i] > upper[i], else
+        // it is x[i]
+        float xi = x[i];
+        if (xi < this.Lower[i])
+          closest[i] = this.Lower[i];
+        else if (xi > this.Upper[i])
+          closest[i] = this.Upper[i];
+        else
+          closest[i] = xi;
+      }
+      return closest;
+    }
+    
+    /// <summary>
     /// Test if the given axis aligned plane crosses the AABB
     /// </summary>
     private bool Inside(int dimension, float position) {
-      return this.Lower[dimension] <= position && this.Upper[dimension] >= position;
+      return OverlapInterval(this.Lower[dimension], this.Upper[dimension], position, position);
+    }
+    
+    /// <summary>
+    /// Test if two intervals overlap
+    /// </summary>
+    private bool OverlapInterval(float a_lower, float a_upper, float b_lower, float b_upper) {
+      return a_lower <= b_upper && b_lower <= a_upper;
     }
       
     
