@@ -69,20 +69,18 @@ namespace AcceleratorsTests
     [Test()]
     public void TestFind()
     {
-      Flag[] flags = new Flag[] {new Flag(-1.0f, "a"), new Flag(1.0f, "b"), new Flag(1.4f, "c"), new Flag(1.4f, "c"), new Flag(3.0f, "d")};
+      Flag[] flags = new Flag[] {new Flag(-1.0f, "a"), new Flag(1.0f, "b"), new Flag(1.4f, "c"), new Flag(3.0f, "d")};
       KdTree<Flag> tree = new KdTree<Flag>(flags, new MedianSubdivisionPolicy(1));
       
-      Flag x = tree.Find(new Vector(1.0f), 0.0f);
+      Flag x = tree.Find(new Vector(1.0f));
       Assert.IsNotNull(x);
       Assert.AreEqual("b", x.Name);
       
-      x = tree.Find(new Vector(1.4f), 0.1f);
+      x = tree.Find(new Vector(1.4f));
       Assert.IsNotNull(x);
       Assert.AreEqual("c", x.Name);
       
-      x = tree.Find(new Vector(1.3f), 0.0f);
-      Assert.IsNull(x);
-      x = tree.Find(new Vector(15.0f), 100.0f); // Eps is only used when comparing elements in leaves. This is not a closest point search.
+      x = tree.Find(new Vector(1.3f));
       Assert.IsNull(x);
     }
   }
