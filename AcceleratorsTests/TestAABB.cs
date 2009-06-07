@@ -149,7 +149,7 @@ namespace AcceleratorsTests
       AABB box = new AABB(new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f));
       
       // Perform a monte-carlo integration test
-      const int count = 1000;
+      const int count = 10000;
       List<IVector> vecs  = new List<IVector>(VectorSampling.InAABB(count, 2, -2.0f, 2.0f, 10));
       
       int inside = 0;
@@ -162,7 +162,7 @@ namespace AcceleratorsTests
       float volume_outer_box = 4.0f * 4.0f;
       float volume_inner_box = volume_outer_box * ratio;
       
-      Assert.AreEqual(4.0f, volume_inner_box, 0.1f);
+      Assert.AreEqual(4.0f, volume_inner_box, 0.2f);
     }
     
     [Test]
