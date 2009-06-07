@@ -59,6 +59,7 @@ namespace Accelerators
     /// </summary>
     private bool FirstFromEnumerable(IEnumerable<T> vecs, out T first) {
       bool non_empty = false;
+      first = default(T);
       using (IEnumerator<T> e = vecs.GetEnumerator()) {
         if (e.MoveNext()) {
           first = e.Current;
