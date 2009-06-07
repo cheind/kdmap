@@ -47,10 +47,10 @@ namespace RenderTree
 			vecs.AddRange(InAABB(20, 2, 15.0f, 18.0f, 10));
 			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(1));
 
-			RenderSvg rc = new RenderSvg();
+			RenderToImage rc = new RenderToImage();
 			rc.FirstDimension = 0;
 			rc.SecondDimension = 1;
-			rc.ImageSize = new Vector(500f, 500.0f/tree.Root.Bounds.Extension(0) * tree.Root.Bounds.Extension(1)); // Maintain aspect ratio of pointcloud
+			rc.ImageSize = new Vector(500f, 500.0f); // Maintain aspect ratio of pointcloud
 			rc.Render(tree.Root, "kdtree.svg");	
 		}
 	}

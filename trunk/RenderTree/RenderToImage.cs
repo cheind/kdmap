@@ -25,9 +25,9 @@ namespace RenderTree
 	/// <summary>
 	/// Render Kd-Tree to a Cairo Surface.
 	/// </summary>
-	public class RenderSvg
+	public class RenderToImage
 	{
-		public RenderSvg() {
+		public RenderToImage() {
 			_point_color = new Cairo.Color(0.0, 0.4, 0.0);
 			_line_color = new Cairo.Color(0.0, 0.0, 0.0);
 			_dim0 = 0;
@@ -80,12 +80,12 @@ namespace RenderTree
 			_world_to_image.Translate(width*0.5f, -height*0.5f);
 			_world_to_image.Scale(inner_x / diag[_dim0], inner_y / diag[_dim1]);
 			_world_to_image.Translate(-center[_dim0], -center[_dim1]);
-			
-			
-			using (Cairo.SvgSurface draw = new Cairo.SvgSurface(filename, width, height)) {
+
+
+      using (Cairo.SvgSurface draw = new Cairo.SvgSurface(filename, width, height)){
 				using (Cairo.Context gr = new Cairo.Context(draw)) {
 					gr.LineWidth = _line_width;
-					gr.Antialias = Cairo.Antialias.Subpixel;
+					gr.Antialias = Cairo.Antialias.Default;
 					
 					// Background
 					gr.Rectangle(0, 0, width, height);
@@ -99,6 +99,7 @@ namespace RenderTree
 					// Iterate
 					this.RenderNode(tree, gr);
 				}
+        draw.WriteToPng(filename + ".png"); // Windows seems to write empty .svg files.
 			}
 		}
 		
