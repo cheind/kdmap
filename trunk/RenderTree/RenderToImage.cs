@@ -23,7 +23,7 @@ namespace RenderTree
 	
 	
 	/// <summary>
-	/// Render Kd-Tree to a Cairo Surface.
+	/// Render Kd-Tree to an image
 	/// </summary>
 	public class RenderToImage
 	{
