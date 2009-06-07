@@ -145,6 +145,15 @@ namespace Accelerators
       }
     }
     
+    /// <value>
+    /// Access the center of the AABB
+    /// </value>
+    public IVector Center {
+      get {
+        return (_min + (_max - _min)*0.5f);
+      }
+    }
+    
     /// <summary>
     /// Return the AABBs extension in the given dimension
     /// </summary>

@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerators", "Accelerator
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceleratorsTests", "AcceleratorsTests\AcceleratorsTests.csproj", "{DAB0CF4A-D755-477F-BCCE-52B4A734492D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTree", "RenderTree\RenderTree.csproj", "{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5474433A-0EC3-4767-843F-D269E39C5CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5474433A-0EC3-4767-843F-D269E39C5CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5474433A-0EC3-4767-843F-D269E39C5CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,7 +37,10 @@ Global
 		$1.NoTabsAfterNonTabs = False
 		$1.RemoveTrailingWhitespace = False
 		$1.EolMarker = Native
-		$0.StandardHeader = $2
-		$2.inheritsSet = LGPLv2License
+		$0.DotNetNamingPolicy = $2
+		$2.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$2.ResourceNamePolicy = FileFormatDefault
+		$0.StandardHeader = $3
+		$3.inheritsSet = LGPLv2License
 	EndGlobalSection
 EndGlobal
