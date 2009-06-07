@@ -45,7 +45,7 @@ namespace RenderTree
 		{
 			List<IVector> vecs = new List<IVector>(InAABB(100, 2, -10.0f, 10.0f, 10));
 			vecs.AddRange(InAABB(20, 2, 15.0f, 18.0f, 10));
-			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(20));
+			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(1));
 
 			RenderSvg rc = new RenderSvg();
 			rc.FirstDimension = 0;
