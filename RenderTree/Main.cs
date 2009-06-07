@@ -43,8 +43,8 @@ namespace RenderTree
 		
 		public static void Main(string[] args)
 		{
-			List<IVector> vecs = new List<IVector>(InAABB(100, 2, -10.0f, 10.0f, 10));
-			vecs.AddRange(InAABB(20, 2, 15.0f, 18.0f, 10));
+      CSVReader r = new CSVReader(';');
+      ICollection<IVector> vecs = r.Parse(@"etc/points.csv");
 			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(1));
 
 			RenderToImage rc = new RenderToImage();

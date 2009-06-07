@@ -8,6 +8,7 @@
     <ProjectGuid>{42F324AC-BB8F-4ACA-B4F9-B252EBFFBD30}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>RenderTree</AssemblyName>
+    <RootNamespace>RenderTree</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,11 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSVReader.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="RenderToImage.cs" />
