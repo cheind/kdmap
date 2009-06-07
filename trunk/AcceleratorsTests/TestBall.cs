@@ -35,7 +35,7 @@ namespace AcceleratorsTests
       Ball b = new Ball(new Vector(0.0f, 0.0f, 0.0f), 1.0f);
       
       // Perform a monte-carlo integration test
-      const int count = 1000;
+      const int count = 10000;
       List<IVector> vecs  = new List<IVector>(VectorSampling.InAABB(count, 3, -1.0f, 1.0f, 10));
       
       int inside = 0;
