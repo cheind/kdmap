@@ -30,11 +30,8 @@ namespace RenderTree
       ICollection<IVector> vecs = r.Parse(@"etc/testdata/wrenches.csv");
 			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(25));
 
-			RenderToImage rc = new RenderToImage();
-			rc.FirstDimension = 0;
-			rc.SecondDimension = 1;
-			rc.ImageSize = new Vector(500, 500); // Maintain aspect ratio of pointcloud
-			rc.Render(tree.Root, "kdtree.pdf");	
+      RenderTreeCairo render = new RenderTreeCairo();
+      render.Render(tree.Root, new Pair<int, int>(0, 1), "kdtree.pdf", 100.0, 100.0);
 		}
 	}
 }
