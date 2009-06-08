@@ -8,6 +8,7 @@
     <ProjectGuid>{5474433A-0EC3-4767-843F-D269E39C5CAE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Accelerators</AssemblyName>
+    <RootNamespace>Accelerators</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,7 @@
     <Compile Include="IVector.cs" />
     <Compile Include="FloatComparison.cs" />
     <Compile Include="Pair.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="VectorComparison.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="KdTree.cs" />
