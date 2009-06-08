@@ -197,22 +197,13 @@ namespace AcceleratorsTests
 
       Vector[] vecs = new Vector[] { new Vector(-1.0f, -1.0f), new Vector(0.0f, 0.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f) };
       KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
-      List<Vector> order_max = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f, Comparer<float>.Default));
-      List<Vector>  order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f, new InvertedComparer<float>(Comparer<float>.Default)));
+      List<Vector> order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f));
 
       Assert.AreEqual(order_min.Count, 4);
-      Assert.AreEqual(order_max.Count, 4);
       Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
       Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
       Assert.IsTrue(VectorComparison.Equal(order_min[2], vecs[2]));
       Assert.IsTrue(VectorComparison.Equal(order_min[3], vecs[3]));
-      
-      Assert.IsTrue(VectorComparison.Equal(order_max[0], vecs[3]));
-      Assert.IsTrue(VectorComparison.Equal(order_max[1], vecs[2]));
-      Assert.IsTrue(VectorComparison.Equal(order_max[2], vecs[1]));
-      Assert.IsTrue(VectorComparison.Equal(order_max[3], vecs[0]));
-      
-
     }
   }
 }
