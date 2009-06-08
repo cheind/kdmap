@@ -33,8 +33,8 @@ namespace RenderTree
 			RenderToImage rc = new RenderToImage();
 			rc.FirstDimension = 0;
 			rc.SecondDimension = 1;
-			rc.ImageSize = new Vector(500f, 500.0f); // Maintain aspect ratio of pointcloud
-			rc.Render(tree.Root, "kdtree.svg");	
+			rc.ImageSize = new Vector(500, 500); // Maintain aspect ratio of pointcloud
+			rc.Render(tree.Root, "kdtree.pdf");	
 		}
 	}
 }
