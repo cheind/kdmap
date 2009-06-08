@@ -39,6 +39,18 @@ namespace Accelerators
     public static float L2Norm(IVector a) {
       return (float)Math.Sqrt(SquaredL2Norm(a));
     }
+
+    /// <summary>
+    /// Calculate the squared distance (L2 norm) between two vectors.
+    /// </summary>
+    public static float SquaredL2NormDistance(IVector a, IVector b) {
+      float dist2 = 0.0f;
+      for (int i = 0; i < a.Dimensions; ++i) {
+        float delta = b[i] - a[i];
+        dist2 += delta * delta;
+      }
+      return dist2;
+    }
     
     /// <summary>
     /// Calculate the index of the element having the maximum absolut value.
