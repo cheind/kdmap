@@ -119,6 +119,7 @@ namespace Accelerators
     
     /// <value>
     /// Lower corner of AABB.
+    /// Changes to the returned vector will affect the internal state of this ABBB.
     /// </value>
     public IVector Lower {
       get {
@@ -129,6 +130,7 @@ namespace Accelerators
     
     /// <value>
     /// Upper corner of AABB.
+    /// Changes to the returned vector will affect the internal state of this ABBB.
     /// </value>
     public IVector Upper {
       get {
@@ -137,7 +139,8 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Diagonal of AABB as vector from lower corner to upper corner 
+    /// Diagonal of AABB as vector from lower corner to upper corner.
+    /// This vector is calculated and changes to it will not modify the internal state of this AABB.
     /// </value>
     public IVector Diagonal {
       get {
@@ -146,7 +149,8 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Access the center of the AABB
+    /// Access the center of the AABB.
+    /// This vector is calculated and changes to it will not modify the internal state of this AABB.
     /// </value>
     public IVector Center {
       get {
@@ -210,6 +214,9 @@ namespace Accelerators
         return EPlanePosition.IntersectingBV;
     }
 
+    /// <summary>
+    /// Find the point on/in the AABB that is closest to the query.
+    /// </summary>
     public void Closest(IVector x, ref IVector closest) {
       for (int i = 0; i < this.Dimensions; ++i) {
         // Closest is given by: lower[i] if x[i] < lower[i], upper[i] if x[i] > upper[i], else
@@ -233,6 +240,9 @@ namespace Accelerators
       return closest;
     }
     
+    /// <summary>
+    /// Convert to string.
+    /// </summary>
     public override string ToString ()
     {
       return string.Format("[AABB: Lower={0}, Upper={1}]", Lower, Upper);

@@ -98,10 +98,6 @@ namespace Accelerators
     /// <summary>
     /// Find all vectors in sorted order from the given query position.
     /// </summary>
-    /// <param name="x">Query position</param>
-    /// <param name="max_distance">Limit to the given maximum distance</param>
-    /// <param name="comp">Comparer used to sort distances</param>
-    /// <returns>Vectors in sorted order if any</returns>
     public IEnumerable<T> FindInSortedOrder(IVector query, double max_distance) {
       // We maintain two priority queues: one based on distances to nodes, one based on distances to elements.
       PriorityQueue<double, KdNode<T>> pqNodes = new PriorityQueue<double, KdNode<T>>();

@@ -22,13 +22,13 @@ namespace Accelerators
 {
     
   /// <summary>
-  /// A kd-Tree implementation
+  /// A kd-Tree implementation that supports dynamic insertion and removal.
   /// </summary>
   public partial class KdTree<T> where T : IVector
   {
     
     /// <summary>
-    /// Instance a new kd-tree with the given collection of points
+    /// Instance a new kd-tree with the given collection of points and a subdivision policy.
     /// </summary>
     public KdTree(IEnumerable<T> vecs, ISubdivisionPolicy policy)
     {
@@ -55,7 +55,7 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Find the first element in the Enumerable
+    /// Find the first element in the Enumerable.
     /// </summary>
     private bool FirstFromEnumerable(IEnumerable<T> vecs, out T first) {
       bool non_empty = false;

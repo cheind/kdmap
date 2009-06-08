@@ -23,6 +23,11 @@ namespace Accelerators
   /// <summary>
   /// Interface for n-dimensional vectors.
   /// </summary>
+  /// 
+  /// <remarks>
+  /// This is the only interface to be implemented by custom classes that are to 
+  /// be used in conjunction with classes found in the Accelerators namespace.
+  /// </remarks>
   public interface IVector
   {
     /// <summary>
@@ -32,6 +37,9 @@ namespace Accelerators
       get;
     }
     
+    /// <value>
+    /// Access a single coordinate. 
+    /// </value>
     double this[int index] {
       get;
       set;

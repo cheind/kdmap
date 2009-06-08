@@ -74,6 +74,9 @@ namespace Accelerators
       }
     }
     
+    /// <summary>
+    /// Convert to string
+    /// </summary>
     public override string ToString ()
     {
       return string.Format("[KdNode: SplitDimension={0}, SplitLocation={1}, Leaf={2}, Bounds={3}]", SplitDimension, SplitLocation, Leaf, Bounds);

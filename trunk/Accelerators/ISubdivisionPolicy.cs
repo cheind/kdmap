@@ -23,16 +23,24 @@ namespace Accelerators
   /// <summary>
   /// Exception thrown when splitting of node is not possible.
   /// </summary>
-  public class SplitException : ArgumentException {}
+  public class SplitException : InvalidOperationException {}
   
   /// <summary>
   /// Exception thrown when collapsing of node is not possible.
   /// </summary>
-  public class CollapseException : ArgumentException {}
+  public class CollapseException : InvalidOperationException {}
   
   /// <summary>
-  /// Defines the split/collapse policies for kd-tree nodes
+  /// Defines the split/collapse policies for kd-tree nodes.
   /// </summary>
+  /// 
+  /// <remarks>
+  /// The subdivision policy defines the procedure of splitting and collapsing nodes. In case this is impossible,
+  /// an InvalidOperationException is thrown. The splitting part of the subdivisision policy is assumed todo the following:
+  /// Determine the best possible splitting plane, put all points lying on or behind the splitting plane into the left child of
+  /// the target node and all others to the right child of the target node. The child nodes need to be instantiated by the split 
+  /// method.
+  /// </remarks>
   public interface ISubdivisionPolicy
   {
     /// <summary>
