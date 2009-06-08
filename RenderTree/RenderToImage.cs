@@ -38,7 +38,7 @@ namespace RenderTree
 		
 		public IVector ImageSize {
 			set {
-				const double point_size_ratio = 1.5 / 500.0;
+				const double point_size_ratio = 0.5 / 500.0;
 				const double line_width_ratio = 0.8 / 500.0;
 				_image_size = new Vector(value);
 				if (_image_size[0] > _image_size[1]) {
