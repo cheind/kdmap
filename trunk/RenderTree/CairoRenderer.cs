@@ -14,7 +14,7 @@ namespace RenderTree {
       _p0 = new Cairo.PointD(); 
       _p1 = new Cairo.PointD();
       _world_to_surface = null;
-      _projection = null;
+      _projection = new Pair<int, int>(0, 1);
     }
 
     public void SetupWorldToSurfaceTransform(AABB world, Pair<int,int> projection, double swidth, double sheight, bool center) 

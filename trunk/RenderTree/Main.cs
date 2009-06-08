@@ -29,7 +29,6 @@ namespace RenderTree
       CSVReader r = new CSVReader(' ');
       ICollection<IVector> vecs = r.Parse(@"etc/testdata/wrenches.csv");
 			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(25));
-
       RenderTreeCairo render = new RenderTreeCairo();
       render.Render(tree.Root, new Pair<int, int>(0, 1), "kdtree.pdf", 100.0, 100.0);
 		}
