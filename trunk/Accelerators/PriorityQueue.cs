@@ -5,7 +5,7 @@ using System.Text;
 namespace Accelerators {
 
   /// <summary>
-  /// Priority queue implementation
+  /// Min-Priority queue implementation.
   /// </summary>
   public class PriorityQueue<TPriority, TValue> {
 
@@ -84,7 +84,7 @@ namespace Accelerators {
     private void UpHeap(int index, Pair<TPriority, TValue> entry) {
       int parent = (index - 1) / 2;
 
-      while ((index > 0) && (_comp.Compare(_heap[parent].First, entry.First) < 0)) {
+      while ((index > 0) && (_comp.Compare(_heap[parent].First, entry.First) > 0)) {
         _heap[index] = _heap[parent];
         index = parent;
         parent = (index - 1) / 2;
@@ -95,7 +95,7 @@ namespace Accelerators {
     private void DownHeap(int index, Pair<TPriority, TValue> entry) {
       int child = (index * 2) + 1; // left child
       while (child < _count) {
-        if ((child + 1 < _count) && (_comp.Compare(_heap[child].First, _heap[child + 1].First) < 0)) {
+        if ((child + 1 < _count) && (_comp.Compare(_heap[child].First, _heap[child + 1].First) > 0)) {
           child += 1;
         }
         _heap[index] = _heap[child];
