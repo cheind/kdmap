@@ -70,7 +70,7 @@ namespace Accelerators
       // Find axis of maximum spread
       IVector diagonal = target.Bounds.Diagonal;
       int max_spread_id = VectorReductions.IndexNormInf(diagonal);
-      float spread = diagonal[max_spread_id];
+      double spread = diagonal[max_spread_id];
       
       // Sanity check for degenerate data-sets
       if (FloatComparison.CloseZero(spread, FloatComparison.DefaultEps))
@@ -83,7 +83,7 @@ namespace Accelerators
       vecs.Sort(new SingleDimensionComparer<T>(max_spread_id));                  
       // Fetch median
       int median_location = MedianLocation(vecs.Count);
-      float median_value = vecs[median_location][max_spread_id];
+      double median_value = vecs[median_location][max_spread_id];
       
       // Need to scroll backward starting from median_location until we find an element < median_value
       // [0,median_location] -> left_child (<=median), (median_location, end) -> right_child (>median)

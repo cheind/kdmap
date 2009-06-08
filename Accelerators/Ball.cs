@@ -32,13 +32,13 @@ namespace Accelerators
     public Ball(int dimensions)
     {
       _center = new Vector(dimensions);
-      _radius = 0.0f;
+      _radius = 0.0;
     }
     
     /// <summary>
     /// Instance a hypersphere with center and radius.
     /// </summary>
-    public Ball(IVector center, float radius) 
+    public Ball(IVector center, double radius) 
     {
       _center = new Vector(center);
       this.Radius = radius;
@@ -47,7 +47,7 @@ namespace Accelerators
     /// <value>
     /// Access the radius of the ball. 
     /// </value>
-    public float Radius {
+    public double Radius {
       get {
         return _radius;
       }
@@ -60,13 +60,13 @@ namespace Accelerators
     /// <value>
     /// Access the squared radius 
     /// </value>
-    public float SquaredRadius {
+    public double SquaredRadius {
       get {
         return _radius2;
       }
       set {
         _radius2 = value;
-        _radius = (float)Math.Sqrt(value);
+        _radius = (double)Math.Sqrt(value);
       }
     }
     
@@ -108,9 +108,9 @@ namespace Accelerators
     /// Determine the location of the given axis aligned plane relative to the position of the
     /// bounding volume.
     /// </summary>
-    public EPlanePosition ClassifyPlane(int dimension, float position) {
-      float li = Center[dimension] - Radius;
-      float ui = Center[dimension] + Radius;
+    public EPlanePosition ClassifyPlane(int dimension, double position) {
+      double li = Center[dimension] - Radius;
+      double ui = Center[dimension] + Radius;
       
       if (position < li)
         return EPlanePosition.LeftOfBV;
@@ -122,7 +122,7 @@ namespace Accelerators
     
     
     private Vector _center;
-    private float _radius;
-    private float _radius2;
+    private double _radius;
+    private double _radius2;
   }
 }

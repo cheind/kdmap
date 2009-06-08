@@ -32,8 +32,8 @@ namespace Accelerators
     /// </summary>
     public AABB(int dimensions)
     {
-      _min = new Vector(dimensions, Single.MaxValue);
-      _max = new Vector(dimensions, -Single.MaxValue);
+      _min = new Vector(dimensions, Double.MaxValue);
+      _max = new Vector(dimensions, -Double.MaxValue);
     }
     
     /// <summary>
@@ -66,7 +66,7 @@ namespace Accelerators
     /// </summary>
     public void Enlarge<T>(T v) where T : IVector {
       for(int i = 0; i < this.Dimensions; ++i) {
-        float vi = v[i];
+        double vi = v[i];
         if (vi < _min[i]) _min[i] = vi;
         if (vi > _max[i]) _max[i] = vi;
       }
@@ -77,7 +77,7 @@ namespace Accelerators
     /// is specified by the dimension it is orthogonal to and a position value on the
     /// axis.
     /// </summary>
-    public void Split(int dimension, float position, out AABB left, out AABB right) {
+    public void Split(int dimension, double position, out AABB left, out AABB right) {
       
       if (!Inside(dimension, position))
         throw new ArgumentException("Split plane is outside of AABB");
@@ -104,8 +104,8 @@ namespace Accelerators
     public bool Empty {
       get {
         return 
-          VectorComparison.Equal(_min, new Vector(this.Dimensions, Single.MaxValue)) &&
-          VectorComparison.Equal(_max, new Vector(this.Dimensions, -Single.MaxValue));
+          VectorComparison.Equal(_min, new Vector(this.Dimensions, Double.MaxValue)) &&
+          VectorComparison.Equal(_max, new Vector(this.Dimensions, -Double.MaxValue));
       }
     }
     
@@ -113,8 +113,8 @@ namespace Accelerators
     /// Reset to empty state.
     /// </summary>
     public void Reset() {
-      VectorOperations.Fill(_min, Single.MaxValue);
-      VectorOperations.Fill(_max, -Single.MaxValue);
+      VectorOperations.Fill(_min, Double.MaxValue);
+      VectorOperations.Fill(_max, -Double.MaxValue);
     }
     
     /// <value>
@@ -150,14 +150,14 @@ namespace Accelerators
     /// </value>
     public IVector Center {
       get {
-        return (_min + (_max - _min)*0.5f);
+        return (_min + (_max - _min)*0.5);
       }
     }
     
     /// <summary>
     /// Return the AABBs extension in the given dimension
     /// </summary>
-    public float Extension(int dimension) {
+    public double Extension(int dimension) {
       return _max[dimension] - _min[dimension];
     }
     
@@ -198,9 +198,9 @@ namespace Accelerators
     /// Determine the location of the given axis aligned plane relative to the position of the
     /// bounding volume.
     /// </summary>
-    public EPlanePosition ClassifyPlane(int dimension, float position) {
-      float li = Lower[dimension];
-      float ui = Upper[dimension];
+    public EPlanePosition ClassifyPlane(int dimension, double position) {
+      double li = Lower[dimension];
+      double ui = Upper[dimension];
       
       if (position < li)
         return EPlanePosition.LeftOfBV;
@@ -214,7 +214,7 @@ namespace Accelerators
       for (int i = 0; i < this.Dimensions; ++i) {
         // Closest is given by: lower[i] if x[i] < lower[i], upper[i] if x[i] > upper[i], else
         // it is x[i]
-        float xi = x[i];
+        double xi = x[i];
         if (xi < this.Lower[i])
           closest[i] = this.Lower[i];
         else if (xi > this.Upper[i])
@@ -242,14 +242,14 @@ namespace Accelerators
     /// <summary>
     /// Test if the given axis aligned plane crosses the AABB
     /// </summary>
-    private bool Inside(int dimension, float position) {
+    private bool Inside(int dimension, double position) {
       return OverlapInterval(this.Lower[dimension], this.Upper[dimension], position, position);
     }
     
     /// <summary>
     /// Test if two intervals overlap
     /// </summary>
-    private bool OverlapInterval(float a_lower, float a_upper, float b_lower, float b_upper) {
+    private bool OverlapInterval(double a_lower, double a_upper, double b_lower, double b_upper) {
       return a_lower <= b_upper && b_lower <= a_upper;
     }
       

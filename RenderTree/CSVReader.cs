@@ -42,7 +42,7 @@ namespace RenderTree
           string[] values = line.Split(_deliminators);
           Vector v = new Vector(values.Length);
           for(int i = 0; i < v.Dimensions; ++i)
-            v[i] = Single.Parse(values[i]);
+            v[i] = Double.Parse(values[i]);
           vecs.Add(v);
         }
       }

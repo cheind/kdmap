@@ -22,16 +22,16 @@ namespace Accelerators
   
   
   /// <summary>
-  /// Helpers in floating point comparison
+  /// Helpers in doubleing point comparison
   /// </summary>
   public class FloatComparison
   {
-    private static float default_eps = 1e-5f;
+    private static double default_eps = 1e-5;
     
     /// <value>
     /// Default epsilon interval. 
     /// </value>
-    public static float DefaultEps {
+    public static double DefaultEps {
       get {
         return default_eps;
       }
@@ -41,15 +41,15 @@ namespace Accelerators
     /// Test if a is close to b given a symmetric interval of eps.
     /// </summary>
     /// <param name="a">
-    public static bool Close(float a, float b, float eps) {
+    public static bool Close(double a, double b, double eps) {
       return Math.Abs(a-b) <= eps;
     }
     
     /// <summary>
     /// Test if a is close to zero given the symmetric interval of eps.
     /// </summary>
-    public static bool CloseZero(float a, float eps) {
-      return Close(a, 0.0f, eps);
+    public static bool CloseZero(double a, double eps) {
+      return Close(a, 0.0, eps);
     }
   }
 }

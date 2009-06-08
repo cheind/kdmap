@@ -32,11 +32,11 @@ namespace AcceleratorsTests
     [Test()]
     public void TestInside()
     {
-      Ball b = new Ball(new Vector(0.0f, 0.0f, 0.0f), 1.0f);
+      Ball b = new Ball(new Vector(0.0, 0.0, 0.0), 1.0);
       
       // Perform a monte-carlo integration test
       const int count = 10000;
-      List<IVector> vecs  = new List<IVector>(VectorSampling.InAABB(count, 3, -1.0f, 1.0f, 10));
+      List<IVector> vecs  = new List<IVector>(VectorSampling.InAABB(count, 3, -1.0, 1.0, 10));
       
       int inside = 0;
       foreach (IVector v in vecs) {
@@ -44,22 +44,22 @@ namespace AcceleratorsTests
           inside += 1;
       }
       
-      float ratio = (float)inside / count;
-      float volume_outer_box = 8.0f;
-      float volume_sphere = volume_outer_box * ratio;
+      double ratio = (double)inside / count;
+      double volume_outer_box = 8.0;
+      double volume_sphere = volume_outer_box * ratio;
       
-      Assert.AreEqual((4.0f/3.0f)*Math.PI, volume_sphere, 0.1f);
+      Assert.AreEqual((4.0/3.0)*Math.PI, volume_sphere, 0.1);
     }
     
     [Test]
     public void TestIntersect() {
-      Ball a = new Ball(new Vector(0.0f, 0.0f), 1.0f);
-      AABB b = new AABB(new Vector(0.5f, 0.5f), new Vector(0.6f, 0.6f)); // completely inside of a
-      AABB c = new AABB(new Vector(-2.5f, -2.5f), new Vector(-2.4f, -2.4f)); // completely outside of a
-      AABB d = new AABB(new Vector(2.5f, 2.5f), new Vector(2.6f, 2.6f)); // completely outside of a
-      AABB e = new AABB(new Vector(0.5f, 0.5f), new Vector(2.6f, 2.6f)); // partially inside of a
-      AABB f = new AABB(new Vector(1.0f, 0.0f), new Vector(2.6f, 2.6f)); // partially inside of a (touching)
-      AABB g = new AABB(new Vector(-2.0f, -2.0f), new Vector(2.6f, 2.6f)); // completely containing a
+      Ball a = new Ball(new Vector(0.0, 0.0), 1.0);
+      AABB b = new AABB(new Vector(0.5, 0.5), new Vector(0.6, 0.6)); // completely inside of a
+      AABB c = new AABB(new Vector(-2.5, -2.5), new Vector(-2.4, -2.4)); // completely outside of a
+      AABB d = new AABB(new Vector(2.5, 2.5), new Vector(2.6, 2.6)); // completely outside of a
+      AABB e = new AABB(new Vector(0.5, 0.5), new Vector(2.6, 2.6)); // partially inside of a
+      AABB f = new AABB(new Vector(1.0, 0.0), new Vector(2.6, 2.6)); // partially inside of a (touching)
+      AABB g = new AABB(new Vector(-2.0, -2.0), new Vector(2.6, 2.6)); // completely containing a
       
       Assert.IsTrue(a.Intersect(b));
       Assert.IsFalse(a.Intersect(c));
@@ -71,14 +71,14 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestClassifyPlane() {
-      Ball a = new Ball(new Vector(0.0f, 1.0f), 1.0f);
-      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(0, -1.0f));
-      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(0, -2.0f));
-      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(0, 2.0f));
-      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.0f));
-      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 2.0f));
-      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(1, -1.0f));
-      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 3.0f));
+      Ball a = new Ball(new Vector(0.0, 1.0), 1.0);
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(0, -1.0));
+      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(0, -2.0));
+      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(0, 2.0));
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.0));
+      Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 2.0));
+      Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(1, -1.0));
+      Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 3.0));
     }
   }
 }

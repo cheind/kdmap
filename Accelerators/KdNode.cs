@@ -41,7 +41,7 @@ namespace Accelerators
     /// <value>
     /// Access the location of the split. 
     /// </value>
-    public float SplitLocation {
+    public double SplitLocation {
       get {
         return _p;
       }
@@ -81,7 +81,7 @@ namespace Accelerators
 
     
     private int _k;
-    private float _p;
+    private double _p;
     private AABB _aabb;
     private List<T> _vectors;
   }

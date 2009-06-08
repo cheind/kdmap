@@ -29,50 +29,50 @@ namespace Accelerators
     /// Create a vector that can hold n-dimensions.
     /// </summary>
     public Vector(int dimensions) {
-      _coordinates = new float[dimensions];
+      _coordinates = new double[dimensions];
     }
     
     /// <summary>
     /// Create vector of n-dimensions with equal coordinates
     /// </summary>
-    public Vector(int dimensions, float val) {
-      _coordinates = new float[dimensions];
+    public Vector(int dimensions, double val) {
+      _coordinates = new double[dimensions];
       VectorOperations.Fill(this, val);
     }
     
     /// <summary>
     /// Create a two-dimensional vector with coordinates explicitly set.
     /// </summary>
-    public Vector(float x, float y) {
-      _coordinates = new float[2]{x, y};
+    public Vector(double x, double y) {
+      _coordinates = new double[2]{x, y};
     }
     
     /// <summary>
     /// Create a one-dimensional vector with coordinates explicitly set.
     /// </summary>
-    public Vector(float x) {
-      _coordinates = new float[1]{x};
+    public Vector(double x) {
+      _coordinates = new double[1]{x};
     }
     
     /// <summary>
     /// Create a three-dimesional vector with coordinates explicitly set.
     /// </summary>
-    public Vector(float x, float y, float z) {
-      _coordinates = new float[3]{x, y, z};
+    public Vector(double x, double y, double z) {
+      _coordinates = new double[3]{x, y, z};
     }
     
     /// <summary>
     /// Copy construct from the given vector
     /// </summary>
     public Vector(Vector other) {
-      _coordinates = (float[])other._coordinates.Clone();
+      _coordinates = (double[])other._coordinates.Clone();
     }
     
     /// <summary>
     /// Copy construct from a vector implementing the IVector interface
     /// </summary>
     public Vector(IVector other) {
-      _coordinates = new float[other.Dimensions];
+      _coordinates = new double[other.Dimensions];
       for (int i = 0; i < Dimensions ; ++i )
         _coordinates[i] = other[i];
     }
@@ -84,7 +84,7 @@ namespace Accelerators
       }
     }
     
-    public float this[int index] {
+    public double this[int index] {
       get {
         return _coordinates[index];
       }
@@ -106,13 +106,13 @@ namespace Accelerators
       return res;
     }
     
-    public static Vector operator*(Vector lhs, float s) {
+    public static Vector operator*(Vector lhs, double s) {
       Vector res = new Vector(lhs.Dimensions);
       VectorOperations.ScalarMul(lhs, s, res);
       return res;
     }
     
-    public float L2Norm {
+    public double L2Norm {
       get {
         return VectorReductions.L2Norm(this);
       }
@@ -132,6 +132,6 @@ namespace Accelerators
     }
 
     
-    private float[] _coordinates;
+    private double[] _coordinates;
   }
 }

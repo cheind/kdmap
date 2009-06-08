@@ -23,7 +23,7 @@ namespace Accelerators
   
   
   /// <summary>
-  /// Single node in a binary tree. Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
+  /// Double.node in a binary tree. Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
   /// </summary>
   public class BinaryNode<InheritedType> where InheritedType : BinaryNode<InheritedType>
   {

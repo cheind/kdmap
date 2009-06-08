@@ -102,20 +102,20 @@ namespace Accelerators
     /// <param name="max_distance">Limit to the given maximum distance</param>
     /// <param name="comp">Comparer used to sort distances</param>
     /// <returns>Vectors in sorted order if any</returns>
-    public IEnumerable<T> FindInSortedOrder(IVector query, float max_distance) {
+    public IEnumerable<T> FindInSortedOrder(IVector query, double max_distance) {
       // We maintain two priority queues: one based on distances to nodes, one based on distances to elements.
-      PriorityQueue<float, KdNode<T>> pqNodes = new PriorityQueue<float, KdNode<T>>();
-      PriorityQueue<float, T> pqElements = new PriorityQueue<float, T>();
+      PriorityQueue<double, KdNode<T>> pqNodes = new PriorityQueue<double, KdNode<T>>();
+      PriorityQueue<double, T> pqElements = new PriorityQueue<double, T>();
 
       IVector closest = new Vector(query.Dimensions);
-      float dist2;
+      double dist2;
       
       // Make sure that we use maximum possible value for squared maximum distance
-      float max_distance2 = max_distance;
-      if (max_distance2 < Math.Sqrt(Single.MaxValue))
+      double max_distance2 = max_distance;
+      if (max_distance2 < Math.Sqrt(Double.MaxValue))
         max_distance2 *= max_distance2;
       else
-        max_distance2 = Single.MaxValue;
+        max_distance2 = Double.MaxValue;
 
       // Push root
       this.Root.Bounds.Closest(query, ref closest);
@@ -148,7 +148,7 @@ namespace Accelerators
               pqNodes.Push(dist2, n.Right);
           }
         } else { // process elements while possible
-          float dist2closestNode = Single.MaxValue;
+          double dist2closestNode = Double.MaxValue;
           if (pqNodes.Count > 0)
             dist2closestNode = pqNodes.PeekPriority();
 

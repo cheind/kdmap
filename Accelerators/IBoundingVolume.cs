@@ -56,7 +56,7 @@ namespace Accelerators
     /// Determine the location of the given axis aligned plane relative to the position of the
     /// bounding volume.
     /// </summary>
-    EPlanePosition ClassifyPlane(int dimension, float position);
+    EPlanePosition ClassifyPlane(int dimension, double position);
     
   }
 }

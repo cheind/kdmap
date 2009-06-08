@@ -32,7 +32,7 @@ namespace Accelerators
       get;
     }
     
-    float this[int index] {
+    double this[int index] {
       get;
       set;
     }
