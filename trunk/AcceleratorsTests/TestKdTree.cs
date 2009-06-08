@@ -31,17 +31,17 @@ namespace AcceleratorsTests
     /// Demo class that implements IVector and is to be stored in KdTree
     /// </summary>
     class Flag : IVector {
-      public Flag(float x, string name) {
-        _coords = new float[1] {x};
+      public Flag(double x, string name) {
+        _coords = new double[1] {x};
         _name = name;
       }
       
-      public Flag(float x, float y, string name) {
-        _coords = new float[2] {x,y};
+      public Flag(double x, double y, string name) {
+        _coords = new double[2] {x,y};
         _name = name;
       }
       
-      public float this[int index] {
+      public double this[int index] {
         get {
           return _coords[index];
         }
@@ -63,37 +63,37 @@ namespace AcceleratorsTests
       }
       
       
-      private float[] _coords;
+      private double[] _coords;
       private string _name;
     }
     
     [Test()]
     public void TestFind()
     {
-      Flag[] flags = new Flag[] {new Flag(-1.0f, "a"), new Flag(1.0f, "b"), new Flag(1.4f, "c"), new Flag(3.0f, "d")};
+      Flag[] flags = new Flag[] {new Flag(-1.0, "a"), new Flag(1.0, "b"), new Flag(1.4, "c"), new Flag(3.0, "d")};
       KdTree<Flag> tree = new KdTree<Flag>(flags, new MedianSubdivisionPolicy(1));
       
-      Flag x = tree.Find(new Vector(1.0f));
+      Flag x = tree.Find(new Vector(1.0));
       Assert.IsNotNull(x);
       Assert.AreEqual("b", x.Name);
       
-      x = tree.Find(new Vector(1.4f));
+      x = tree.Find(new Vector(1.4));
       Assert.IsNotNull(x);
       Assert.AreEqual("c", x.Name);
       
-      x = tree.Find(new Vector(1.3f));
+      x = tree.Find(new Vector(1.3));
       Assert.IsNull(x);
     }
     
     [Test]
     public void FindInsideVolumeNumerically()
     {
-      Vector[] vecs = new Vector[]{new Vector(-1.0f, -1.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f), new Vector(3.0f, 3.0f)};
+      Vector[] vecs = new Vector[]{new Vector(-1.0, -1.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0), new Vector(3.0, 3.0)};
       KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
       
       List<Vector> found = new List<Vector>(
         tree.FindInsideVolume(
-          new AABB(new Vector(0.5f, 0.5f), new Vector(2.5f, 2.5f))
+          new AABB(new Vector(0.5, 0.5), new Vector(2.5, 2.5))
         )
       );
       
@@ -103,7 +103,7 @@ namespace AcceleratorsTests
       
       found =  new List<Vector>(
         tree.FindInsideVolume(
-          new AABB(new Vector(0.0f, 0.0f), new Vector(0.5f, 0.5f))
+          new AABB(new Vector(0.0, 0.0), new Vector(0.5, 0.5))
         )
       );
       
@@ -111,7 +111,7 @@ namespace AcceleratorsTests
 
       found =  new List<Vector>(
         tree.FindInsideVolume(
-          new AABB(new Vector(-2.0f, -2.0f), new Vector(4.5f, 4.5f))
+          new AABB(new Vector(-2.0, -2.0), new Vector(4.5, 4.5))
         )
       );
       
@@ -148,7 +148,7 @@ namespace AcceleratorsTests
         return _aabb.Intersect(aabb);
       }
       
-      public EPlanePosition ClassifyPlane (int dimension, float position)
+      public EPlanePosition ClassifyPlane (int dimension, double position)
       {
         return _aabb.ClassifyPlane(dimension, position);
       }
@@ -166,10 +166,10 @@ namespace AcceleratorsTests
     
     [Test]
     public void FindInsideVolumeAnalytically() {
-      Vector[] vecs = new Vector[]{new Vector(-1.0f, -1.0f), new Vector(0.0f, 0.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f)};
+      Vector[] vecs = new Vector[]{new Vector(-1.0, -1.0), new Vector(0.0, 0.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0)};
       KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
      
-      CountingBV cbv = new CountingBV(new AABB(new Vector(0.5f, 0.5f), new Vector(2.5f, 2.5f)));
+      CountingBV cbv = new CountingBV(new AABB(new Vector(0.5, 0.5), new Vector(2.5, 2.5)));
       List<Vector> found = new List<Vector>(tree.FindInsideVolume(cbv));
       Assert.AreEqual(2, cbv.Count);
       Assert.AreEqual(2, found.Count);
@@ -195,9 +195,9 @@ namespace AcceleratorsTests
     [Test]
     public void FindInSortedOrder() {
 
-      Vector[] vecs = new Vector[] { new Vector(-1.0f, -1.0f), new Vector(0.0f, 0.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f) };
+      Vector[] vecs = new Vector[] { new Vector(-1.0, -1.0), new Vector(0.0, 0.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0) };
       KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
-      List<Vector> order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f));
+      List<Vector> order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0, -1.0), 10.0));
 
       Assert.AreEqual(order_min.Count, 4);
       Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
@@ -205,7 +205,7 @@ namespace AcceleratorsTests
       Assert.IsTrue(VectorComparison.Equal(order_min[2], vecs[2]));
       Assert.IsTrue(VectorComparison.Equal(order_min[3], vecs[3]));
       
-      order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 1.5f));
+      order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0, -1.0), 1.5));
       Assert.AreEqual(order_min.Count, 2);
       Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
       Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));

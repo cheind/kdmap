@@ -49,8 +49,8 @@ namespace Accelerators
     /// <summary>
     /// Calculate the inner product of two vectors.
     /// </summary>
-    public static float Inner(IVector a, IVector b) {
-      float ip = 0.0f;
+    public static double Inner(IVector a, IVector b) {
+      double ip = 0.0;
       for (int i = 0; i < a.Dimensions; ++i) {
         ip += a[i]*b[i];
       }
@@ -60,7 +60,7 @@ namespace Accelerators
     /// <summary>
     /// Calculate the component-wise multiplication with a scalar
     /// </summary>
-    public static void ScalarMul(IVector a, float s, IVector dest) {
+    public static void ScalarMul(IVector a, double s, IVector dest) {
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i] * s;
       }
@@ -71,11 +71,11 @@ namespace Accelerators
     /// <summary>
     /// Normalize the given vector using the L2 norm.
     /// </summary>
-    public static float Normalize(IVector a, IVector dest) {
-      float len = VectorReductions.L2Norm(a);
+    public static double Normalize(IVector a, IVector dest) {
+      double len = VectorReductions.L2Norm(a);
       if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
         throw new DivideByZeroException();
-      float inv_len = 1.0f/len;
+      double inv_len = 1.0/len;
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i] * inv_len;
       }
@@ -94,7 +94,7 @@ namespace Accelerators
     /// <summary>
     /// Set each coordinate to the given value
     /// </summary>
-    public static void Fill(IVector a, float val) { 
+    public static void Fill(IVector a, double val) { 
       for (int i = 0; i < a.Dimensions; ++i) {
         a[i] = val;
       }

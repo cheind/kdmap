@@ -39,7 +39,7 @@ namespace Accelerators
     /// <summary>
     /// Test if two vectors are component-wise close using a symmetric tolerance interval.
     /// </summary>
-    public static bool Close(IVector a, IVector b, float eps) {
+    public static bool Close(IVector a, IVector b, double eps) {
       for (int i = 0; i < a.Dimensions; ++i) {
         if (!FloatComparison.Close(a[i], b[i], eps))
           return false;

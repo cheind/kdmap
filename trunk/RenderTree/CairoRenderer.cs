@@ -28,7 +28,7 @@ namespace RenderTree {
 			IVector world_center = world.Center;
 
       _world_to_surface = new Cairo.Matrix(1, 0, 0, -1, 0, 0);
-      _world_to_surface.Translate(swidth * 0.5f, -sheight * 0.5f);
+      _world_to_surface.Translate(swidth * 0.5, -sheight * 0.5);
       _world_to_surface.Scale(inner_x / diag[_projection.First], inner_y / diag[_projection.Second]);
       if (center)
         _world_to_surface.Translate(-world_center[_projection.First], -world_center[_projection.Second]);

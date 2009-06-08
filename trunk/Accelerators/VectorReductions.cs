@@ -29,24 +29,24 @@ namespace Accelerators
     /// <summary>
     /// Calculate the square-length (L2 norm) of the given vector.
     /// </summary>
-    public static float SquaredL2Norm(IVector a) {
+    public static double SquaredL2Norm(IVector a) {
       return VectorOperations.Inner(a, a);
     }
     
     /// <summary>
     /// Calculate the length of the vector
     /// </summary>
-    public static float L2Norm(IVector a) {
-      return (float)Math.Sqrt(SquaredL2Norm(a));
+    public static double L2Norm(IVector a) {
+      return (double)Math.Sqrt(SquaredL2Norm(a));
     }
 
     /// <summary>
     /// Calculate the squared distance (L2 norm) between two vectors.
     /// </summary>
-    public static float SquaredL2NormDistance(IVector a, IVector b) {
-      float dist2 = 0.0f;
+    public static double SquaredL2NormDistance(IVector a, IVector b) {
+      double dist2 = 0.0;
       for (int i = 0; i < a.Dimensions; ++i) {
-        float delta = b[i] - a[i];
+        double delta = b[i] - a[i];
         dist2 += delta * delta;
       }
       return dist2;
@@ -57,11 +57,11 @@ namespace Accelerators
     /// Assumes at least a one-dimensional vector.
     /// </summary>
     public static int IndexNormInf(IVector a) {
-      float max_val = Math.Abs(a[0]);
+      double max_val = Math.Abs(a[0]);
       int max_index = 0;
       
       for (int i = 1; i < a.Dimensions; ++i) {
-        float val = Math.Abs(a[i]);
+        double val = Math.Abs(a[i]);
         if (val > max_val) {
           max_val = val;
           max_index = i;

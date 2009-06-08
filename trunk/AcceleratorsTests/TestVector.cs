@@ -31,59 +31,59 @@ namespace AcceleratorsTests
       // Construct from dimensionality
       Vector v1 = new Vector(3);
       Assert.AreEqual(3, v1.Dimensions);
-      v1[0] = 1.0f; v1[1] = 2.0f;
+      v1[0] = 1.0; v1[1] = 2.0;
       
       // Construct from other vector
-      Vector reference = new Vector(1.0f, 2.0f, 3.0f);
+      Vector reference = new Vector(1.0, 2.0, 3.0);
       Vector v2 = new Accelerators.Vector(reference);
       Assert.IsTrue(VectorComparison.Close(reference, v2, FloatComparison.DefaultEps));
       Vector v3 = new Accelerators.Vector((IVector)reference);
       Assert.IsTrue(VectorComparison.Close(reference, v3, FloatComparison.DefaultEps));
       
       // Construct from dimension and value
-      Vector v4 = new Vector(2, 1.0f);
-      Assert.AreEqual(1.0f, v4[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0f, v4[1], FloatComparison.DefaultEps);
+      Vector v4 = new Vector(2, 1.0);
+      Assert.AreEqual(1.0, v4[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, v4[1], FloatComparison.DefaultEps);
       
-      Vector v5 = new Vector(1.0f, 2.0f);
-      Assert.AreEqual(1.0f, v5[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(2.0f, v5[1], FloatComparison.DefaultEps);
+      Vector v5 = new Vector(1.0, 2.0);
+      Assert.AreEqual(1.0, v5[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(2.0, v5[1], FloatComparison.DefaultEps);
       
-      Vector v6 = new Vector(1.0f, 2.0f, 3.0f);
-      Assert.AreEqual(1.0f, v6[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(2.0f, v6[1], FloatComparison.DefaultEps);
-      Assert.AreEqual(3.0f, v6[2], FloatComparison.DefaultEps);
+      Vector v6 = new Vector(1.0, 2.0, 3.0);
+      Assert.AreEqual(1.0, v6[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(2.0, v6[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(3.0, v6[2], FloatComparison.DefaultEps);
     }
     
     [Test()]
     public void TestIVectorInterface() {
-      Vector v = new Vector(1.0f, 2.0f, 3.0f);
+      Vector v = new Vector(1.0, 2.0, 3.0);
       IVector iv = v;
       
       Assert.AreEqual(3, iv.Dimensions);
-      Assert.AreEqual(1.0f, iv[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(2.0f, iv[1], FloatComparison.DefaultEps);
-      Assert.AreEqual(3.0f, iv[2], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, iv[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(2.0, iv[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(3.0, iv[2], FloatComparison.DefaultEps);
     }
     
     [Test]
     public void TestOperatorOverloadingPlus() {
-      Vector a = new Vector(1.0f, 2.0f, 3.0f);
-      Vector b = new Vector(1.0f, 2.0f, 3.0f);
+      Vector a = new Vector(1.0, 2.0, 3.0);
+      Vector b = new Vector(1.0, 2.0, 3.0);
       Vector c = a + b;
-      Assert.IsTrue(VectorComparison.Close(c, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(c, new Vector(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
       a += b;
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0f, 4.0f, 6.0f), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
     }
     
     [Test]
     public void TestOperatorOverloadingSub() {
-      Vector a = new Vector(4.0f, 5.0f, 6.0f);
-      Vector b = new Vector(1.0f, 2.0f, 3.0f);
+      Vector a = new Vector(4.0, 5.0, 6.0);
+      Vector b = new Vector(1.0, 2.0, 3.0);
       Vector c = a - b;
-      Assert.IsTrue(VectorComparison.Close(c, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(c, new Vector(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
       a -= b;
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(3.0f, 3.0f, 3.0f), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, new Vector(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
     }
   }
 }
