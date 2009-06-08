@@ -171,12 +171,11 @@ namespace Accelerators
         s.Push(new Pair<InheritedType, bool>(this as InheritedType, false));
         while (s.Count > 0)
         {
-          Pair<InheritedType, bool> p = s.Peek();
+          Pair<InheritedType, bool> p = s.Pop();
           if (p.First.Leaf || p.Second) {
             yield return p.First;
-            s.Pop();
           } else {
-            p.Second = true;
+            s.Push(new Pair<InheritedType, bool>(p.First, true));
             if (p.First.Right != null)
               s.Push(new Pair<InheritedType, bool>(p.First.Right, false));
             if (p.First.Left != null)

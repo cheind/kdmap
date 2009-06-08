@@ -22,9 +22,9 @@ using System.Text;
 namespace Accelerators
 {
   /// <summary>
-  /// Generic pair class
+  /// Generic pair structure
   /// </summary>
-  class Pair<T,U>
+  public struct Pair<T,U>
 	{
     public Pair(T t, U u)
     {
