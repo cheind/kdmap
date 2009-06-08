@@ -174,5 +174,45 @@ namespace AcceleratorsTests
       Assert.AreEqual(2, cbv.Count);
       Assert.AreEqual(2, found.Count);
     }
+
+    /// <summary>
+    /// Invert logic of comparator
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    class InvertedComparer<T> : IComparer<T> {
+      public InvertedComparer(IComparer<T> comp) {
+        _comp = comp;
+      }
+
+      public int Compare(T x, T y) {
+        return _comp.Compare(y, x);
+      }
+
+
+      private IComparer<T> _comp;
+    }
+
+    [Test]
+    public void FindInSortedOrder() {
+
+      Vector[] vecs = new Vector[] { new Vector(-1.0f, -1.0f), new Vector(0.0f, 0.0f), new Vector(1.0f, 1.0f), new Vector(2.0f, 2.0f) };
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
+      List<Vector> order_max = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f, Comparer<float>.Default));
+      List<Vector>  order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 10.0f, new InvertedComparer<float>(Comparer<float>.Default)));
+
+      Assert.AreEqual(order_min.Count, 4);
+      Assert.AreEqual(order_max.Count, 4);
+      Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
+      Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
+      Assert.IsTrue(VectorComparison.Equal(order_min[2], vecs[2]));
+      Assert.IsTrue(VectorComparison.Equal(order_min[3], vecs[3]));
+      
+      Assert.IsTrue(VectorComparison.Equal(order_max[0], vecs[3]));
+      Assert.IsTrue(VectorComparison.Equal(order_max[1], vecs[2]));
+      Assert.IsTrue(VectorComparison.Equal(order_max[2], vecs[1]));
+      Assert.IsTrue(VectorComparison.Equal(order_max[3], vecs[0]));
+      
+
+    }
   }
 }
