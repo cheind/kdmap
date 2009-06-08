@@ -23,29 +23,12 @@ namespace RenderTree
 {
 	class MainClass
 	{
-		/// <summary>
-    /// Samples vectors from the interval [lower,upper) in each dimension.
-    /// </summary>
-    public static IEnumerable<IVector> InAABB(int count, int dimensions, float lower, float upper, int seed) {
-      IList<IVector> vecs = new List<IVector>();
-      Random r =  new Random(seed);
-      float len = upper - lower;
-      while (vecs.Count < count) {
-        Vector v = new Vector(dimensions);
-        for (int j = 0; j < v.Dimensions; ++j) {
-          v[j] = lower + (float)r.NextDouble() * len;
-        }
-        vecs.Add(v);
-      }
-      return vecs;
-    }
-		
 		
 		public static void Main(string[] args)
 		{
-      CSVReader r = new CSVReader(';');
-      ICollection<IVector> vecs = r.Parse(@"etc/points.csv");
-			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(1));
+      CSVReader r = new CSVReader(' ');
+      ICollection<IVector> vecs = r.Parse(@"etc/testdata/wrenches.csv");
+			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(25));
 
 			RenderToImage rc = new RenderToImage();
 			rc.FirstDimension = 0;

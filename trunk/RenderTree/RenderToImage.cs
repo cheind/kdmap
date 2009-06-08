@@ -118,7 +118,7 @@ namespace RenderTree
 		}
 		
 		private void RenderNode<T>(KdNode<T> node, Cairo.Context gr) where T : IVector {
-			foreach(KdNode<T> n in node.PreOrder) {
+			foreach(KdNode<T> n in node.PostOrder) {
 				if (n.Leaf) {
 					foreach (IVector iv in n.Vectors) {
 						this.RenderPoint(iv, gr);
