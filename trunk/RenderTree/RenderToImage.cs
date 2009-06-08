@@ -81,8 +81,8 @@ namespace RenderTree
 			_world_to_image.Scale(inner_x / diag[_dim0], inner_y / diag[_dim1]);
 			_world_to_image.Translate(-center[_dim0], -center[_dim1]);
 
-
-      using (Cairo.SvgSurface draw = new Cairo.SvgSurface(filename, width, height)){
+      using (Cairo.PdfSurface draw = new Cairo.PdfSurface(filename, width, height))
+      {
 				using (Cairo.Context gr = new Cairo.Context(draw)) {
 					gr.LineWidth = _line_width;
 					gr.Antialias = Cairo.Antialias.Default;
@@ -97,9 +97,11 @@ namespace RenderTree
 					this.RenderRectangle(world, gr);
 					
 					// Iterate
-					this.RenderNode(tree, gr);
+					this.RenderLeaves(tree, gr);
+          this.RenderIntermediates(tree, gr);
+
+          gr.ShowPage();
 				}
-        draw.WriteToPng(filename + ".png"); // Windows seems to write empty .svg files.
 			}
 		}
 		
@@ -116,16 +118,24 @@ namespace RenderTree
 			gr.Rectangle(lx, ly, w, h);
 			gr.Stroke();
 		}
-		
-		private void RenderNode<T>(KdNode<T> node, Cairo.Context gr) where T : IVector {
-			foreach(KdNode<T> n in node.PostOrder) {
-				if (n.Leaf) {
-					foreach (IVector iv in n.Vectors) {
-						this.RenderPoint(iv, gr);
-					}
-				} else {
-					this.RenderSplitPlane(n, gr);
-				}
+
+    private void RenderLeaves<T>(KdNode<T> node, Cairo.Context gr) where T : IVector
+    {
+      foreach (KdNode<T> n in node.Leaves)
+      {
+        foreach (IVector iv in n.Vectors)
+        {
+          this.RenderPoint(iv, gr);
+        }
+      }
+    }
+
+    private void RenderIntermediates<T>(KdNode<T> node, Cairo.Context gr) where T : IVector {
+			foreach(KdNode<T> n in node.PreOrder) {
+        if (n.Intermediate)
+        {
+          this.RenderSplitPlane(n, gr);
+        }
 			}
 		}
 		
