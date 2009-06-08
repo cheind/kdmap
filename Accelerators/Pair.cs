@@ -26,18 +26,27 @@ namespace Accelerators
   /// </summary>
   public struct Pair<T,U>
 	{
+    /// <summary>
+    /// Construct from first and second.
+    /// </summary>
     public Pair(T t, U u)
     {
       _t = t;
       _u = u;
     }
 
+    /// <value>
+    /// Access first
+    /// </value>
     public T First
     {
       get { return _t; }
       set { _t = value; }
     }
 
+    /// <value>
+    /// Access second 
+    /// </value>
     public U Second
     {
       get { return _u; }

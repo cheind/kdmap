@@ -22,7 +22,7 @@ namespace Accelerators
   
   
   /// <summary>
-  /// Helpers in doubleing point comparison
+  /// Helpers in double point comparison
   /// </summary>
   public class FloatComparison
   {

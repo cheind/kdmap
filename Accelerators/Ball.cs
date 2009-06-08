@@ -36,7 +36,7 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Instance a hypersphere with center and radius.
+    /// Create a hypersphere given center and radius.
     /// </summary>
     public Ball(IVector center, double radius) 
     {
@@ -58,7 +58,7 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Access the squared radius 
+    /// Access the squared radius
     /// </value>
     public double SquaredRadius {
       get {
@@ -72,6 +72,7 @@ namespace Accelerators
     
     /// <value>
     /// Access the center of the ball. 
+    /// Changes to the returned vector will affect the internal state of this ball.
     /// </value>
     public IVector Center {
       get {

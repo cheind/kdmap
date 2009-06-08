@@ -23,8 +23,12 @@ namespace Accelerators
   
   
   /// <summary>
-  /// Double.node in a binary tree. Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
+  /// Represents a binary tree.
   /// </summary>
+  /// 
+  /// <remarks>
+  /// Implemented using the CRTP pattern (http://en.wikipedia.org/wiki/Curiously_Recurring_Template_Pattern)
+  /// </remarks>
   public class BinaryNode<InheritedType> where InheritedType : BinaryNode<InheritedType>
   {
     
@@ -107,25 +111,25 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Helper method
+    /// Utility method taking a node and setting it as the left child
+    /// and returning the node.
     /// </summary>
     public InheritedType SetLeftChild(InheritedType n) {
       this.Left = n;
-      n.Parent = (InheritedType)this;
       return n;
     }
 
     /// <summary>
-    /// Helper method
+    /// Utility method taking a node and setting it as the right child
+    /// and returning the node.
     /// </summary>
     public InheritedType SetRightChild(InheritedType n) {
       this.Right = n;
-      n.Parent = (InheritedType)this;
       return n;
     }
     
     /// <summary>
-    /// Helper method
+    /// Utility method unlinking the left child and returning the node.
     /// </summary>
     public InheritedType UnSetLeftChild() {
       InheritedType n = this.Left;
@@ -134,7 +138,7 @@ namespace Accelerators
     }
 
     /// <summary>
-    /// Helper method
+    /// Utility method unlinking the left child and returning the node.
     /// </summary>
     public InheritedType UnSetRightChild() {
       InheritedType n = this.Right;
@@ -143,7 +147,7 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Pre-order iteration 
+    /// Pre-order iteration.
     /// </value>
     public IEnumerable<InheritedType> PreOrder {
       get {
@@ -161,16 +165,21 @@ namespace Accelerators
     }
 
     /// <value>
-    /// Post-order iteration 
+    /// Post-order iteration.
     /// </value>
     public IEnumerable<InheritedType> PostOrder
     {
       get
       {
+        // Post order iteration using a stack makes use of a marked attribute at nodes.
+        // Initially all intermediate nodes are unmarked. During traversal intermediate nodes
+        // encountered are marked and re-thrown onto the stack before their children are pushed
+        // onto the stack. When a marked node or a leaf is encountered the node is yield.
         Stack<Pair<InheritedType, bool>> s = new Stack<Pair<InheritedType, bool>>();
         s.Push(new Pair<InheritedType, bool>(this as InheritedType, false));
         while (s.Count > 0)
         {
+          // Note: cannot use s.Peek() as Pair is a structure that is returned by value.
           Pair<InheritedType, bool> p = s.Pop();
           if (p.First.Leaf || p.Second) {
             yield return p.First;
@@ -186,7 +195,7 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Leaf-iteration from left to right 
+    /// Leaf-iteration from left to right.
     /// </value>
     public IEnumerable<InheritedType> Leaves {
       get {
@@ -200,7 +209,7 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Ancestor-iteration including the current node 
+    /// Ancestor-iteration including the current node.
     /// </value>
     public IEnumerable<InheritedType> Ancestors {
       get {

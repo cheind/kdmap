@@ -30,7 +30,8 @@ namespace Accelerators
   }
   
   /// <summary>
-  /// Interface that allows bounding volume queries.
+  /// Interface that defines a bounding volume. Implementing this interface allowes efficient
+  /// bounding volume queries using the KdTree.
   /// </summary>
   public interface IBoundingVolume
   { 
@@ -49,6 +50,7 @@ namespace Accelerators
     
     /// <summary>
     /// Test if bounding volume intersects with the given axis aligned bounding box.
+    /// Touching is considered to be intersecting.
     /// </summary>
     bool Intersect(AABB aabb);
     
