@@ -159,6 +159,32 @@ namespace Accelerators
         }
       }
     }
+
+    /// <value>
+    /// Post-order iteration 
+    /// </value>
+    public IEnumerable<InheritedType> PostOrder
+    {
+      get
+      {
+        Stack<Pair<InheritedType, bool>> s = new Stack<Pair<InheritedType, bool>>();
+        s.Push(new Pair<InheritedType, bool>(this as InheritedType, false));
+        while (s.Count > 0)
+        {
+          Pair<InheritedType, bool> p = s.Peek();
+          if (p.First.Leaf || p.Second) {
+            yield return p.First;
+            s.Pop();
+          } else {
+            p.Second = true;
+            if (p.First.Right != null)
+              s.Push(new Pair<InheritedType, bool>(p.First.Right, false));
+            if (p.First.Left != null)
+              s.Push(new Pair<InheritedType, bool>(p.First.Left, false));
+          }
+        }
+      }
+    }
     
     /// <value>
     /// Leaf-iteration from left to right 

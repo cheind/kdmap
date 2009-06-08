@@ -86,6 +86,12 @@ namespace AcceleratorsTests
     {
       Assert.AreEqual("abcdefgh", MakeStringFromIteration(ExampleTree.PreOrder));
     }
+
+    [Test]
+    public void TestPostOrderTraversal()
+    {
+      Assert.AreEqual("dcbfhgea", MakeStringFromIteration(ExampleTree.PostOrder));
+    }
     
     [Test]
     public void TestLeafVsIntermediateState()
