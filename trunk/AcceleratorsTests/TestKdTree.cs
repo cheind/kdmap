@@ -204,6 +204,12 @@ namespace AcceleratorsTests
       Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
       Assert.IsTrue(VectorComparison.Equal(order_min[2], vecs[2]));
       Assert.IsTrue(VectorComparison.Equal(order_min[3], vecs[3]));
+      
+      order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0f, -1.0f), 1.5f));
+      Assert.AreEqual(order_min.Count, 2);
+      Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
+      Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
+      
     }
   }
 }
