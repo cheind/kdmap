@@ -94,8 +94,69 @@ namespace Accelerators
         }
       }
     }
-    
+
+    /// <summary>
+    /// Find all vectors in sorted order from the given query position.
+    /// </summary>
+    /// <param name="x">Query position</param>
+    /// <param name="max_distance">Limit to the given maximum distance</param>
+    /// <param name="comp">Comparer used to sort distances</param>
+    /// <returns>Vectors in sorted order if any</returns>
+    public IEnumerable<T> FindInSortedOrder(IVector query, float max_distance, IComparer<float> comp) {
+      // We maintain two priority queues: one based on distances to nodes, one based on distances to elements.
+      PriorityQueue<float, KdNode<T>> pqNodes = new PriorityQueue<float, KdNode<T>>(comp);
+      PriorityQueue<float, T> pqElements = new PriorityQueue<float, T>(comp);
+
+      IVector closest = new Vector(query.Dimensions);
+      float dist2;
+      
+      // Make sure that we use maximum possible value for squared maximum distance
+      float max_distance2 = max_distance;
+      if (max_distance2 < Math.Sqrt(Single.MaxValue))
+        max_distance2 *= max_distance2;
+      else
+        max_distance2 = Single.MaxValue;
+
+      // Push root
+      this.Root.Bounds.Closest(query, ref closest);
+      dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
+      if (dist2 <= max_distance2)
+        pqNodes.Push(dist2, this.Root);
+      
+      // While there is something to process
+      while (pqNodes.Count > 0 || pqElements.Count > 0) {
+        bool processNode = pqNodes.Count > 0 && (pqElements.Count == 0 || comp.Compare(pqNodes.PeekPriority(), pqElements.PeekPriority()) < 0);
+        if (processNode) {
+          KdNode<T> n = pqNodes.Pop();
+          if (n.Leaf) {
+            // For a leaf we insert all points if they are closer than allowed max distance.
+            foreach (T t in n.Vectors) {
+              dist2 = VectorReductions.SquaredL2NormDistance(query, t);
+              if (dist2 < max_distance2)
+                pqElements.Push(dist2, t);
+            }
+          } else {
+            // For a node we insert its children if their closest point is less than the allowed maximum distance
+            n.Left.Bounds.Closest(query, ref closest);
+            dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
+            if (dist2 <= max_distance2)
+              pqNodes.Push(dist2, n.Left);
+
+            n.Right.Bounds.Closest(query, ref closest);
+            dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
+            if (dist2 <= max_distance2)
+              pqNodes.Push(dist2, n.Right);
+          }
+        } else { // process elements while possible
+          float dist2closestNode = Single.MaxValue;
+          if (pqNodes.Count > 0)
+            dist2closestNode = pqNodes.PeekPriority();
+
+          while (pqElements.Count > 0 && dist2closestNode > pqElements.PeekPriority()) {
+            yield return pqElements.Pop();
+          }
+        }
+      }
+    }
   }
-  
-  
 }

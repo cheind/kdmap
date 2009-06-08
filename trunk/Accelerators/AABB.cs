@@ -209,12 +209,8 @@ namespace Accelerators
       else
         return EPlanePosition.IntersectingBV;
     }
-    
-    /// <summary>
-    /// Calculate the closest point on/inside this AABB to the given query point.
-    /// </summary>
-    public IVector Closest(IVector x) {
-      Vector closest = new Vector(this.Dimensions);
+
+    public void Closest(IVector x, ref IVector closest) {
       for (int i = 0; i < this.Dimensions; ++i) {
         // Closest is given by: lower[i] if x[i] < lower[i], upper[i] if x[i] > upper[i], else
         // it is x[i]
@@ -226,6 +222,14 @@ namespace Accelerators
         else
           closest[i] = xi;
       }
+    }
+    
+    /// <summary>
+    /// Calculate the closest point on/inside this AABB to the given query point.
+    /// </summary>
+    public IVector Closest(IVector x) {
+      IVector closest = new Vector(this.Dimensions);
+      this.Closest(x, ref closest);
       return closest;
     }
     
