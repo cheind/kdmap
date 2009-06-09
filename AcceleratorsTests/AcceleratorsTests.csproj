@@ -41,17 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestMidpointSubdivisionPolicy.cs" />
     <Compile Include="TestVector.cs" />
     <Compile Include="TestAABB.cs" />
     <Compile Include="VectorSampling.cs" />
     <Compile Include="TestVectorOperations.cs" />
     <Compile Include="TestVectorReductions.cs" />
     <Compile Include="TestBinaryNode.cs" />
-    <Compile Include="TestMedianSubdivisionPolicy.cs" />
     <Compile Include="TestKdTree.cs" />
     <Compile Include="TestBall.cs" />
     <Compile Include="TestPriorityQueue.cs" />
+    <Compile Include="TestAxisOfMaximumSpreadSelector.cs" />
+    <Compile Include="TestPeriodicAxisSelector.cs" />
+    <Compile Include="TestMedianSelector.cs" />
+    <Compile Include="TestMidpointSelector.cs" />
+    <Compile Include="TestSubdivisionPolicyConnector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

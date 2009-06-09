@@ -24,6 +24,9 @@ namespace Accelerators
   /// <summary>
   /// A kd-Tree implementation that supports dynamic insertion and removal.
   /// </summary>
+  /// <remarks>
+  /// Elements are stored only in leaf nodes.
+  /// </remarks>
   public partial class KdTree<T> where T : IVector
   {
     
@@ -81,7 +84,7 @@ namespace Accelerators
           _subdiv_policy.Split(n);
           s.Push(n.Left);
           s.Push(n.Right);
-          n.Vectors = null; // Vectors are only stored in leaf nodes
+          n.Vectors = null; // Elements are only stored in leaf nodes
         } catch (SubdivisionException) {}
       }
     }

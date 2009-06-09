@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,10 +38,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IVector.cs" />
     <Compile Include="FloatComparison.cs" />
-    <Compile Include="MidpointSubdivisionPolicy.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PriorityQueue.cs" />
-    <Compile Include="SubdivisionPolicyBase.cs" />
     <Compile Include="VectorComparison.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="KdTree.cs" />
@@ -51,10 +49,16 @@
     <Compile Include="BinaryNode.cs" />
     <Compile Include="KdNode.cs" />
     <Compile Include="ISubdivisionPolicy.cs" />
-    <Compile Include="MedianSubdivisionPolicy.cs" />
     <Compile Include="KdTreeQueries.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="IBoundingVolume.cs" />
+    <Compile Include="SubdivisionPolicyConnector.cs" />
+    <Compile Include="Subdivision\AxisOfMaximumSpreadSelector.cs" />
+    <Compile Include="Subdivision\PeriodicAxisSelector.cs" />
+    <Compile Include="Subdivision\MidpointSelector.cs" />
+    <Compile Include="Subdivision\MedianSelector.cs" />
+    <Compile Include="Subdivision\ISplitDimensionSelector.cs" />
+    <Compile Include="Subdivision\ISplitLocationSelector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -67,4 +71,7 @@
     </MonoDevelop>
     <VisualStudio />
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Subdivision\" />
+  </ItemGroup>
 </Project>
