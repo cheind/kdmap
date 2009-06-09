@@ -82,7 +82,7 @@ namespace Accelerators
           s.Push(n.Left);
           s.Push(n.Right);
           n.Vectors = null; // Vectors are only stored in leaf nodes
-        } catch (SplitException) {}
+        } catch (SubdivisionException) {}
       }
     }
     
