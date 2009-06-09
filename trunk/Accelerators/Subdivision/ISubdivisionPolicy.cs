@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Accelerators
+namespace Accelerators.Subdivision
 {
   
   /// <summary>

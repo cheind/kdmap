@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Accelerators {
+namespace Accelerators.Subdivision {
 
   /// <summary>
   /// Exception thrown when a node with less then maximum bucket size elements
