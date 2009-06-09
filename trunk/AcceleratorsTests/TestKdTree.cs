@@ -18,6 +18,7 @@
 using System;
 using NUnit.Framework;
 using Accelerators;
+using Accelerators.Subdivision;
 using System.Collections.Generic;
 
 namespace AcceleratorsTests
@@ -71,7 +72,7 @@ namespace AcceleratorsTests
     public void TestFind()
     {
       Flag[] flags = new Flag[] {new Flag(-1.0, "a"), new Flag(1.0, "b"), new Flag(1.4, "c"), new Flag(3.0, "d")};
-      KdTree<Flag> tree = new KdTree<Flag>(flags, new MedianSubdivisionPolicy(1));
+      KdTree<Flag> tree = new KdTree<Flag>(flags, new SubdivisionPolicyConnector(1));
       
       Flag x = tree.Find(new Vector(1.0));
       Assert.IsNotNull(x);
@@ -123,8 +124,8 @@ namespace AcceleratorsTests
     [Test]
     public void FindInsideVolumeNumerically()
     {
-      this.FindInsideVolumeNumerically(new MedianSubdivisionPolicy(1));
-      this.FindInsideVolumeNumerically(new MidpointSubdivisionPolicy(1));
+      this.FindInsideVolumeNumerically(new SubdivisionPolicyConnector(1));
+      this.FindInsideVolumeNumerically(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector>(1));
     }
 
     /// <summary>
@@ -163,8 +164,8 @@ namespace AcceleratorsTests
 
     [Test]
     public void FindInSortedOrder() {
-      this.FindInSortedOrder(new MedianSubdivisionPolicy(1));
-      this.FindInSortedOrder(new MidpointSubdivisionPolicy(1));
+      this.FindInSortedOrder(new SubdivisionPolicyConnector(1));
+      this.FindInSortedOrder(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector>(1));
     }
   }
 }

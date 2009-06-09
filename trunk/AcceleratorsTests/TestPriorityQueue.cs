@@ -33,7 +33,7 @@ namespace AcceleratorsTests
       Random r = new Random(10);
       PriorityQueue<double, bool> q = new PriorityQueue<double, bool>();
       
-      const int count = 1000;
+      const int count = 10000;
       for (int i = 0; i < count; ++i) {
         q.Push(r.NextDouble(), false);
       }

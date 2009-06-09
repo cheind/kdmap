@@ -110,6 +110,21 @@ namespace Accelerators
       }
     }
     
+    /// <value>
+    /// Access the depth of the node starting with zero at the root level 
+    /// </value>
+    public int Depth {
+      get {
+        int count = 0;
+        InheritedType n = (InheritedType)this;
+        while (!n.Root) {
+          count += 1;
+          n = n.Parent;
+        }
+        return count;
+      }
+    }
+    
     /// <summary>
     /// Utility method taking a node and setting it as the left child
     /// and returning the node.
