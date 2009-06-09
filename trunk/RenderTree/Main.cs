@@ -28,9 +28,11 @@ namespace RenderTree
 		{
       CSVReader r = new CSVReader(' ');
       ICollection<IVector> vecs = r.Parse(@"etc/testdata/wrenches.csv");
-			KdTree<IVector> tree = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(25));
+			KdTree<IVector> tree_median = new KdTree<IVector>(vecs, new MedianSubdivisionPolicy(25));
+      KdTree<IVector> tree_midpoint = new KdTree<IVector>(vecs, new MidpointSubdivisionPolicy(25));
       RenderTreeCairo render = new RenderTreeCairo();
-      render.Render(tree.Root, new Pair<int, int>(0, 1), "kdtree.pdf", 100.0, 100.0);
+      render.Render(tree_median.Root, new Pair<int, int>(0, 1), "kdtree_median.pdf", 100.0, 100.0);
+      render.Render(tree_midpoint.Root, new Pair<int, int>(0, 1), "kdtree_midpoint.pdf", 100.0, 100.0);
 		}
 	}
 }
