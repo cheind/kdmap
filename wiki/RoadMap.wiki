@@ -6,6 +6,6 @@
   * Complete implementation of IDictionary interface which includes dynamic insertion/removal of elements.
   * Nearest neighbor queries.
   * A subdivision system that allows easy integration of new subdivision methods.
-  * Complete set of unit tests / stress tests and benchmarks for provided functionality.
+  * Complete set of unit tests and benchmarks for provided functionality.
 
 Scheduled for August 2009.
