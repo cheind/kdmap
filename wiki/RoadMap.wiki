@@ -5,8 +5,8 @@
 Here is the technical roadmap for the kdmap project.
 
 === Version 1.0 ===
-  * Easy to integrate into existing projects
-  * Complete implementation of IDictionary interface which includes dynamic insertion/removal of elements
-  * Nearest neighbor queries
+  * Minimal overhead to integrate kdmap into existing projects.
+  * Complete implementation of IDictionary interface which includes dynamic insertion/removal of elements.
+  * Nearest neighbor queries.
   * A subdivision system that allows easy integration of new subdivision methods.
   * Complete set of unit tests / stress tests and benchmarks for provided functionality.
