@@ -1,10 +1,7 @@
 #summary Technical RoadMap of kdmap
 #labels Featured,Phase-Requirements
 
-== Roadmap ==
-Here is the technical roadmap for the kdmap project.
-
-=== Version 1.0 ===
+== Version 1.0 ==
   * Minimal overhead to integrate kdmap into existing projects.
   * Complete implementation of IDictionary interface which includes dynamic insertion/removal of elements.
   * Nearest neighbor queries.
