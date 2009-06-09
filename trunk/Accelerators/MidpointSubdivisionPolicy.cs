@@ -56,7 +56,7 @@ namespace Accelerators {
         throw new DegenerateDatasetException();
 
       // Split
-      double split = target.Bounds.Lower[max_spread_id] + diagonal[max_spread_id] * 0.5;
+      double split = target.Bounds.Lower[max_spread_id] + spread * 0.5;
 
       List<T> left_vecs = new List<T>();
       List<T> right_vecs = new List<T>();
@@ -69,9 +69,8 @@ namespace Accelerators {
           right_vecs.Add(t);
       }
       
-      // Test for degenerate case
-      if (left_vecs.Count == 0 || right_vecs.Count == 0)
-        throw new DegenerateDatasetException();
+      // Using the midpoint split we might generate empty nodes. 
+      // This nodes are added to the tree structure to simplify traversing code.
       
       // Split AABB
       AABB left_aabb, right_aabb;
