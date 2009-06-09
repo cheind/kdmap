@@ -33,7 +33,7 @@ namespace Accelerators
     /// <summary>
     /// Instance a new kd-tree with the given collection of points and a subdivision policy.
     /// </summary>
-    public KdTree(IEnumerable<T> vecs, ISubdivisionPolicy policy)
+    public KdTree(IEnumerable<T> vecs, Subdivision.ISubdivisionPolicy policy)
     {
       _subdiv_policy = policy;
       _root = this.CreateRootNode(vecs);
@@ -85,7 +85,7 @@ namespace Accelerators
           s.Push(n.Left);
           s.Push(n.Right);
           n.Vectors = null; // Elements are only stored in leaf nodes
-        } catch (SubdivisionException) {}
+        } catch (Subdivision.SubdivisionException) {}
       }
     }
     
@@ -99,7 +99,7 @@ namespace Accelerators
     }
     
     
-    private ISubdivisionPolicy _subdiv_policy;
+    private Subdivision.ISubdivisionPolicy _subdiv_policy;
     private int _dimensions;
     private KdNode<T> _root;
   }

@@ -48,17 +48,17 @@
     <Compile Include="VectorOperations.cs" />
     <Compile Include="BinaryNode.cs" />
     <Compile Include="KdNode.cs" />
-    <Compile Include="ISubdivisionPolicy.cs" />
     <Compile Include="KdTreeQueries.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="IBoundingVolume.cs" />
-    <Compile Include="SubdivisionPolicyConnector.cs" />
     <Compile Include="Subdivision\AxisOfMaximumSpreadSelector.cs" />
     <Compile Include="Subdivision\PeriodicAxisSelector.cs" />
     <Compile Include="Subdivision\MidpointSelector.cs" />
     <Compile Include="Subdivision\MedianSelector.cs" />
     <Compile Include="Subdivision\ISplitDimensionSelector.cs" />
     <Compile Include="Subdivision\ISplitLocationSelector.cs" />
+    <Compile Include="Subdivision\ISubdivisionPolicy.cs" />
+    <Compile Include="Subdivision\SubdivisionPolicyConnector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
