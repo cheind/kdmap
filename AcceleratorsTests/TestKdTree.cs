@@ -84,37 +84,35 @@ namespace AcceleratorsTests
       x = tree.Find(new Vector(1.3));
       Assert.IsNull(x);
     }
-    
-    [Test]
-    public void FindInsideVolumeNumerically()
-    {
-      Vector[] vecs = new Vector[]{new Vector(-1.0, -1.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0), new Vector(3.0, 3.0)};
-      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
-      
+
+    private void FindInsideVolumeNumerically(ISubdivisionPolicy policy) {
+      Vector[] vecs = new Vector[] { new Vector(-1.0, -1.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0), new Vector(3.0, 3.0) };
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, policy);
+
       List<Vector> found = new List<Vector>(
         tree.FindInsideVolume(
           new AABB(new Vector(0.5, 0.5), new Vector(2.5, 2.5))
         )
       );
-      
+
       Assert.AreEqual(found.Count, 2);
       Assert.IsTrue(VectorComparison.Equal(vecs[1], found[0]));
       Assert.IsTrue(VectorComparison.Equal(vecs[2], found[1]));
-      
-      found =  new List<Vector>(
+
+      found = new List<Vector>(
         tree.FindInsideVolume(
           new AABB(new Vector(0.0, 0.0), new Vector(0.5, 0.5))
         )
       );
-      
+
       Assert.IsEmpty(found);
 
-      found =  new List<Vector>(
+      found = new List<Vector>(
         tree.FindInsideVolume(
           new AABB(new Vector(-2.0, -2.0), new Vector(4.5, 4.5))
         )
       );
-      
+
       Assert.AreEqual(4, found.Count);
       Assert.IsTrue(VectorComparison.Equal(vecs[0], found[0]));
       Assert.IsTrue(VectorComparison.Equal(vecs[1], found[1]));
@@ -122,57 +120,11 @@ namespace AcceleratorsTests
       Assert.IsTrue(VectorComparison.Equal(vecs[3], found[3]));
     }
     
-    class CountingBV : IBoundingVolume {
-      
-      public CountingBV(AABB aabb) {
-        _aabb = aabb;
-        _count = 0;
-      }
-      
-      public int Count {
-        get {
-          return _count;
-        }
-      }
-      
-     
-      #region IBoundingVolume implementation
-      public bool Inside (IVector x)
-      {
-        _count += 1;
-        return _aabb.Inside(x);
-      }
-      
-      public bool Intersect (AABB aabb)
-      {
-        return _aabb.Intersect(aabb);
-      }
-      
-      public EPlanePosition ClassifyPlane (int dimension, double position)
-      {
-        return _aabb.ClassifyPlane(dimension, position);
-      }
-      
-      public int Dimensions {
-        get {
-          return _aabb.Dimensions;
-        }
-      }
-      #endregion 
-      
-      private AABB _aabb;
-      private int _count;
-    }
-    
     [Test]
-    public void FindInsideVolumeAnalytically() {
-      Vector[] vecs = new Vector[]{new Vector(-1.0, -1.0), new Vector(0.0, 0.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0)};
-      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
-     
-      CountingBV cbv = new CountingBV(new AABB(new Vector(0.5, 0.5), new Vector(2.5, 2.5)));
-      List<Vector> found = new List<Vector>(tree.FindInsideVolume(cbv));
-      Assert.AreEqual(2, cbv.Count);
-      Assert.AreEqual(2, found.Count);
+    public void FindInsideVolumeNumerically()
+    {
+      this.FindInsideVolumeNumerically(new MedianSubdivisionPolicy(1));
+      this.FindInsideVolumeNumerically(new MidpointSubdivisionPolicy(1));
     }
 
     /// <summary>
@@ -192,11 +144,9 @@ namespace AcceleratorsTests
       private IComparer<T> _comp;
     }
 
-    [Test]
-    public void FindInSortedOrder() {
-
+    private void FindInSortedOrder(ISubdivisionPolicy policy) {
       Vector[] vecs = new Vector[] { new Vector(-1.0, -1.0), new Vector(0.0, 0.0), new Vector(1.0, 1.0), new Vector(2.0, 2.0) };
-      KdTree<Vector> tree = new KdTree<Vector>(vecs, new MedianSubdivisionPolicy(1));
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, policy);
       List<Vector> order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0, -1.0), 10.0));
 
       Assert.AreEqual(order_min.Count, 4);
@@ -204,12 +154,17 @@ namespace AcceleratorsTests
       Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
       Assert.IsTrue(VectorComparison.Equal(order_min[2], vecs[2]));
       Assert.IsTrue(VectorComparison.Equal(order_min[3], vecs[3]));
-      
+
       order_min = new List<Vector>(tree.FindInSortedOrder(new Vector(-1.0, -1.0), 1.5));
       Assert.AreEqual(order_min.Count, 2);
       Assert.IsTrue(VectorComparison.Equal(order_min[0], vecs[0]));
       Assert.IsTrue(VectorComparison.Equal(order_min[1], vecs[1]));
-      
+    }
+
+    [Test]
+    public void FindInSortedOrder() {
+      this.FindInSortedOrder(new MedianSubdivisionPolicy(1));
+      this.FindInSortedOrder(new MidpointSubdivisionPolicy(1));
     }
   }
 }
