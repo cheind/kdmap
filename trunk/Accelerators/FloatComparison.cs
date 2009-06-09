@@ -26,7 +26,7 @@ namespace Accelerators
   /// </summary>
   public class FloatComparison
   {
-    private static double default_eps = 1e-5;
+    private static double default_eps = 1e-10;
     
     /// <value>
     /// Default epsilon interval. 
