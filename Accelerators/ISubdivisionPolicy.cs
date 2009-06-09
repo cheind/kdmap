@@ -21,14 +21,9 @@ namespace Accelerators
 {
   
   /// <summary>
-  /// Exception thrown when splitting of node is not possible.
+  /// Exception thrown when splitting/collapsing of node is not possible.
   /// </summary>
-  public class SplitException : InvalidOperationException {}
-  
-  /// <summary>
-  /// Exception thrown when collapsing of node is not possible.
-  /// </summary>
-  public class CollapseException : InvalidOperationException {}
+  public class SubdivisionException : InvalidOperationException {}
   
   /// <summary>
   /// Defines the split/collapse policies for kd-tree nodes.

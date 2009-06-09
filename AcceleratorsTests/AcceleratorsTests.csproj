@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,9 +36,12 @@
       <Package>nunit-2.4</Package>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestMidpointSubdivisionPolicy.cs" />
     <Compile Include="TestVector.cs" />
     <Compile Include="TestAABB.cs" />
     <Compile Include="VectorSampling.cs" />
@@ -48,7 +51,6 @@
     <Compile Include="TestMedianSubdivisionPolicy.cs" />
     <Compile Include="TestKdTree.cs" />
     <Compile Include="TestBall.cs" />
-    <Compile Include="TestPriorityQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

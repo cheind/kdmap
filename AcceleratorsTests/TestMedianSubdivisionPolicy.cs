@@ -58,7 +58,7 @@ namespace AcceleratorsTests
     }
     
     [Test]
-    [ExpectedException(typeof(BucketSizeNotReachedException))]
+    [ExpectedException(typeof(BucketSizeException))]
     public void TestBucketSize() {
       MedianSubdivisionPolicy msp = new MedianSubdivisionPolicy();
       msp.MaximumBucketSize = 10;

@@ -38,8 +38,10 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IVector.cs" />
     <Compile Include="FloatComparison.cs" />
+    <Compile Include="MidpointSubdivisionPolicy.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PriorityQueue.cs" />
+    <Compile Include="SubdivisionPolicyBase.cs" />
     <Compile Include="VectorComparison.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="KdTree.cs" />

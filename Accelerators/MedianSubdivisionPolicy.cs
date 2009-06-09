@@ -20,52 +20,29 @@ using System.Collections.Generic;
 
 namespace Accelerators
 {
-  
-  public class IntermediateNodeException: SplitException {}
-  public class BucketSizeNotReachedException : SplitException {}
-  public class DegenerateDatasetException : SplitException {}
-  
-  
+   
   /// <summary>
   /// Subdivision policy based on median of the axis of maximum spread. This leads to 
   /// quite balanced tree. Split-planes are inserted in areas of high density.
   /// </summary>
-  public class MedianSubdivisionPolicy : ISubdivisionPolicy
+  public class MedianSubdivisionPolicy : SubdivisionPolicyBase
   {
     /// <summary>
     /// Construct with default bucket size.
     /// </summary>
-    public MedianSubdivisionPolicy() {
-      _max_bucket_size = 25;
+    public MedianSubdivisionPolicy() : base(25) {
     }
     
     /// <summary>
     /// Construct with maximum bucket size.
     /// </summary>
-    public MedianSubdivisionPolicy(int max_bucket_size) {
-      _max_bucket_size = max_bucket_size;
+    public MedianSubdivisionPolicy(int max_bucket_size) : base(max_bucket_size) {
     }
     
-    /// <value>
-    /// Access the bucket size. 
-    /// </value>
-    public int MaximumBucketSize {
-      get {
-        return _max_bucket_size;
-      }
-      set {
-        _max_bucket_size = value;
-      }
-    }
-
-    #region ISubdivisionPolicy implementation
-    public void Split<T> (KdNode<T> target) where T : IVector
+    public override void Split<T> (KdNode<T> target)
     {
-      // Sanity checks first
-      if (target.Intermediate)
-        throw new IntermediateNodeException();
-      if (target.Vectors.Count <= this.MaximumBucketSize)
-        throw new BucketSizeNotReachedException();
+      // Sanity check node
+      this.TestDefaultSplitConstraints(target);
       
       // Find axis of maximum spread
       IVector diagonal = target.Bounds.Diagonal;
@@ -112,12 +89,9 @@ namespace Accelerators
       target.SplitLocation = median_value;
     }
     
-    public void Collapse<T> (KdNode<T> parent) where T : IVector
-    {
-      throw new System.NotImplementedException();
-    }
-    #endregion
-    
+    /// <summary>
+    /// Calculate the median position a given count.
+    /// </summary>
     private int MedianLocation(int nr_elements) {
       if (nr_elements % 2 == 0) {
         return (nr_elements + 1) / 2;
@@ -125,7 +99,6 @@ namespace Accelerators
         return nr_elements / 2;
       }
     }
-
     
     /// <summary>
     /// Compare vectors based on a single dimension
@@ -145,8 +118,5 @@ namespace Accelerators
       
       private int _dimension;
     }
-    
-    
-    private int _max_bucket_size;
   }
 }
