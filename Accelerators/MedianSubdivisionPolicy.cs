@@ -22,8 +22,7 @@ namespace Accelerators
 {
    
   /// <summary>
-  /// Subdivision policy based on median of the axis of maximum spread. This leads to 
-  /// quite balanced tree. Split-planes are inserted in areas of high density.
+  /// Subdivision policy based on median. This leads to quite balanced tree in that each node is the same distance from the root.
   /// </summary>
   public class MedianSubdivisionPolicy : SubdivisionPolicyBase
   {
@@ -43,49 +42,55 @@ namespace Accelerators
     {
       // Sanity check node
       this.TestDefaultSplitConstraints(target);
-      
-      // Find axis of maximum spread
+
       IVector diagonal = target.Bounds.Diagonal;
       int max_spread_id = VectorReductions.IndexNormInf(diagonal);
-      double spread = diagonal[max_spread_id];
+      double max_spread = diagonal[max_spread_id];
       
       // Sanity check for degenerate data-sets
-      if (FloatComparison.CloseZero(spread, FloatComparison.DefaultEps))
+      if (FloatComparison.CloseZero(max_spread, FloatComparison.DefaultEps))
         throw new DegenerateDatasetException();
+      
+      // Find axis by cycling through axis starting with zero at root
+      int axis = max_spread_id;
+      if (!target.Root) {
+        int next = (target.Parent.SplitDimension + 1) % diagonal.Dimensions;
+        if (!FloatComparison.CloseZero(diagonal[next], FloatComparison.DefaultEps))
+          axis = next;
+      }
       
       // Perform split
       
       // Sort based on chosen split-dimension
       List<T> vecs = target.Vectors;    
-      vecs.Sort(new SingleDimensionComparer<T>(max_spread_id));                  
+      vecs.Sort(new SingleDimensionComparer<T>(axis));                  
       // Fetch median
       int median_location = MedianLocation(vecs.Count);
-      double median_value = vecs[median_location][max_spread_id];
+      double median_value = vecs[median_location][axis];
       
-      // Need to scroll backward starting from median_location until we find an element < median_value
+      // Need to scroll forward starting from median_location until we find an element > median_value
       // [0,median_location] -> left_child (<=median), (median_location, end) -> right_child (>median)
-      while (median_location < vecs.Count && vecs[median_location][max_spread_id] == median_value) {
+      while (median_location < vecs.Count && vecs[median_location][axis] == median_value) {
         ++median_location;
       }
-      
-      // If no value bigger than median is found, we have a degenerate split
-      // Assume the values [1,2,3,3,3,3,3] where the median is 3. Splitting at the median position would
-      // result in a right child that only contains 3s.
-      if (median_location == vecs.Count)
+
+      // If no value bigger than median is found, we have a degenerate split: one node will become empty.
+      if (median_location == vecs.Count) {
         throw new DegenerateDatasetException();
-      
+      }
+           
       // Instance children and update
       KdNode<T> left = target.SetLeftChild(new KdNode<T>());
       KdNode<T> right = target.SetRightChild(new KdNode<T>());
       left.Vectors = vecs.GetRange(0, median_location);
-      right.Vectors = vecs.GetRange(median_location, vecs.Count - median_location);      
+      right.Vectors = vecs.GetRange(median_location, vecs.Count - median_location);
       
       AABB left_aabb, right_aabb;
-      target.Bounds.Split(max_spread_id, median_value, out left_aabb, out right_aabb);
+      target.Bounds.Split(axis, median_value, out left_aabb, out right_aabb);
       left.Bounds = left_aabb;
       right.Bounds = right_aabb;
-      
-      target.SplitDimension = max_spread_id;
+
+      target.SplitDimension = axis;
       target.SplitLocation = median_value;
     }
     
