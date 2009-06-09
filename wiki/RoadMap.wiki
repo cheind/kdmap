@@ -1,5 +1,5 @@
 #summary Technical RoadMap of kdmap
-#labels Featured,Phase-Design
+#labels Featured,Phase-Requirements
 
 == Roadmap ==
 Here is the technical roadmap for the kdmap project.
@@ -8,4 +8,5 @@ Here is the technical roadmap for the kdmap project.
   * Easy to integrate into existing projects
   * Complete implementation of IDictionary interface which includes dynamic insertion/removal of elements
   * Nearest neighbor queries
-  * Two or more subdivision policies
+  * A subdivision system that allows easy integration of new subdivision methods.
+  * Complete set of unit tests / stress tests and benchmarks for provided functionality.
