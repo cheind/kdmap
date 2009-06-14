@@ -125,7 +125,7 @@ namespace AcceleratorsTests
     public void FindInsideVolumeNumerically()
     {
       this.FindInsideVolumeNumerically(new SubdivisionPolicyConnector(1));
-      this.FindInsideVolumeNumerically(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector>(1));
+      this.FindInsideVolumeNumerically(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector, SlidingPlaneResolver>(1));
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ namespace AcceleratorsTests
     [Test]
     public void FindInSortedOrder() {
       this.FindInSortedOrder(new SubdivisionPolicyConnector(1));
-      this.FindInSortedOrder(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector>(1));
+      this.FindInSortedOrder(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector, SlidingPlaneResolver>(1));
     }
   }
 }

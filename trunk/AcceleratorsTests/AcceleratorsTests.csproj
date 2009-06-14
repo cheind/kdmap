@@ -55,6 +55,7 @@
     <Compile Include="TestMedianSelector.cs" />
     <Compile Include="TestMidpointSelector.cs" />
     <Compile Include="TestSubdivisionPolicyConnector.cs" />
+    <Compile Include="TestSlidingPlaneResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

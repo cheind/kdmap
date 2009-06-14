@@ -67,14 +67,24 @@ namespace Accelerators.Subdivision {
       _max_bucket_size = max_bucket_size;
       _dim_selector = new Accelerators.Subdivision.PeriodicAxisSelector();
       _loc_selector = new Accelerators.Subdivision.MidpointSelector();
+      _trivial_resolver = new NoOperationResolver();
     }
     
-    public SubdivisionPolicyConnector(int max_bucket_size, Subdivision.ISplitDimensionSelector dim_select, Subdivision.ISplitLocationSelector loc_select) {
+    public SubdivisionPolicyConnector(int max_bucket_size, ISplitDimensionSelector dim_select, ISplitLocationSelector loc_select) {
       _max_bucket_size = max_bucket_size;
       _dim_selector = dim_select;
       _loc_selector = loc_select;
+      _trivial_resolver = new NoOperationResolver();
     }
 
+    public SubdivisionPolicyConnector(int max_bucket_size, ISplitDimensionSelector dim_select, ISplitLocationSelector loc_select, ITrivialSplitResolver triv_resolver) {
+      _max_bucket_size = max_bucket_size;
+      _dim_selector = dim_select;
+      _loc_selector = loc_select;
+      _trivial_resolver = triv_resolver;
+    }
+    
+    
     /// <summary>
     /// Splits a node based on bucket size, the chosen split dimension selector and chosen split location selector
     /// </summary>
@@ -86,9 +96,17 @@ namespace Accelerators.Subdivision {
       if (target.Vectors.Count <= this.MaximumBucketSize)
         throw new BucketSizeException();
     
+      // Find axis of split plane
       int split_dim = _dim_selector.Select(target);
+      // Find location of split plane
       double split_loc = _loc_selector.Select(target, split_dim);
       
+      // Possibly resolve a trivial split
+      ETrivialSplitType split_type = this.IsTrivialSplit(target, split_dim, split_loc);
+      if (split_type == ETrivialSplitType.EmptyLeft || split_type == ETrivialSplitType.EmptyRight) {
+        split_loc = _trivial_resolver.Resolve(target, split_dim, split_loc, split_type);
+      }
+
       // Pass over vectors, create leaves (one is possibly empty) and update parent
       KdNode<T> left = target.SetLeftChild(new KdNode<T>());
       KdNode<T> right = target.SetRightChild(new KdNode<T>());
@@ -139,15 +157,45 @@ namespace Accelerators.Subdivision {
     /// <summary>
     /// Create a policy from a ISplitDimensionSelector and ISplitLocationSelector
     /// </summary>
-    public static ISubdivisionPolicy CreatePolicy<DimSelector,LocSelector>(int max_bucket_size) 
+    public static ISubdivisionPolicy CreatePolicy<DimSelector,LocSelector, TrivResolver>(int max_bucket_size) 
       where DimSelector : Subdivision.ISplitDimensionSelector, new()
       where LocSelector : Subdivision.ISplitLocationSelector, new()
+      where TrivResolver : Subdivision.ITrivialSplitResolver, new()
     {
-      return new SubdivisionPolicyConnector(max_bucket_size, new DimSelector(), new LocSelector());
+      return new SubdivisionPolicyConnector(max_bucket_size, new DimSelector(), new LocSelector(), new TrivResolver());
+    }
+    
+    /// <summary>
+    /// Determine if the chosen split is a trivial one.
+    /// </summary>
+    private ETrivialSplitType IsTrivialSplit<T>(KdNode<T> target, int split_dimension, double split_location) where T : IVector {
+      // Test for trivial split O(n)
+      int count_left = 0;
+      int count_right = 0;
+      int i = 0;
+      
+      // Loop over vectors and try to early exit the loop when both left and right are assigned at least one element.
+      while ((i < target.Vectors.Count) && (count_left == 0 || count_right == 0)){
+        T t = target.Vectors[i];
+        if (t[split_dimension] <= split_location)
+          count_left += 1;
+        else
+          count_right += 1;
+        ++i;  
+      }
+
+      if (count_left == 0)
+        return ETrivialSplitType.EmptyLeft;
+      else if (count_right == 0)
+        return ETrivialSplitType.EmptyRight;
+      else
+        return ETrivialSplitType.NoTrivial;
+      
     }
 
     private int _max_bucket_size;
     private Subdivision.ISplitDimensionSelector _dim_selector;
     private Subdivision.ISplitLocationSelector _loc_selector;
+    private Subdivision.ITrivialSplitResolver _trivial_resolver;
   }
 }
