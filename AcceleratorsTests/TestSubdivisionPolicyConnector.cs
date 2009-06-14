@@ -57,7 +57,7 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestSplitOneDimensional() {
-      ISubdivisionPolicy p = SubdivisionPolicyConnector.CreatePolicy<AxisOfMaximumSpreadSelector, MidpointSelector>(1);
+      ISubdivisionPolicy p = SubdivisionPolicyConnector.CreatePolicy<AxisOfMaximumSpreadSelector, MidpointSelector, SlidingPlaneResolver>(1);
       
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(-1.0), new Vector(1.0), new Vector(3.0), new Vector(2.0) });
@@ -88,7 +88,7 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestSplitMultiDimensional() {
-      ISubdivisionPolicy p = SubdivisionPolicyConnector.CreatePolicy<AxisOfMaximumSpreadSelector, MidpointSelector>(1);
+      ISubdivisionPolicy p = SubdivisionPolicyConnector.CreatePolicy<AxisOfMaximumSpreadSelector, MidpointSelector, SlidingPlaneResolver>(1);
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(1.0, 1.0), new Vector(1.0, -1.0), new Vector(1.0, 3.0), new Vector(1.0, 2.0) });

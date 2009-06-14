@@ -59,6 +59,9 @@
     <Compile Include="Subdivision\ISplitLocationSelector.cs" />
     <Compile Include="Subdivision\ISubdivisionPolicy.cs" />
     <Compile Include="Subdivision\SubdivisionPolicyConnector.cs" />
+    <Compile Include="Subdivision\SlidingPlaneResolver.cs" />
+    <Compile Include="Subdivision\ITrivialSplitResolver.cs" />
+    <Compile Include="Subdivision\NoOperationResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
