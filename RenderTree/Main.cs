@@ -19,22 +19,55 @@ using Cairo;
 using Accelerators;
 using Accelerators.Subdivision;
 using System.Collections.Generic;
+using CommandLine.OptParse;
+using System.ComponentModel;
+using System.Reflection;
+using System.IO;
 
 namespace RenderTree
 {
 	class MainClass
-	{
-		
+	{	
+
+
 		public static void Main(string[] args)
 		{
-      CSVReader r = new CSVReader(' ');
-      ICollection<IVector> vecs = r.Parse(@"etc/testdata/wrenches.csv");
-			KdTree<IVector> tree_median = new KdTree<IVector>(vecs, SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector>(25));
-			
-			KdTree<IVector> tree_midpoint = new KdTree<IVector>(vecs, SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MidpointSelector>(25));
-      RenderTreeCairo render = new RenderTreeCairo();
-      render.Render(tree_median.Root, new Pair<int, int>(0, 1), "kdtree_median.pdf", 100.0, 100.0);
-      render.Render(tree_midpoint.Root, new Pair<int, int>(0, 1), "kdtree_midpoint.pdf", 100.0, 100.0);
+      OptProperties props = new OptProperties();
+      Parser p = ParserFactory.BuildParser(props);
+      p.Parse(args);
+
+      if (props.Help) {
+        UsageBuilder usage = new UsageBuilder();
+        usage.GroupOptionsByCategory = true;
+        usage.BeginSection("Name");
+        usage.AddParagraph("RenderTree.exe - Render the content of a kdtree");
+        usage.EndSection();
+
+        usage.BeginSection("Arguments");
+        usage.AddOptions(p.GetOptions());
+        usage.EndSection();
+        usage.ToText(System.Console.Out, OptStyle.Unix, true);
+      } else {
+        FileInfo fi = new FileInfo(props.CSVFile);
+        if (!fi.Exists)
+          throw new ArgumentException("Provided csv file does not exist");
+
+        CSVReader r = new CSVReader(' ');
+        ICollection<IVector> vecs = r.Parse(props.CSVFile);
+        ISubdivisionPolicy policy = 
+          new SubdivisionPolicyConnector(props.BucketSize, 
+                                         props.ISplitDimensionSelectorInstance, 
+                                         props.ISplitLocationSelectorInstance, 
+                                         props.ITrivialSplitResolverInstance);
+
+        KdTree<IVector> tree = new KdTree<IVector>(vecs, policy);
+        RenderTreeCairo render = new RenderTreeCairo();
+        render.Render(tree.Root, 
+                      new Pair<int, int>(0, 1), 
+                      props.OutFile, 
+                      props.Width, props.Height, 
+                      props.LineWidth, props.PointSize);
+      }
 		}
 	}
 }
