@@ -128,23 +128,6 @@ namespace AcceleratorsTests
       this.FindInsideVolumeNumerically(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector, SlidingPlaneResolver>(1));
     }
 
-    /// <summary>
-    /// Invert logic of comparator
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    class InvertedComparer<T> : IComparer<T> {
-      public InvertedComparer(IComparer<T> comp) {
-        _comp = comp;
-      }
-
-      public int Compare(T x, T y) {
-        return _comp.Compare(y, x);
-      }
-
-
-      private IComparer<T> _comp;
-    }
-
     private void FindInSortedOrder(ISubdivisionPolicy policy) {
       Vector[] vecs = new Vector[] { Vector.Create(-1.0, -1.0), Vector.Create(0.0, 0.0), Vector.Create(1.0, 1.0), Vector.Create(2.0, 2.0) };
       KdTree<Vector> tree = new KdTree<Vector>(vecs, policy);
@@ -166,6 +149,17 @@ namespace AcceleratorsTests
     public void FindInSortedOrder() {
       this.FindInSortedOrder(new SubdivisionPolicyConnector(1));
       this.FindInSortedOrder(SubdivisionPolicyConnector.CreatePolicy<PeriodicAxisSelector, MedianSelector, SlidingPlaneResolver>(1));
+    }
+
+    [Test]
+    public void TestStaticConstruction() {
+      KdTree<IVector> tree = new KdTree<IVector>(VectorSampling.InAABB(10000, 2, -100.0, 100.0, 10), new SubdivisionPolicyConnector(1));
+      KdNodeInvariants.AreMetBy(tree.Root);
+      int count = 0;
+      foreach (KdNode<IVector> n in tree.Root.Leaves) {
+        count += n.Vectors.Count;
+      }
+      Assert.AreEqual(count, 10000);
     }
   }
 }
