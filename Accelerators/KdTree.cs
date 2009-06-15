@@ -86,8 +86,7 @@ namespace Accelerators
           s.Push(n.Left);
           s.Push(n.Right);
           n.Vectors = null; // Elements are only stored in leaf nodes
-        } catch (Subdivision.SubdivisionException e) {
-          System.Console.WriteLine("Cannot split node" + n + " because: " + e);
+        } catch (Subdivision.SubdivisionException) {
         }
       }
     }
