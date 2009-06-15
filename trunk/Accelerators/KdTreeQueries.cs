@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Accelerators
 {
-  public partial class KdTree<T> where T : IVector
+  public partial class KdTree<T> : ICollection<T> where T : IVector
   {
     
     /// <summary>
