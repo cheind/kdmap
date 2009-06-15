@@ -53,6 +53,13 @@ namespace Accelerators
       set { _u = value; }
     }
 
+    /// <summary>
+    /// Stringify pair
+    /// </summary>
+    public override string ToString() {
+      return string.Format("<{0},{1}>", _t, _u);
+    }
+
     private T _t;
     private U _u;
 	}
