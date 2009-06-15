@@ -64,18 +64,5 @@ namespace AcceleratorsTests
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       Assert.AreEqual(0, s.Select(n));
     }
-
-    [Test]
-    [ExpectedException(typeof(DegenerateDatasetException))]
-    public void TestRegressionIssue3() {
-      // Test when split bounds is non-empty, but all contained points are degenerate
-      KdNode<IVector> n = new KdNode<IVector>();
-      n.Vectors = new List<IVector>(new IVector[] { Vector.Create(-1, -5), Vector.Create(-1, -5) });
-      n.SplitBounds = new AABB(Vector.Create(-1.25, -5), Vector.Create(-1, -5));
-      n.InternalBounds = new AABB(2);
-      n.InternalBounds.Enlarge<IVector>(n.Vectors);
-      AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
-      s.Select(n);
-    }
   }
 }

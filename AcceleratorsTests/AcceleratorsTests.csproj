@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IssueTesting.cs" />
     <Compile Include="TestVector.cs" />
     <Compile Include="TestAABB.cs" />
     <Compile Include="VectorSampling.cs" />
