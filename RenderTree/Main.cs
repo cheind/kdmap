@@ -28,6 +28,9 @@ namespace RenderTree
 {
 	class MainClass
 	{
+    /// <summary>
+    /// Display progress and elapsed times on console
+    /// </summary>
     class Progress : IDisposable {
 
       public Progress(string message) {
