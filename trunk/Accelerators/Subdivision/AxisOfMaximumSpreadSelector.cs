@@ -29,7 +29,8 @@ namespace Accelerators.Subdivision
     /// Select axis of maximum spread and test for degenerate data sets.
     /// </summary>
     public int Select<T> (KdNode<T> target) where T : IVector {
-      IVector diagonal = target.Bounds.Diagonal;
+      // Use the internal bounds to detect degenerate data sets.
+      IVector diagonal = target.InternalBounds.Diagonal;
       int max_spread_id = VectorReductions.IndexNormInf(diagonal);
       
       // Sanity check for degenerate data-sets

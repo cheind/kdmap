@@ -51,14 +51,28 @@ namespace Accelerators
     }
     
     /// <value>
-    /// Axis aligned bounding box of this node.
+    /// Axis aligned bounding box of this node as produced by splitting at
+    /// the parent split plane
     /// </value>
-    public AABB Bounds {
+    public AABB SplitBounds {
       get {
-        return _aabb;
+        return _aabb_split;
       }
       set {
-        _aabb = value;
+        _aabb_split = value;
+      }
+    }
+
+    /// <value>
+    /// Axis aligned bounding box of the points contained in this node. This AABB is
+    /// the most tightened AABB around the internal points.
+    /// </value>
+    public AABB InternalBounds {
+      get {
+        return _aabb_internal;
+      }
+      set {
+        _aabb_internal = value;
       }
     }
     
@@ -79,13 +93,13 @@ namespace Accelerators
     /// </summary>
     public override string ToString ()
     {
-      return string.Format("[KdNode: SplitDimension={0}, SplitLocation={1}, Leaf={2}, Bounds={3}]", SplitDimension, SplitLocation, Leaf, Bounds);
+      return string.Format("[KdNode: SplitDimension={0}, SplitLocation={1}, Leaf={2}, Bounds={3}]", SplitDimension, SplitLocation, Leaf, SplitBounds);
     }
 
     
     private int _k;
     private double _p;
-    private AABB _aabb;
+    private AABB _aabb_split, _aabb_internal;
     private List<T> _vectors;
   }
 }

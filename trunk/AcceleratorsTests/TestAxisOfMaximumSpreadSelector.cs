@@ -35,8 +35,9 @@ namespace AcceleratorsTests
     {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{new Vector(1.0f), new Vector(1.0f), new Vector(1.0f), new Vector(1.0f)});
-      n.Bounds = new AABB(1);
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds = new AABB(1);
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       s.Select(n);
     }
@@ -45,8 +46,9 @@ namespace AcceleratorsTests
     public void TestSecondAxisIsAxisOfMaximumSpread() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{new Vector(0.5, 0.5), new Vector(1.0f, -1.0), new Vector(1.0f, 2.0), new Vector(1.0f, 1.5)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       Assert.AreEqual(1, s.Select(n));
     }
@@ -56,8 +58,9 @@ namespace AcceleratorsTests
     public void TestFirstAxisIsAxisOfMaximumSpread() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{new Vector(-10.0f, 0.5), new Vector(1.0f, -1.0), new Vector(1.0f, 2.0), new Vector(1.0f, 1.5)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       Assert.AreEqual(0, s.Select(n));
     }

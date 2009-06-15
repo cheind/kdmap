@@ -33,8 +33,8 @@ namespace Accelerators.Subdivision
     /// </summary>
     public int Select<T> (KdNode<T> target) where T : IVector {
         
-      IVector diagonal = target.Bounds.Diagonal;
-      int dims = target.Bounds.Dimensions;
+      IVector diagonal = target.InternalBounds.Diagonal;
+      int dims = target.InternalBounds.Dimensions;
       
       // Setup initial axis
       // On root level this is zero on each other level it the depth of the node module its dimensions
@@ -48,7 +48,7 @@ namespace Accelerators.Subdivision
       }
       
       if (i == dims) {
-        // Cylce completed without finding an axis that has a spread greater than zero
+        // Cycle completed without finding an axis that has a spread greater than zero
         throw new DegenerateDatasetException();
       }
       

@@ -33,7 +33,7 @@ namespace Accelerators.Subdivision
     /// </summary>
     public double Select<T>(KdNode<T> target, int split_dimension) where T : IVector
     {
-      double split = target.Bounds.Lower[split_dimension] + target.Bounds.Extension(split_dimension) * 0.5;
+      double split = target.SplitBounds.Lower[split_dimension] + target.SplitBounds.Extension(split_dimension) * 0.5;
       return split;
     }
      

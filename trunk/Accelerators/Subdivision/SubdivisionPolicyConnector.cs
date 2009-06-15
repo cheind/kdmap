@@ -111,10 +111,10 @@ namespace Accelerators.Subdivision {
       KdNode<T> left = target.SetLeftChild(new KdNode<T>());
       KdNode<T> right = target.SetRightChild(new KdNode<T>());
       // Split AABB
-      AABB left_aabb, right_aabb;
-      target.Bounds.Split(split_dim, split_loc, out left_aabb, out right_aabb);
-      left.Bounds = left_aabb;
-      right.Bounds = right_aabb;
+      AABB left_split_aabb, right_split_aabb;
+      target.SplitBounds.Split(split_dim, split_loc, out left_split_aabb, out right_split_aabb);
+      left.SplitBounds = left_split_aabb;
+      right.SplitBounds = right_split_aabb;
       // Assign vectors
       left.Vectors = new List<T>();
       right.Vectors = new List<T>();
@@ -126,6 +126,13 @@ namespace Accelerators.Subdivision {
         else
           right.Vectors.Add(t);
       }
+
+      // Update internal bounds
+      left.InternalBounds = new AABB(left.SplitBounds.Dimensions);
+      left.InternalBounds.Enlarge<T>(left.Vectors);
+
+      right.InternalBounds = new AABB(right.SplitBounds.Dimensions);
+      right.InternalBounds.Enlarge<T>(right.Vectors);
       
       // Update target
       target.SplitDimension = split_dim;

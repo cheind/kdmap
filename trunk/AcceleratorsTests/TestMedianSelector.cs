@@ -35,8 +35,8 @@ namespace AcceleratorsTests
       MedianSelector s = new MedianSelector();
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0), new Vector(-1.0), new Vector(3.0), new Vector(2.0)});
-      n.Bounds = new AABB(1);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(1);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
            
       Assert.AreEqual(2.0, s.Select(n, 0), FloatComparison.DefaultEps);
     }
@@ -46,8 +46,8 @@ namespace AcceleratorsTests
       MedianSelector s = new MedianSelector();
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(1.0, -1.0), new Vector(1.0, 3.0), new Vector(1.0, 2.0)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
       
       Assert.AreEqual(2.0, s.Select(n,1), FloatComparison.DefaultEps);
     }
@@ -59,8 +59,8 @@ namespace AcceleratorsTests
      
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(1.0, 1.0), new Vector(1.0, 1.0), new Vector(1.0, 1.0)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
       new MedianSelector().Select(n, 0);
     }
 
@@ -71,8 +71,8 @@ namespace AcceleratorsTests
     {    
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(2.0, 2.0), new Vector(2.0, 2.0), new Vector(2.0, 2.0)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
       new MedianSelector().Select(n, 0);
     }
   }
