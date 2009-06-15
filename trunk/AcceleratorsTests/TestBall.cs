@@ -32,7 +32,7 @@ namespace AcceleratorsTests
     [Test()]
     public void TestInside()
     {
-      Ball b = new Ball(new Vector(0.0, 0.0, 0.0), 1.0);
+      Ball b = new Ball(Vector.Create(0.0, 0.0, 0.0), 1.0);
       
       // Perform a monte-carlo integration test
       const int count = 10000;
@@ -53,13 +53,13 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestIntersect() {
-      Ball a = new Ball(new Vector(0.0, 0.0), 1.0);
-      AABB b = new AABB(new Vector(0.5, 0.5), new Vector(0.6, 0.6)); // completely inside of a
-      AABB c = new AABB(new Vector(-2.5, -2.5), new Vector(-2.4, -2.4)); // completely outside of a
-      AABB d = new AABB(new Vector(2.5, 2.5), new Vector(2.6, 2.6)); // completely outside of a
-      AABB e = new AABB(new Vector(0.5, 0.5), new Vector(2.6, 2.6)); // partially inside of a
-      AABB f = new AABB(new Vector(1.0, 0.0), new Vector(2.6, 2.6)); // partially inside of a (touching)
-      AABB g = new AABB(new Vector(-2.0, -2.0), new Vector(2.6, 2.6)); // completely containing a
+      Ball a = new Ball(Vector.Create(0.0, 0.0), 1.0);
+      AABB b = new AABB(Vector.Create(0.5, 0.5), Vector.Create(0.6, 0.6)); // completely inside of a
+      AABB c = new AABB(Vector.Create(-2.5, -2.5), Vector.Create(-2.4, -2.4)); // completely outside of a
+      AABB d = new AABB(Vector.Create(2.5, 2.5), Vector.Create(2.6, 2.6)); // completely outside of a
+      AABB e = new AABB(Vector.Create(0.5, 0.5), Vector.Create(2.6, 2.6)); // partially inside of a
+      AABB f = new AABB(Vector.Create(1.0, 0.0), Vector.Create(2.6, 2.6)); // partially inside of a (touching)
+      AABB g = new AABB(Vector.Create(-2.0, -2.0), Vector.Create(2.6, 2.6)); // completely containing a
       
       Assert.IsTrue(a.Intersect(b));
       Assert.IsFalse(a.Intersect(c));
@@ -71,7 +71,7 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestClassifyPlane() {
-      Ball a = new Ball(new Vector(0.0, 1.0), 1.0);
+      Ball a = new Ball(Vector.Create(0.0, 1.0), 1.0);
       Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(0, -1.0));
       Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(0, -2.0));
       Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(0, 2.0));

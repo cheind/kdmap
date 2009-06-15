@@ -75,6 +75,7 @@
     <VisualStudio />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>nunit-console "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

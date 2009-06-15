@@ -30,7 +30,7 @@ namespace AcceleratorsTests
     [Test]
     public void TestCalculationOfMidpoint() {
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[] { new Vector(1.0, 1.0), new Vector(1.0, -1.0), new Vector(1.0, 3.0), new Vector(2.0, 2.0) });
+      n.Vectors = new List<Vector>(new Vector[] { Vector.Create(1.0, 1.0), Vector.Create(1.0, -1.0), Vector.Create(1.0, 3.0), Vector.Create(2.0, 2.0) });
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<Vector>(n.Vectors);
       n.InternalBounds = new AABB(n.SplitBounds);

@@ -34,7 +34,7 @@ namespace AcceleratorsTests
     {
       MedianSelector s = new MedianSelector();
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0), new Vector(-1.0), new Vector(3.0), new Vector(2.0)});
+      n.Vectors = new List<Vector>(new Vector[]{Vector.Create(1.0), Vector.Create(-1.0), Vector.Create(3.0), Vector.Create(2.0)});
       n.SplitBounds = new AABB(1);
       n.SplitBounds.Enlarge<Vector>(n.Vectors);
            
@@ -45,7 +45,7 @@ namespace AcceleratorsTests
     public void TestSplitMultiDimensional() {
       MedianSelector s = new MedianSelector();
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(1.0, -1.0), new Vector(1.0, 3.0), new Vector(1.0, 2.0)});
+      n.Vectors = new List<Vector>(new Vector[]{Vector.Create(1.0, 1.0), Vector.Create(1.0, -1.0), Vector.Create(1.0, 3.0), Vector.Create(1.0, 2.0)});
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<Vector>(n.Vectors);
       
@@ -58,7 +58,7 @@ namespace AcceleratorsTests
     {
      
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(1.0, 1.0), new Vector(1.0, 1.0), new Vector(1.0, 1.0)});
+      n.Vectors = new List<Vector>(new Vector[]{Vector.Create(1.0, 1.0), Vector.Create(1.0, 1.0), Vector.Create(1.0, 1.0), Vector.Create(1.0, 1.0)});
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<Vector>(n.Vectors);
       new MedianSelector().Select(n, 0);
@@ -70,7 +70,7 @@ namespace AcceleratorsTests
     public void TestDegenerated2()
     {    
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[]{new Vector(1.0, 1.0), new Vector(2.0, 2.0), new Vector(2.0, 2.0), new Vector(2.0, 2.0)});
+      n.Vectors = new List<Vector>(new Vector[]{Vector.Create(1.0, 1.0), Vector.Create(2.0, 2.0), Vector.Create(2.0, 2.0), Vector.Create(2.0, 2.0)});
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<Vector>(n.Vectors);
       new MedianSelector().Select(n, 0);
