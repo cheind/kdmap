@@ -34,22 +34,17 @@ namespace AcceleratorsTests
       v1[0] = 1.0; v1[1] = 2.0;
       
       // Construct from other vector
-      Vector reference = new Vector(1.0, 2.0, 3.0);
+      Vector reference = Vector.Create(1.0, 2.0, 3.0);
       Vector v2 = new Accelerators.Vector(reference);
       Assert.IsTrue(VectorComparison.Close(reference, v2, FloatComparison.DefaultEps));
       Vector v3 = new Accelerators.Vector((IVector)reference);
       Assert.IsTrue(VectorComparison.Close(reference, v3, FloatComparison.DefaultEps));
       
-      // Construct from dimension and value
-      Vector v4 = new Vector(2, 1.0);
-      Assert.AreEqual(1.0, v4[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, v4[1], FloatComparison.DefaultEps);
-      
-      Vector v5 = new Vector(1.0, 2.0);
+      Vector v5 = Vector.Create(1.0, 2.0);
       Assert.AreEqual(1.0, v5[0], FloatComparison.DefaultEps);
       Assert.AreEqual(2.0, v5[1], FloatComparison.DefaultEps);
       
-      Vector v6 = new Vector(1.0, 2.0, 3.0);
+      Vector v6 = Vector.Create(1.0, 2.0, 3.0);
       Assert.AreEqual(1.0, v6[0], FloatComparison.DefaultEps);
       Assert.AreEqual(2.0, v6[1], FloatComparison.DefaultEps);
       Assert.AreEqual(3.0, v6[2], FloatComparison.DefaultEps);
@@ -57,7 +52,7 @@ namespace AcceleratorsTests
     
     [Test()]
     public void TestIVectorInterface() {
-      Vector v = new Vector(1.0, 2.0, 3.0);
+      Vector v = Vector.Create(1.0, 2.0, 3.0);
       IVector iv = v;
       
       Assert.AreEqual(3, iv.Dimensions);
@@ -68,22 +63,22 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestOperatorOverloadingPlus() {
-      Vector a = new Vector(1.0, 2.0, 3.0);
-      Vector b = new Vector(1.0, 2.0, 3.0);
+      Vector a = Vector.Create(1.0, 2.0, 3.0);
+      Vector b = Vector.Create(1.0, 2.0, 3.0);
       Vector c = a + b;
-      Assert.IsTrue(VectorComparison.Close(c, new Vector(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(c, Vector.Create(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
       a += b;
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, Vector.Create(2.0, 4.0, 6.0), FloatComparison.DefaultEps));
     }
     
     [Test]
     public void TestOperatorOverloadingSub() {
-      Vector a = new Vector(4.0, 5.0, 6.0);
-      Vector b = new Vector(1.0, 2.0, 3.0);
+      Vector a = Vector.Create(4.0, 5.0, 6.0);
+      Vector b = Vector.Create(1.0, 2.0, 3.0);
       Vector c = a - b;
-      Assert.IsTrue(VectorComparison.Close(c, new Vector(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(c, Vector.Create(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
       a -= b;
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, Vector.Create(3.0, 3.0, 3.0), FloatComparison.DefaultEps));
     }
   }
 }

@@ -67,12 +67,12 @@ namespace RenderTree {
           foreach (KdNode<IVector> n in tree.PreOrder) {
             if (n.Intermediate) {
               if (n.SplitDimension == projection.First) {
-                Vector from = new Vector(n.SplitLocation, n.SplitBounds.Lower[projection.Second]);
-                Vector to = new Vector(n.SplitLocation, n.SplitBounds.Upper[projection.Second]);
+                Vector from = Vector.Create(n.SplitLocation, n.SplitBounds.Lower[projection.Second]);
+                Vector to = Vector.Create(n.SplitLocation, n.SplitBounds.Upper[projection.Second]);
                 cr.RenderLine(from, to, gr);
               } else if (n.SplitDimension == projection.Second) {
-                Vector from = new Vector(n.SplitBounds.Lower[projection.First], n.SplitLocation);
-                Vector to = new Vector(n.SplitBounds.Upper[projection.First], n.SplitLocation);
+                Vector from = Vector.Create(n.SplitBounds.Lower[projection.First], n.SplitLocation);
+                Vector to = Vector.Create(n.SplitBounds.Upper[projection.First], n.SplitLocation);
                 cr.RenderLine(from, to, gr);   
               }
             }

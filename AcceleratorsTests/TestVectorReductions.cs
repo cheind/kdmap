@@ -30,20 +30,20 @@ namespace AcceleratorsTests
     [Test()]
     public void TestSquaredL2Norm()
     {
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       Assert.IsTrue(FloatComparison.Close(VectorReductions.SquaredL2Norm(a), 5.0, FloatComparison.DefaultEps));
     }
     
     [Test()]
     public void TestL2Norm()
     {
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       Assert.IsTrue(FloatComparison.Close(VectorReductions.L2Norm(a), (double)Math.Sqrt(5.0), FloatComparison.DefaultEps));
     }
     
     [Test]
     public void TestIndexNormInf() {
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       Assert.AreEqual(1, VectorReductions.IndexNormInf(a));
     }
   }

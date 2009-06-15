@@ -60,13 +60,13 @@ namespace AcceleratorsTests
     [Test]
     public void TestEnlargeSingle() {
       AABB box = new AABB(2);
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       box.Enlarge(a);
       Assert.IsFalse(box.Empty);
       Assert.IsTrue(VectorComparison.Close(a, box.Lower, FloatComparison.DefaultEps));
       Assert.IsTrue(VectorComparison.Close(a, box.Upper, FloatComparison.DefaultEps));
       
-      Vector b = new Vector(-1.0, 4.0);
+      Vector b = Vector.Create(-1.0, 4.0);
       box.Enlarge(b);
       Assert.AreEqual(box.Lower[0], -1.0, FloatComparison.DefaultEps);
       Assert.AreEqual(box.Lower[1], 2.0, FloatComparison.DefaultEps);
@@ -87,8 +87,8 @@ namespace AcceleratorsTests
     [Test]
     public void TestDiagonal() {
       AABB box = new AABB(2);
-      box.Enlarge(new Vector(1.0, -2.0));
-      box.Enlarge(new Vector(-1.0, 5.0));
+      box.Enlarge(Vector.Create(1.0, -2.0));
+      box.Enlarge(Vector.Create(-1.0, 5.0));
       Vector diag = (Vector)box.Diagonal;
       Assert.AreEqual(diag[0], 2.0, FloatComparison.DefaultEps);
       Assert.AreEqual(diag[1], 7.0, FloatComparison.DefaultEps);
@@ -97,15 +97,15 @@ namespace AcceleratorsTests
     [Test]
     public void TestExtension() {
       AABB box = new AABB(2);
-      box.Enlarge(new Vector(1.0, -2.0));
-      box.Enlarge(new Vector(-1.0, 5.0));
+      box.Enlarge(Vector.Create(1.0, -2.0));
+      box.Enlarge(Vector.Create(-1.0, 5.0));
       Assert.AreEqual(box.Extension(0), 2.0, FloatComparison.DefaultEps);
       Assert.AreEqual(box.Extension(1), 7.0, FloatComparison.DefaultEps);
     }
     
     [Test]
     public void TestSplit() {
-      AABB box = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
+      AABB box = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
       AABB left, right;
       box.Split(1, 0.5, out left, out right);
       
@@ -123,30 +123,30 @@ namespace AcceleratorsTests
     [Test]
     [ExpectedException(typeof(ArgumentException))]
     public void TestSplitOutsidePlane() {
-      AABB box = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
+      AABB box = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
       AABB left, right;
       box.Split(1, -1.1, out left, out right);
     }
     
     [Test]
     public void TestClosestOnSurface() {
-      AABB box = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
-      IVector closest = box.Closest(new Vector(-2.0, -0.5));
+      AABB box = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
+      IVector closest = box.Closest(Vector.Create(-2.0, -0.5));
       Assert.AreEqual(-1.0, closest[0], FloatComparison.DefaultEps);
       Assert.AreEqual(-0.5, closest[1], FloatComparison.DefaultEps);
       
-      closest = box.Closest(new Vector(3.0, 3.0));
+      closest = box.Closest(Vector.Create(3.0, 3.0));
       Assert.AreEqual(1.0, closest[0], FloatComparison.DefaultEps);
       Assert.AreEqual(1.0, closest[1], FloatComparison.DefaultEps);
       
-      closest = box.Closest(new Vector(0.5, 0.5));
+      closest = box.Closest(Vector.Create(0.5, 0.5));
       Assert.AreEqual(0.5, closest[0], FloatComparison.DefaultEps);
       Assert.AreEqual(0.5, closest[1], FloatComparison.DefaultEps);
     }
     
     [Test]
     public void TestInside() {
-      AABB box = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
+      AABB box = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
       
       // Perform a monte-carlo integration test
       const int count = 100000;
@@ -167,13 +167,13 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestIntersect() {
-      AABB a = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
-      AABB b = new AABB(new Vector(0.5, 0.5), new Vector(0.6, 0.6)); // completely inside of a
-      AABB c = new AABB(new Vector(-2.5, -2.5), new Vector(-2.4, -2.4)); // completely outside of a
-      AABB d = new AABB(new Vector(2.5, 2.5), new Vector(2.6, 2.6)); // completely outside of a
-      AABB e = new AABB(new Vector(0.5, 0.5), new Vector(2.6, 2.6)); // partially inside of a
-      AABB f = new AABB(new Vector(1.0, 1.0), new Vector(2.6, 2.6)); // partially inside of a (touching)
-      AABB g = new AABB(new Vector(-2.0, -2.0), new Vector(2.6, 2.6)); // completely containing a
+      AABB a = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
+      AABB b = new AABB(Vector.Create(0.5, 0.5), Vector.Create(0.6, 0.6)); // completely inside of a
+      AABB c = new AABB(Vector.Create(-2.5, -2.5), Vector.Create(-2.4, -2.4)); // completely outside of a
+      AABB d = new AABB(Vector.Create(2.5, 2.5), Vector.Create(2.6, 2.6)); // completely outside of a
+      AABB e = new AABB(Vector.Create(0.5, 0.5), Vector.Create(2.6, 2.6)); // partially inside of a
+      AABB f = new AABB(Vector.Create(1.0, 1.0), Vector.Create(2.6, 2.6)); // partially inside of a (touching)
+      AABB g = new AABB(Vector.Create(-2.0, -2.0), Vector.Create(2.6, 2.6)); // completely containing a
       
       Assert.IsTrue(a.Intersect(b));
       Assert.IsFalse(a.Intersect(c));
@@ -185,7 +185,7 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestClassifyPlane() {
-      AABB a = new AABB(new Vector(-1.0, -1.0), new Vector(1.0, 1.0));
+      AABB a = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
       Assert.AreEqual(EPlanePosition.LeftOfBV, a.ClassifyPlane(1, -2.0));
       Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 2.0));
       Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.5));

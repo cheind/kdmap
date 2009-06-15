@@ -34,7 +34,7 @@ namespace AcceleratorsTests
     public void TestAllCoordinatesSame()
     {
       KdNode<IVector> n = new KdNode<IVector>();
-      n.Vectors = new List<IVector>(new IVector[]{new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f)});
+      n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f)});
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<IVector>(n.Vectors);
       n.InternalBounds = new AABB(n.SplitBounds);
@@ -45,7 +45,7 @@ namespace AcceleratorsTests
     [Test]
     public void TestRoot() {
       KdNode<IVector> n = new KdNode<IVector>();
-      n.Vectors = new List<IVector>(new IVector[]{new Vector(1.0f, 0.5), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0)});
+      n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.5), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0)});
       n.SplitBounds = new AABB(2);
       n.SplitBounds.Enlarge<IVector>(n.Vectors);
       n.InternalBounds = new AABB(n.SplitBounds);
@@ -66,7 +66,7 @@ namespace AcceleratorsTests
       KdNode<IVector> second = first.SetLeftChild(new KdNode<IVector>());
       KdNode<IVector> third = second.SetLeftChild(new KdNode<IVector>());
       
-      third.Vectors = new List<IVector>(new IVector[]{new Vector(0.0, 0.5), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0)});
+      third.Vectors = new List<IVector>(new IVector[]{Vector.Create(0.0, 0.5), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0)});
       third.SplitBounds = new AABB(2);
       third.SplitBounds.Enlarge<IVector>(third.Vectors);
       third.InternalBounds = new AABB(third.SplitBounds);
@@ -77,6 +77,20 @@ namespace AcceleratorsTests
       second.SplitBounds = third.SplitBounds;
       second.InternalBounds = new AABB(third.InternalBounds);
       Assert.AreEqual(0, s.Select(second));
+    }
+
+    [Test]
+    [ExpectedException(typeof(DegenerateDatasetException))]
+    public void TestDegenerate() {
+      // Test when split bounds is non-empty, but all contained points are degenerate
+
+      KdNode<IVector> n = new KdNode<IVector>();
+      n.Vectors = new List<IVector>(new IVector[] { Vector.Create(-1, -5), Vector.Create(-1, -5)});
+      n.SplitBounds = new AABB(Vector.Create(-1.25, -5), Vector.Create(-1, -5));
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      PeriodicAxisSelector s = new PeriodicAxisSelector();
+      s.Select(n);
     }
     
   }

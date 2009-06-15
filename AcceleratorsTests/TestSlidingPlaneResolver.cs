@@ -33,7 +33,7 @@ namespace AcceleratorsTests
     public void TestEmptySplitsRegular()
     {
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[] { new Vector(-1.0), new Vector(1.0), new Vector(3.0), new Vector(2.0) });
+      n.Vectors = new List<Vector>(new Vector[] { Vector.Create(-1.0), Vector.Create(1.0), Vector.Create(3.0), Vector.Create(2.0) });
      
       SlidingPlaneResolver spr = new SlidingPlaneResolver();
       Assert.AreEqual(2.0, spr.Resolve(n, 0, 3.0, ETrivialSplitType.EmptyRight), FloatComparison.DefaultEps);
@@ -46,7 +46,7 @@ namespace AcceleratorsTests
     public void TestEmptySplitsRegularSmall()
     {
       KdNode<Vector> n = new KdNode<Vector>();
-      n.Vectors = new List<Vector>(new Vector[] { new Vector(-1.0), new Vector(1.0)});
+      n.Vectors = new List<Vector>(new Vector[] { Vector.Create(-1.0), Vector.Create(1.0)});
      
       SlidingPlaneResolver spr = new SlidingPlaneResolver();
       Assert.AreEqual(-1.0, spr.Resolve(n, 0, 1.0, ETrivialSplitType.EmptyRight), FloatComparison.DefaultEps);

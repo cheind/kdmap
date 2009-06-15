@@ -30,41 +30,41 @@ namespace AcceleratorsTests
     [Test()]
     public void TestAdd()
     {
-      Vector a = new Vector(1.0, 2.0);
-      Vector b = new Vector(-1.0, 3.0);
+      Vector a = Vector.Create(1.0, 2.0);
+      Vector b = Vector.Create(-1.0, 3.0);
       VectorOperations.Add(a, b, a);
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(0.0, 5.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, Vector.Create(0.0, 5.0), FloatComparison.DefaultEps));
     }
     
     [Test()]
     public void TestSub()
     {
-      Vector a = new Vector(1.0, 2.0);
-      Vector b = new Vector(-1.0, 3.0);
+      Vector a = Vector.Create(1.0, 2.0);
+      Vector b = Vector.Create(-1.0, 3.0);
       VectorOperations.Sub(a, b, a);
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(2.0, -1.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, Vector.Create(2.0, -1.0), FloatComparison.DefaultEps));
     }
     
     [Test()]
     public void TestScalarMul()
     {
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       VectorOperations.ScalarMul(a, 0.5, a);
-      Assert.IsTrue(VectorComparison.Close(a, new Vector(0.5, 1.0), FloatComparison.DefaultEps));
+      Assert.IsTrue(VectorComparison.Close(a, Vector.Create(0.5, 1.0), FloatComparison.DefaultEps));
     }
     
     [Test()]
     public void TestInner()
     {
-      Vector a = new Vector(1.0, 2.0);
-      Vector b = new Vector(-1.0, 3.0);
+      Vector a = Vector.Create(1.0, 2.0);
+      Vector b = Vector.Create(-1.0, 3.0);
       Assert.IsTrue(FloatComparison.Close(VectorOperations.Inner(a,b), 5.0, FloatComparison.DefaultEps));
     }
     
     [Test()]
     public void TestNormalize()
     {
-      Vector a = new Vector(1.0, 2.0);
+      Vector a = Vector.Create(1.0, 2.0);
       Vector na = new Vector(2);
       double old_len = VectorOperations.Normalize(a, na);
       Assert.AreEqual((double)Math.Sqrt(5.0), old_len, FloatComparison.DefaultEps);
@@ -75,13 +75,13 @@ namespace AcceleratorsTests
     [Test()]
     [ExpectedException(typeof(DivideByZeroException))]
     public void TestNormalizeZero() {
-      Vector a =new Vector(0.0, 0.0);
+      Vector a =Vector.Create(0.0, 0.0);
       VectorOperations.Normalize(a, a);
     }
     
     [Test()]
     public void TestCopy() {
-      Vector a = new Vector(3.0, 4.0);
+      Vector a = Vector.Create(3.0, 4.0);
       Vector b = new Vector(2);
       VectorOperations.Copy(a, b);
       Assert.IsTrue(VectorComparison.Close(a, b, FloatComparison.DefaultEps));      

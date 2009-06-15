@@ -39,26 +39,35 @@ namespace Accelerators
       _coordinates = new double[dimensions];
       VectorOperations.Fill(this, val);
     }
-    
+
     /// <summary>
     /// Create a two-dimensional vector with coordinates explicitly set.
     /// </summary>
-    public Vector(double x, double y) {
-      _coordinates = new double[2]{x, y};
+    public static Vector Create(double x, double y) {
+      Vector v = new Vector(2);
+      v[0] = x;
+      v[1] = y;
+      return v;
     }
-    
-    /// <summary>
-    /// Create a one-dimensional vector with coordinates explicitly set.
-    /// </summary>
-    public Vector(double x) {
-      _coordinates = new double[1]{x};
-    }
-    
+
     /// <summary>
     /// Create a three-dimesional vector with coordinates explicitly set.
     /// </summary>
-    public Vector(double x, double y, double z) {
-      _coordinates = new double[3]{x, y, z};
+    public static Vector Create(double x, double y, double z) {
+      Vector v = new Vector(3);
+      v[0] = x;
+      v[1] = y;
+      v[2] = z;
+      return v;
+    }
+
+    /// <summary>
+    /// Create a one-dimensional vector with coordinates explicitly set.
+    /// </summary>
+    public static Vector Create(double x) {
+      Vector v = new Vector(1);
+      v[0] = x;
+      return v;
     }
     
     /// <summary>
