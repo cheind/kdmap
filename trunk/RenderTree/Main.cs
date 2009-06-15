@@ -27,47 +27,90 @@ using System.IO;
 namespace RenderTree
 {
 	class MainClass
-	{	
+	{
+    class Progress : IDisposable {
 
+      public Progress(string message) {
+        _start = DateTime.Now;
+        Console.Write(message + " ...");
+      }
+
+      public static void Immediate(string message) {
+        Console.WriteLine(message + " ... done (took: 0.0s)");
+      }
+      
+      public void Dispose() {
+        TimeSpan s = DateTime.Now - _start;
+        Console.WriteLine(string.Format(" done (took: {0}s)", s.TotalSeconds));
+      }
+
+      private DateTime _start;
+    }
+
+    public static void PrintUsageAndExit(Parser p) {
+      UsageBuilder usage = new UsageBuilder();
+      usage.GroupOptionsByCategory = true;
+      usage.BeginSection("Name");
+      usage.AddParagraph("RenderTree.exe - Render the content of a kdtree");
+      usage.EndSection();
+
+      usage.BeginSection("Arguments");
+      usage.AddOptions(p.GetOptions());
+      usage.EndSection();
+
+      usage.ToText(System.Console.Out, OptStyle.Unix, true);
+      System.Environment.Exit(1);
+    }
 
 		public static void Main(string[] args)
 		{
       OptProperties props = new OptProperties();
-      Parser p = ParserFactory.BuildParser(props);
-      p.Parse(args);
+      Parser parser = ParserFactory.BuildParser(props);
+      parser.Parse(args);
 
-      if (props.Help) {
-        UsageBuilder usage = new UsageBuilder();
-        usage.GroupOptionsByCategory = true;
-        usage.BeginSection("Name");
-        usage.AddParagraph("RenderTree.exe - Render the content of a kdtree");
-        usage.EndSection();
+      if (props.Help || props.CSVFile == null || props.OutFile == null || !(new FileInfo(props.CSVFile).Exists)) {
+        PrintUsageAndExit(parser);
+      }
 
-        usage.BeginSection("Arguments");
-        usage.AddOptions(p.GetOptions());
-        usage.EndSection();
-        usage.ToText(System.Console.Out, OptStyle.Unix, true);
-      } else {
-        FileInfo fi = new FileInfo(props.CSVFile);
-        if (!fi.Exists)
-          throw new ArgumentException("Provided csv file does not exist");
+      Progress.Immediate(string.Format("Setting projection dimensions to {0}", props.ProjectionDimensions));
+      Progress.Immediate(string.Format("Setting drawing width to {0}", props.Width));
+      Progress.Immediate(string.Format("Setting drawing height to {0}", props.Width));
+      Progress.Immediate(string.Format("Setting drawing line width to {0}", props.LineWidth));
+      Progress.Immediate(string.Format("Setting drawing point size to {0}", props.PointSize));
+      Progress.Immediate(string.Format("Setting bucket size to {0}", props.BucketSize));
+      Progress.Immediate(string.Format("Setting ISplitDimensionSelector to '{0}'", props.ISplitDimensionSelector));
+      Progress.Immediate(string.Format("Setting ISplitLocationSelector to '{0}'", props.ISplitLocationSelector));
+      Progress.Immediate(string.Format("Setting ITrivialSplitResolver to '{0}'", props.ITrivialSplitResolver));
 
+      ICollection<IVector> vecs = null;
+      using (Progress p = new Progress(string.Format("Reading data from '{0}'", props.CSVFile))) {
         CSVReader r = new CSVReader(' ');
-        ICollection<IVector> vecs = r.Parse(props.CSVFile);
-        ISubdivisionPolicy policy = 
-          new SubdivisionPolicyConnector(props.BucketSize, 
-                                         props.ISplitDimensionSelectorInstance, 
-                                         props.ISplitLocationSelectorInstance, 
-                                         props.ITrivialSplitResolverInstance);
+        vecs = r.Parse(props.CSVFile);
+      }
 
-        KdTree<IVector> tree = new KdTree<IVector>(vecs, policy);
+      ISubdivisionPolicy policy = 
+        new SubdivisionPolicyConnector(props.BucketSize, 
+                                       props.ISplitDimensionSelectorInstance, 
+                                       props.ISplitLocationSelectorInstance, 
+                                       props.ITrivialSplitResolverInstance);
+
+      KdTree<IVector> tree = null;
+      using (Progress p = new Progress("Constructing kd-tree")) {
+        tree = new KdTree<IVector>(vecs, policy);
+      }
+      
+      using (Progress p = new Progress(string.Format("Rendering kd-tree to '{0}'", props.OutFile))) {
         RenderTreeCairo render = new RenderTreeCairo();
         render.Render(tree.Root, 
-                      new Pair<int, int>(0, 1), 
-                      props.OutFile, 
-                      props.Width, props.Height, 
-                      props.LineWidth, props.PointSize);
+                    props.ProjectionDimensions,
+                    props.OutFile, 
+                    props.Width, props.Height, 
+                    props.LineWidth, props.PointSize);
+
       }
+
+
+      
 		}
 	}
 }
