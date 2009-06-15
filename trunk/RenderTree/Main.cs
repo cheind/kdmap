@@ -111,9 +111,6 @@ namespace RenderTree
                     props.LineWidth, props.PointSize);
 
       }
-
-
-      
 		}
 	}
 }
