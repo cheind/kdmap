@@ -27,9 +27,15 @@ namespace Accelerators
   /// <remarks>
   /// Elements are stored only in leaf nodes.
   /// </remarks>
-  public partial class KdTree<T> where T : IVector
+  public partial class KdTree<T> : ICollection<T> where T : IVector
   {
     
+    public KdTree(int dimensions, Subdivision.ISubdivisionPolicy policy) {
+      _subdiv_policy = policy;
+      _root = this.CreateRootNode(dimensions);
+      _count = 0;
+    }
+
     /// <summary>
     /// Instance a new kd-tree with the given collection of points and a subdivision policy.
     /// </summary>
@@ -37,6 +43,7 @@ namespace Accelerators
     {
       _subdiv_policy = policy;
       _root = this.CreateRootNode(vecs);
+      _count = _root.Vectors.Count;
       this.RecursiveSplit(_root);
     }
     
@@ -48,13 +55,22 @@ namespace Accelerators
       if (!this.FirstFromEnumerable(vecs, out first))
         throw new ArgumentOutOfRangeException("Cannot work on empty collection");
       
-      _dimensions = first.Dimensions;
-      
       KdNode<T> n = new KdNode<T>();
-      n.InternalBounds = new AABB(_dimensions);
+      n.InternalBounds = new AABB(first.Dimensions);
       n.InternalBounds.Enlarge(vecs);
       n.SplitBounds = new AABB(n.InternalBounds);
       n.Vectors = new List<T>(vecs);
+      return n;
+    }
+
+    /// <summary>
+    /// Create empty root node
+    /// </summary>
+    private KdNode<T> CreateRootNode(int dimensions) {
+      KdNode<T> n = new KdNode<T>();
+      n.InternalBounds = new AABB(dimensions);
+      n.SplitBounds = new AABB(dimensions);
+      n.Vectors = new List<T>();
       return n;
     }
     
@@ -102,7 +118,74 @@ namespace Accelerators
     
     
     private Subdivision.ISubdivisionPolicy _subdiv_policy;
-    private int _dimensions;
+    private int _count; // number of elements in tree
     private KdNode<T> _root;
+
+    #region ICollection<T> Members
+
+    public void Add(T item) {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    public bool Remove(T item) {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    /// <summary>
+    /// Remove all items.
+    /// </summary>
+    public void Clear() {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    /// <summary>
+    /// Determines whether the kd-tree contains a specific value.
+    /// </summary>
+    public bool Contains(T item) {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    /// <summary>
+    /// Copies the elements of the kd-tree to an Array, starting at a particular Array index.
+    /// </summary>
+    public void CopyTo(T[] array, int arrayIndex) {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    /// <summary>
+    /// Gets the number of elements contained.
+    /// </summary>
+    public int Count {
+      get {
+        return _count;
+      }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the kd-tree is read only.
+    /// </summary>
+    public bool IsReadOnly {
+      get { 
+        return false; 
+      }
+    }
+
+    #endregion
+
+    #region IEnumerable<T> Members
+
+    public IEnumerator<T> GetEnumerator() {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    #endregion
+
+    #region IEnumerable Members
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    #endregion
   }
 }
