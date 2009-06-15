@@ -35,8 +35,9 @@ namespace AcceleratorsTests
     {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f), new Vector(1.0f, 0.0f)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       s.Select(n);
     }
@@ -45,14 +46,16 @@ namespace AcceleratorsTests
     public void TestRoot() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{new Vector(1.0f, 0.5), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0)});
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       Assert.AreEqual(1, s.Select(n));
       
       n.Vectors[0][0] = 0.5;
-      n.Bounds.Reset();
-      n.Bounds.Enlarge<IVector>(n.Vectors);
+      n.SplitBounds.Reset();
+      n.SplitBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       Assert.AreEqual(0, s.Select(n));
     }
     
@@ -64,13 +67,15 @@ namespace AcceleratorsTests
       KdNode<IVector> third = second.SetLeftChild(new KdNode<IVector>());
       
       third.Vectors = new List<IVector>(new IVector[]{new Vector(0.0, 0.5), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0), new Vector(1.0f, 0.0)});
-      third.Bounds = new AABB(2);
-      third.Bounds.Enlarge<IVector>(third.Vectors);
+      third.SplitBounds = new AABB(2);
+      third.SplitBounds.Enlarge<IVector>(third.Vectors);
+      third.InternalBounds = new AABB(third.SplitBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       Assert.AreEqual(1, s.Select(third));
       
       second.Vectors = third.Vectors;
-      second.Bounds = third.Bounds;
+      second.SplitBounds = third.SplitBounds;
+      second.InternalBounds = new AABB(third.InternalBounds);
       Assert.AreEqual(0, s.Select(second));
     }
     

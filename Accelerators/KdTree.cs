@@ -51,8 +51,9 @@ namespace Accelerators
       _dimensions = first.Dimensions;
       
       KdNode<T> n = new KdNode<T>();
-      n.Bounds = new AABB(_dimensions);
-      n.Bounds.Enlarge(vecs);
+      n.InternalBounds = new AABB(_dimensions);
+      n.InternalBounds.Enlarge(vecs);
+      n.SplitBounds = new AABB(n.InternalBounds);
       n.Vectors = new List<T>(vecs);
       return n;
     }
@@ -85,7 +86,9 @@ namespace Accelerators
           s.Push(n.Left);
           s.Push(n.Right);
           n.Vectors = null; // Elements are only stored in leaf nodes
-        } catch (Subdivision.SubdivisionException) {}
+        } catch (Subdivision.SubdivisionException e) {
+          System.Console.WriteLine("Cannot split node" + n + " because: " + e);
+        }
       }
     }
     

@@ -44,7 +44,7 @@ namespace Accelerators
     /// </summary>
     public T Find(IVector x) {
       // If point is not within root-bounds we can exit early
-      if (!this.Root.Bounds.Inside(x))
+      if (!this.Root.InternalBounds.Inside(x))
         return default(T);
       
       // Find the closest leaf. As the point is within root bounds the closest leaf is the 
@@ -67,7 +67,7 @@ namespace Accelerators
     public IEnumerable<T> FindInsideVolume(IBoundingVolume bv) {
      
       // Test against root node
-      if (bv.Intersect(this.Root.Bounds)) {
+      if (bv.Intersect(this.Root.InternalBounds)) {
         // Init search
         Stack<KdNode<T>> s = new Stack<KdNode<T>>();
         s.Push(this.Root);
@@ -114,7 +114,7 @@ namespace Accelerators
         max_distance2 = Double.MaxValue;
 
       // Push root
-      this.Root.Bounds.Closest(query, ref closest);
+      this.Root.SplitBounds.Closest(query, ref closest);
       dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
       if (dist2 <= max_distance2)
         pqNodes.Push(dist2, this.Root);
@@ -133,12 +133,12 @@ namespace Accelerators
             }
           } else {
             // For a node we insert its children if their closest point is less than the allowed maximum distance
-            n.Left.Bounds.Closest(query, ref closest);
+            n.Left.SplitBounds.Closest(query, ref closest);
             dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
             if (dist2 <= max_distance2)
               pqNodes.Push(dist2, n.Left);
 
-            n.Right.Bounds.Closest(query, ref closest);
+            n.Right.SplitBounds.Closest(query, ref closest);
             dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
             if (dist2 <= max_distance2)
               pqNodes.Push(dist2, n.Right);

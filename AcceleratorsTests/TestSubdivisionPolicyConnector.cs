@@ -36,8 +36,9 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(1.0, 1.0), new Vector(2.0, 3.0), new Vector(3.0, 1.0), new Vector(4.0, 1.0) });
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       c.Split(n);
     }
     
@@ -49,8 +50,9 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(1.0, 1.0), new Vector(2.0, 3.0), new Vector(3.0, 1.0), new Vector(4.0, 1.0) });
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       c.Split(n);
       c.Split(n); // split again
     }
@@ -61,8 +63,9 @@ namespace AcceleratorsTests
       
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(-1.0), new Vector(1.0), new Vector(3.0), new Vector(2.0) });
-      n.Bounds = new AABB(1);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(1);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       p.Split(n);
 
       Assert.AreEqual(1.0, n.SplitLocation, FloatComparison.DefaultEps);
@@ -79,11 +82,11 @@ namespace AcceleratorsTests
       Assert.AreEqual(3.0, right.Vectors[0][0], FloatComparison.DefaultEps);
       Assert.AreEqual(2.0, right.Vectors[1][0], FloatComparison.DefaultEps);
 
-      Assert.AreEqual(-1.0, left.Bounds.Lower[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, left.Bounds.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(-1.0, left.SplitBounds.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, left.SplitBounds.Upper[0], FloatComparison.DefaultEps);
 
-      Assert.AreEqual(1.0, right.Bounds.Lower[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(3.0, right.Bounds.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, right.SplitBounds.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(3.0, right.SplitBounds.Upper[0], FloatComparison.DefaultEps);
     }
     
     [Test]
@@ -92,8 +95,9 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { new Vector(1.0, 1.0), new Vector(1.0, -1.0), new Vector(1.0, 3.0), new Vector(1.0, 2.0) });
-      n.Bounds = new AABB(2);
-      n.Bounds.Enlarge<Vector>(n.Vectors);
+      n.SplitBounds = new AABB(2);
+      n.SplitBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.SplitBounds);
       p.Split(n);
 
       Assert.AreEqual(1.0, n.SplitLocation, FloatComparison.DefaultEps);
@@ -115,15 +119,15 @@ namespace AcceleratorsTests
       Assert.AreEqual(2.0, right.Vectors[1][1], FloatComparison.DefaultEps);
 
       
-      Assert.AreEqual(1.0, left.Bounds.Lower[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(-1.0, left.Bounds.Lower[1], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, left.Bounds.Upper[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, left.Bounds.Upper[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, left.SplitBounds.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(-1.0, left.SplitBounds.Lower[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, left.SplitBounds.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, left.SplitBounds.Upper[1], FloatComparison.DefaultEps);
 
-      Assert.AreEqual(1.0, right.Bounds.Lower[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, right.Bounds.Lower[1], FloatComparison.DefaultEps);
-      Assert.AreEqual(1.0, right.Bounds.Upper[0], FloatComparison.DefaultEps);
-      Assert.AreEqual(3.0, right.Bounds.Upper[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, right.SplitBounds.Lower[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, right.SplitBounds.Lower[1], FloatComparison.DefaultEps);
+      Assert.AreEqual(1.0, right.SplitBounds.Upper[0], FloatComparison.DefaultEps);
+      Assert.AreEqual(3.0, right.SplitBounds.Upper[1], FloatComparison.DefaultEps);
     }
   }
 }
