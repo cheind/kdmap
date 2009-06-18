@@ -30,6 +30,11 @@ namespace Accelerators
   public partial class KdTree<T> : ICollection<T> where T : IVector
   {
     
+    /// <summary>
+    /// Create empty kd-tree
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <param name="policy"></param>
     public KdTree(int dimensions, Subdivision.ISubdivisionPolicy policy) {
       _subdiv_policy = policy;
       _root = this.CreateRootNode(dimensions);
