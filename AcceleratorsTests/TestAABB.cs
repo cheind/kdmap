@@ -34,8 +34,8 @@ namespace AcceleratorsTests
       Assert.AreEqual(a.Upper.Dimensions, 2);
       Assert.AreEqual(Double.MaxValue, a.Lower[0]);
       Assert.AreEqual(Double.MaxValue, a.Lower[1]);
-      Assert.AreEqual(-Double.MaxValue, a.Upper[0]);
-      Assert.AreEqual(-Double.MaxValue, a.Upper[1]);
+      Assert.AreEqual(Double.MinValue, a.Upper[0]);
+      Assert.AreEqual(Double.MinValue, a.Upper[1]);
       Assert.IsTrue(a.Empty);
     }
     
