@@ -63,7 +63,6 @@ namespace Accelerators
       KdNode<T> n = new KdNode<T>();
       n.InternalBounds = new AABB(first.Dimensions);
       n.InternalBounds.Enlarge(vecs);
-      n.SplitBounds = new AABB(n.InternalBounds);
       n.Vectors = new List<T>(vecs);
       return n;
     }
@@ -74,7 +73,6 @@ namespace Accelerators
     private KdNode<T> CreateRootNode(int dimensions) {
       KdNode<T> n = new KdNode<T>();
       n.InternalBounds = new AABB(dimensions);
-      n.SplitBounds = new AABB(dimensions);
       n.Vectors = new List<T>();
       return n;
     }

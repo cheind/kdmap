@@ -114,7 +114,7 @@ namespace Accelerators
         max_distance2 = Double.MaxValue;
 
       // Push root
-      this.Root.SplitBounds.Closest(query, ref closest);
+      this.Root.InternalBounds.Closest(query, ref closest);
       dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
       if (dist2 <= max_distance2)
         pqNodes.Push(dist2, this.Root);
@@ -133,12 +133,12 @@ namespace Accelerators
             }
           } else {
             // For a node we insert its children if their closest point is less than the allowed maximum distance
-            n.Left.SplitBounds.Closest(query, ref closest);
+            n.Left.InternalBounds.Closest(query, ref closest);
             dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
             if (dist2 <= max_distance2)
               pqNodes.Push(dist2, n.Left);
 
-            n.Right.SplitBounds.Closest(query, ref closest);
+            n.Right.InternalBounds.Closest(query, ref closest);
             dist2 = VectorReductions.SquaredL2NormDistance(query, closest);
             if (dist2 <= max_distance2)
               pqNodes.Push(dist2, n.Right);

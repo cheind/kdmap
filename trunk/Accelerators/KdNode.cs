@@ -49,19 +49,6 @@ namespace Accelerators
         _p = value;
       }
     }
-    
-    /// <value>
-    /// Axis aligned bounding box of this node as produced by splitting at
-    /// the parent split plane
-    /// </value>
-    public AABB SplitBounds {
-      get {
-        return _aabb_split;
-      }
-      set {
-        _aabb_split = value;
-      }
-    }
 
     /// <value>
     /// Axis aligned bounding box of the points contained in this node. This AABB is
@@ -73,6 +60,34 @@ namespace Accelerators
       }
       set {
         _aabb_internal = value;
+      }
+    }
+
+    /// <summary>
+    /// Axis aligned bounding box of entire node area. The volume of SplitBounds is always
+    /// bigger than or equal to the InternalBounds. This property is calculated on the fly.
+    /// </summary>
+    public AABB SplitBounds {
+      get {
+        // We start with an empty aabb and walk our way up to root and setting the coordinates
+        // of lower and upper accordingly.
+        AABB aabb = new AABB(this.InternalBounds.Dimensions);
+        foreach (KdNode<T> n in this.Ancestors) {
+          if (n.Root) {
+            // When the root node is reached the aabb might be unbound on one or
+            // more sides. The InternalBounds of root are equal its split bounds.
+            // So we limit the unbound sides to those given by the root.
+            aabb.LimitLower(n.InternalBounds.Lower);
+            aabb.LimitUpper(n.InternalBounds.Upper);
+          } else {
+            if (n.Parent.ContainsInLeftSubTree(n)) {
+              aabb.LimitUpper(n.Parent.SplitDimension, n.Parent.SplitLocation);
+            } else { // In right subtree
+              aabb.LimitLower(n.Parent.SplitDimension, n.Parent.SplitLocation);
+            }
+          }
+        }
+        return aabb;
       }
     }
     
@@ -93,13 +108,13 @@ namespace Accelerators
     /// </summary>
     public override string ToString ()
     {
-      return string.Format("[KdNode: SplitDimension={0}, SplitLocation={1}, Leaf={2}, Bounds={3}]", SplitDimension, SplitLocation, Leaf, SplitBounds);
+      return string.Format("[KdNode: SplitDimension={0}, SplitLocation={1}, Leaf={2}, Bounds={3}]", SplitDimension, SplitLocation, Leaf, InternalBounds);
     }
 
     
     private int _k;
     private double _p;
-    private AABB _aabb_split, _aabb_internal;
+    private AABB _aabb_internal;
     private List<T> _vectors;
   }
 }
