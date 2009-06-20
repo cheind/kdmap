@@ -190,6 +190,34 @@ namespace AcceleratorsTests
       Assert.AreEqual(EPlanePosition.RightOfBV, a.ClassifyPlane(1, 2.0));
       Assert.AreEqual(EPlanePosition.IntersectingBV, a.ClassifyPlane(1, 0.5));
     }
+
+    [Test]
+    public void TestLimitLower() {
+      AABB a = new AABB(Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0));
+      a.LimitLower(Vector.Create(-0.5, -1.5));
+      Assert.AreEqual(a.Lower[0], -0.5, FloatComparison.DefaultEps);
+      Assert.AreEqual(a.Lower[1], -1.0, FloatComparison.DefaultEps);
+
+      a = new AABB(2);
+      a.Lower[0] = 1.0;
+      a.LimitLower(Vector.Create(-0.5, -1.5));
+      Assert.AreEqual(a.Lower[0], 1.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(a.Lower[1], -1.5, FloatComparison.DefaultEps);
+    }
+
+    [Test]
+    public void TestLimitUpper() {
+      AABB a = new AABB(Vector.Create(-5.0, -5.0), Vector.Create(1.0, 1.0));
+      a.LimitUpper(Vector.Create(-0.5, -1.5));
+      Assert.AreEqual(a.Upper[0], -0.5, FloatComparison.DefaultEps);
+      Assert.AreEqual(a.Upper[1], -1.5, FloatComparison.DefaultEps);
+
+      a = new AABB(2);
+      a.Upper[0] = 1.0;
+      a.LimitUpper(Vector.Create(-0.5, -1.5));
+      Assert.AreEqual(a.Upper[0], -0.5, FloatComparison.DefaultEps);
+      Assert.AreEqual(a.Upper[1], -1.5, FloatComparison.DefaultEps);
+    }
     
     
   }

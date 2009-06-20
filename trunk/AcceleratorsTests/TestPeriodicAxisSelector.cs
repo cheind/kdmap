@@ -35,9 +35,9 @@ namespace AcceleratorsTests
     {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f)});
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       s.Select(n);
     }
@@ -46,16 +46,16 @@ namespace AcceleratorsTests
     public void TestRoot() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.5), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0)});
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       Assert.AreEqual(1, s.Select(n));
       
       n.Vectors[0][0] = 0.5;
-      n.SplitBounds.Reset();
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds.Reset();
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       Assert.AreEqual(0, s.Select(n));
     }
     
@@ -67,14 +67,14 @@ namespace AcceleratorsTests
       KdNode<IVector> third = second.SetLeftChild(new KdNode<IVector>());
       
       third.Vectors = new List<IVector>(new IVector[]{Vector.Create(0.0, 0.5), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0)});
-      third.SplitBounds = new AABB(2);
-      third.SplitBounds.Enlarge<IVector>(third.Vectors);
-      third.InternalBounds = new AABB(third.SplitBounds);
+      third.InternalBounds = new AABB(2);
+      third.InternalBounds.Enlarge<IVector>(third.Vectors);
+      third.InternalBounds = new AABB(third.InternalBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       Assert.AreEqual(1, s.Select(third));
       
       second.Vectors = third.Vectors;
-      second.SplitBounds = third.SplitBounds;
+      second.InternalBounds = third.InternalBounds;
       second.InternalBounds = new AABB(third.InternalBounds);
       Assert.AreEqual(0, s.Select(second));
     }

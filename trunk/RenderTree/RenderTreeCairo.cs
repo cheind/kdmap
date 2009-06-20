@@ -48,11 +48,11 @@ namespace RenderTree {
 
           // Prepare for world to surface rendering
           CairoRenderer cr = new CairoRenderer();
-          cr.SetupWorldToSurfaceTransform(tree.SplitBounds, projection, width, height, true);
+          cr.SetupWorldToSurfaceTransform(tree.InternalBounds, projection, width, height, true);
 
           // Render world bounds
           gr.Color = black;
-          cr.RenderAABB(tree.SplitBounds, gr);
+          cr.RenderAABB(tree.InternalBounds, gr);
           gr.Stroke();
 
           // Render leaves
@@ -66,13 +66,14 @@ namespace RenderTree {
           gr.Color = black;
           foreach (KdNode<IVector> n in tree.PreOrder) {
             if (n.Intermediate) {
+              AABB split_bounds = n.SplitBounds;
               if (n.SplitDimension == projection.First) {
-                Vector from = Vector.Create(n.SplitLocation, n.SplitBounds.Lower[projection.Second]);
-                Vector to = Vector.Create(n.SplitLocation, n.SplitBounds.Upper[projection.Second]);
+                Vector from = Vector.Create(n.SplitLocation, split_bounds.Lower[projection.Second]);
+                Vector to = Vector.Create(n.SplitLocation, split_bounds.Upper[projection.Second]);
                 cr.RenderLine(from, to, gr);
               } else if (n.SplitDimension == projection.Second) {
-                Vector from = Vector.Create(n.SplitBounds.Lower[projection.First], n.SplitLocation);
-                Vector to = Vector.Create(n.SplitBounds.Upper[projection.First], n.SplitLocation);
+                Vector from = Vector.Create(split_bounds.Lower[projection.First], n.SplitLocation);
+                Vector to = Vector.Create(split_bounds.Upper[projection.First], n.SplitLocation);
                 cr.RenderLine(from, to, gr);   
               }
             }

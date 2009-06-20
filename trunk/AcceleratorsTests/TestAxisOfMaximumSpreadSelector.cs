@@ -35,9 +35,9 @@ namespace AcceleratorsTests
     {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f), Vector.Create(1.0f), Vector.Create(1.0f), Vector.Create(1.0f)});
-      n.SplitBounds = new AABB(1);
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(1);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       s.Select(n);
     }
@@ -46,9 +46,9 @@ namespace AcceleratorsTests
     public void TestSecondAxisIsAxisOfMaximumSpread() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(0.5, 0.5), Vector.Create(1.0f, -1.0), Vector.Create(1.0f, 2.0), Vector.Create(1.0f, 1.5)});
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       Assert.AreEqual(1, s.Select(n));
     }
@@ -58,9 +58,9 @@ namespace AcceleratorsTests
     public void TestFirstAxisIsAxisOfMaximumSpread() {
       KdNode<IVector> n = new KdNode<IVector>();
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(-10.0f, 0.5), Vector.Create(1.0f, -1.0), Vector.Create(1.0f, 2.0), Vector.Create(1.0f, 1.5)});
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<IVector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       AxisOfMaximumSpreadSelector s = new AxisOfMaximumSpreadSelector();
       Assert.AreEqual(0, s.Select(n));
     }

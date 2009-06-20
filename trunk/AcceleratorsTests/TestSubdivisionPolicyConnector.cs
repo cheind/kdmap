@@ -36,9 +36,9 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { Vector.Create(1.0, 1.0), Vector.Create(2.0, 3.0), Vector.Create(3.0, 1.0), Vector.Create(4.0, 1.0) });
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<Vector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       c.Split(n);
     }
     
@@ -50,9 +50,9 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { Vector.Create(1.0, 1.0), Vector.Create(2.0, 3.0), Vector.Create(3.0, 1.0), Vector.Create(4.0, 1.0) });
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<Vector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       c.Split(n);
       c.Split(n); // split again
     }
@@ -63,9 +63,8 @@ namespace AcceleratorsTests
       
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { Vector.Create(-1.0), Vector.Create(1.0), Vector.Create(3.0), Vector.Create(2.0) });
-      n.SplitBounds = new AABB(1);
-      n.SplitBounds.Enlarge<Vector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(1);
+      n.InternalBounds.Enlarge<Vector>(n.Vectors);
       p.Split(n);
 
       Assert.AreEqual(1.0, n.SplitLocation, FloatComparison.DefaultEps);
@@ -95,9 +94,8 @@ namespace AcceleratorsTests
 
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { Vector.Create(1.0, 1.0), Vector.Create(1.0, -1.0), Vector.Create(1.0, 3.0), Vector.Create(1.0, 2.0) });
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<Vector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<Vector>(n.Vectors);
       p.Split(n);
 
       Assert.AreEqual(1.0, n.SplitLocation, FloatComparison.DefaultEps);

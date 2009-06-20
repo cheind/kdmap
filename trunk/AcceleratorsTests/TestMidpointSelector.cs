@@ -31,9 +31,9 @@ namespace AcceleratorsTests
     public void TestCalculationOfMidpoint() {
       KdNode<Vector> n = new KdNode<Vector>();
       n.Vectors = new List<Vector>(new Vector[] { Vector.Create(1.0, 1.0), Vector.Create(1.0, -1.0), Vector.Create(1.0, 3.0), Vector.Create(2.0, 2.0) });
-      n.SplitBounds = new AABB(2);
-      n.SplitBounds.Enlarge<Vector>(n.Vectors);
-      n.InternalBounds = new AABB(n.SplitBounds);
+      n.InternalBounds = new AABB(2);
+      n.InternalBounds.Enlarge<Vector>(n.Vectors);
+      n.InternalBounds = new AABB(n.InternalBounds);
       MidpointSelector s = new MidpointSelector();
       Assert.AreEqual(1.5, s.Select(n, 0), FloatComparison.DefaultEps);
       Assert.AreEqual(1.0, s.Select(n, 1), FloatComparison.DefaultEps);
