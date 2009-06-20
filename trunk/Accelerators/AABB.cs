@@ -126,8 +126,46 @@ namespace Accelerators
         return _min;
       }
     }
-    
-    
+
+    /// <summary>
+    /// Limit the lower corner to the given limit.
+    /// </summary>
+    public void LimitLower(IVector limit) {
+      for (int i = 0; i < this.Dimensions; ++i) {
+        this.LimitLower(i, limit[i]);
+      }
+    }
+
+    /// <summary>
+    /// Limit the lower corner to the given limit.
+    /// </summary>
+    public void LimitLower(int dimension, double limit) {
+      double lo = Lower[dimension];
+      if (lo == Double.MaxValue || limit > lo) {
+        Lower[dimension] = limit;
+      }
+    }
+
+    /// <summary>
+    /// Limit the upper corner to the given limit.
+    /// </summary>
+    public void LimitUpper(IVector limit) {
+      for (int i = 0; i < this.Dimensions; ++i) {
+        this.LimitUpper(i, limit[i]);
+      }
+    }
+
+    /// <summary>
+    /// Limit the lower corner to the given limit.
+    /// </summary>
+    public void LimitUpper(int dimension, double limit) {
+      double up = Upper[dimension];
+      if (up == Double.MinValue || limit < up) {
+        Upper[dimension] = limit;
+      }
+    }
+
+
     /// <value>
     /// Upper corner of AABB.
     /// Changes to the returned vector will affect the internal state of this ABBB.
