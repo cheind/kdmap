@@ -119,6 +119,37 @@ namespace AcceleratorsTests
       Assert.AreEqual("fea", MakeStringFromIteration(leaves[1].Ancestors));
       Assert.AreEqual("hgea", MakeStringFromIteration(leaves[2].Ancestors));
     }
+
+    [Test]
+    public void TestContainsInLeftRightSubTree() {
+      CharNode root = ExampleTree;
+      List<CharNode> leaves = new List<CharNode>(root.Leaves);
+      List<CharNode> leaf_parents = new List<CharNode>();
+      foreach (CharNode n in leaves) {
+        leaf_parents.Add(n.Parent);
+      }
+      Assert.IsTrue(root.ContainsInLeftSubTree(leaves[0])); // 'd'
+      Assert.IsFalse(root.ContainsInLeftSubTree(leaves[1])); // 'f'
+      Assert.IsFalse(root.ContainsInLeftSubTree(leaves[2])); // 'h'
+
+      Assert.IsTrue(leaf_parents[0].ContainsInLeftSubTree(leaves[0]));
+      Assert.IsTrue(leaf_parents[1].ContainsInLeftSubTree(leaves[1]));
+      Assert.IsFalse(leaf_parents[1].ContainsInRightSubTree(leaves[1]));
+      Assert.IsTrue(leaf_parents[1].ContainsInRightSubTree(leaves[2]));
+
+      // When query node is not part of subtree the method throws an exception
+      Assert.Throws(typeof(InvalidOperationException),
+        delegate { leaf_parents[1].ContainsInRightSubTree(leaves[0]); });
+
+      // When the query node is the same node as the node the query is executed on
+      // an exception is thrown
+      Assert.Throws(typeof(InvalidOperationException),
+        delegate { leaf_parents[1].ContainsInRightSubTree(leaf_parents[1]); });
+      Assert.Throws(typeof(InvalidOperationException),
+        delegate { leaf_parents[1].ContainsInLeftSubTree(leaf_parents[1]); });
+    }
+
+    
     
 
   }

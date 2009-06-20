@@ -35,11 +35,11 @@ namespace RenderTree
 
       public Progress(string message) {
         _start = DateTime.Now;
-        Console.Write(message + " ...");
+        Console.Write(message + " ..");
       }
 
       public static void Immediate(string message) {
-        Console.WriteLine(message + " ... done (took: 0.0s)");
+        Console.WriteLine(message + " .. done (took: 0.0s)");
       }
       
       public void Dispose() {

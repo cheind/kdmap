@@ -54,7 +54,7 @@ namespace AcceleratorsTests
       foreach (T t in leaf.Vectors) {
         KdNode<T> previous = leaf; // Used to track left/right while walking upwards.
         foreach (KdNode<T> n in leaf.Ancestors) {
-          Assert.IsTrue(n.SplitBounds.Inside(t));
+          Assert.IsTrue(n.InternalBounds.Inside(t));
           Assert.IsTrue(n.InternalBounds.Inside(t));
           if (n.Intermediate) {
             if (previous == n.Left)
@@ -80,7 +80,7 @@ namespace AcceleratorsTests
         Assert.IsTrue(n.Parent.Left == n || n.Parent.Right == n);
       }
       // Split dimension must be within bounds
-      Assert.Less(n.SplitDimension, n.SplitBounds.Dimensions);
+      Assert.Less(n.SplitDimension, n.InternalBounds.Dimensions);
       // Split location must be within bounds
       Assert.LessOrEqual(n.SplitBounds.Lower[n.SplitDimension], n.SplitLocation);
       Assert.GreaterOrEqual(n.SplitBounds.Upper[n.SplitDimension], n.SplitLocation);
@@ -88,7 +88,7 @@ namespace AcceleratorsTests
       Assert.AreEqual(n.Left.SplitBounds.Upper[n.SplitDimension], n.SplitLocation, FloatComparison.DefaultEps);
       Assert.AreEqual(n.Right.SplitBounds.Lower[n.SplitDimension], n.SplitLocation, FloatComparison.DefaultEps);
       // The inner bounding volume must be contained in the split bounding volume
-      for (int i = 0; i < n.SplitBounds.Dimensions; ++i) {
+      for (int i = 0; i < n.InternalBounds.Dimensions; ++i) {
         Assert.LessOrEqual(n.SplitBounds.Lower[i], n.InternalBounds.Lower[i]);
         Assert.GreaterOrEqual(n.SplitBounds.Upper[i], n.InternalBounds.Upper[i]);
       }
