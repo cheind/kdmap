@@ -160,6 +160,30 @@ namespace Accelerators
       this.Right = null;
       return n;
     }
+
+    /// <summary>
+    /// Test if given node is in left subtree of the current node.
+    /// </summary>
+    public bool ContainsInLeftSubTree(InheritedType node) {
+      if (node == this)
+        throw new InvalidOperationException("Queried node and query node cannot be the same.");
+      InheritedType previous = node;
+      foreach(InheritedType n in node.Ancestors) {
+        if (n == this) {
+          return this.Left == previous;
+        }
+        previous = n;
+      }
+      // Walked up to root but did not encounter self.
+      throw new InvalidOperationException(String.Format("Node {0} is not an ancestor of Node {1}", this, node));
+    }
+
+    /// <summary>
+    /// Test if given node is in left subtree of the current node.
+    /// </summary>s
+    public bool ContainsInRightSubTree(InheritedType node) {
+      return !this.ContainsInLeftSubTree(node);
+    }
     
     /// <value>
     /// Pre-order iteration.
