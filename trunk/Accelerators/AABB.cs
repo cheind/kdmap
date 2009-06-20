@@ -33,7 +33,7 @@ namespace Accelerators
     public AABB(int dimensions)
     {
       _min = new Vector(dimensions, Double.MaxValue);
-      _max = new Vector(dimensions, -Double.MaxValue);
+      _max = new Vector(dimensions, Double.MinValue);
     }
     
     /// <summary>
@@ -105,7 +105,7 @@ namespace Accelerators
       get {
         return 
           VectorComparison.Equal(_min, new Vector(this.Dimensions, Double.MaxValue)) &&
-          VectorComparison.Equal(_max, new Vector(this.Dimensions, -Double.MaxValue));
+          VectorComparison.Equal(_max, new Vector(this.Dimensions, Double.MinValue));
       }
     }
     
@@ -114,7 +114,7 @@ namespace Accelerators
     /// </summary>
     public void Reset() {
       VectorOperations.Fill(_min, Double.MaxValue);
-      VectorOperations.Fill(_max, -Double.MaxValue);
+      VectorOperations.Fill(_max, Double.MinValue);
     }
     
     /// <value>
