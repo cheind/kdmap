@@ -153,13 +153,27 @@ namespace AcceleratorsTests
 
     [Test]
     public void TestStaticConstruction() {
-      KdTree<IVector> tree = new KdTree<IVector>(VectorSampling.InAABB(1000, 2, -100.0, 100.0, 10), new SubdivisionPolicyConnector(1));
+      KdTree<IVector> tree = new KdTree<IVector>(VectorSampling.InAABB(5000, 2, -100.0, 100.0, 10), new SubdivisionPolicyConnector(1));
       KdNodeInvariants.AreMetBy(tree.Root);
       int count = 0;
       foreach (KdNode<IVector> n in tree.Root.Leaves) {
         count += n.Vectors.Count;
       }
-      Assert.AreEqual(count, 1000);
+      Assert.AreEqual(5000, count);
+    }
+
+    [Test]
+    public void TestDynamicConstruction() {
+      KdTree<IVector> tree = new KdTree<IVector>(2, new SubdivisionPolicyConnector(1));
+      foreach (IVector iv in VectorSampling.InAABB(5000, 2, -100.0, 100.0, 10)) {
+        tree.Add(iv);
+      }
+      KdNodeInvariants.AreMetBy(tree.Root);
+      int count = 0;
+      foreach (KdNode<IVector> n in tree.Root.Leaves) {
+        count += n.Vectors.Count;
+      }
+      Assert.AreEqual(5000, count);
     }
   }
 }

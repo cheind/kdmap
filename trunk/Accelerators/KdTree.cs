@@ -39,6 +39,7 @@ namespace Accelerators
       _subdiv_policy = policy;
       _root = this.CreateRootNode(dimensions);
       _count = 0;
+      _equality_comp = EqualityComparer<T>.Default;
     }
 
     /// <summary>
@@ -49,7 +50,8 @@ namespace Accelerators
       _subdiv_policy = policy;
       _root = this.CreateRootNode(vecs);
       _count = _root.Vectors.Count;
-      this.RecursiveSplit(_root);
+      _equality_comp = EqualityComparer<T>.Default;
+      this.Split(_root);
     }
     
     /// <summary>
@@ -93,19 +95,29 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Perform splitting as long as possible
+    /// Perform recursive splitting as long as possible
     /// </summary>
-    private void RecursiveSplit(KdNode<T> target) {
-      Stack<KdNode<T>> s = new Stack<KdNode<T>>();
-      s.Push(target);
-      while (s.Count > 0) {
-        KdNode<T> n = s.Pop();
+    private void Split(KdNode<T> target) {
+      try {
+        _subdiv_policy.Split(target);
+        target.Vectors = null;
+        Split(target.Left);
+        Split(target.Right);
+      } catch (Subdivision.SubdivisionException) {}
+    }
+
+    /// <summary>
+    /// Perform a single collapse on the target node
+    /// </summary>
+    private bool Collapse(KdNode<T> target) {
+      if (target.Root) {
+        return false;
+      } else {
         try {
-          _subdiv_policy.Split(n);
-          s.Push(n.Left);
-          s.Push(n.Right);
-          n.Vectors = null; // Elements are only stored in leaf nodes
+          _subdiv_policy.Collapse(target.Parent);
+          return true;
         } catch (Subdivision.SubdivisionException) {
+          return false;
         }
       }
     }
@@ -118,19 +130,42 @@ namespace Accelerators
         return _root;
       }
     }
-    
-    
-    private Subdivision.ISubdivisionPolicy _subdiv_policy;
-    private int _count; // number of elements in tree
-    private KdNode<T> _root;
 
-    #region ICollection<T> Members
-
+    /// <summary>
+    /// Add an item to the kd-tree.
+    /// </summary>
+    /// <remarks>
+    /// Duplicate IVectors are allowed to be contained.
+    /// </remarks>
     public void Add(T item) {
-      throw new Exception("The method or operation is not implemented.");
+      KdNode<T> leaf = this.FindClosestLeaf(item);
+      bool need_stretching = !leaf.InternalBounds.Inside(item);
+      leaf.Vectors.Add(item);
+      
+      if (need_stretching)
+        this.StretchAncestorBounds(leaf, item);
+      else
+        leaf.InternalBounds.Enlarge(item);
+
+      this.Split(leaf);
+      _count += 1;
+    }
+
+    /// <summary>
+    /// Enlarge the internal bounds of all ancestors of the target node including
+    /// the target node itself.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="item"></param>
+    private void StretchAncestorBounds(KdNode<T> target, T item) {
+      foreach(KdNode<T> n in target.Ancestors) {
+        n.InternalBounds.Enlarge(item);
+      }
     }
 
     public bool Remove(T item) {
+      KdNode<T> leaf = this.FindClosestLeaf(item);
+      int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(item, obj); });
       throw new Exception("The method or operation is not implemented.");
     }
 
@@ -173,22 +208,18 @@ namespace Accelerators
       }
     }
 
-    #endregion
-
-    #region IEnumerable<T> Members
-
     public IEnumerator<T> GetEnumerator() {
       throw new Exception("The method or operation is not implemented.");
     }
-
-    #endregion
-
-    #region IEnumerable Members
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
       throw new Exception("The method or operation is not implemented.");
     }
 
-    #endregion
+
+    private Subdivision.ISubdivisionPolicy _subdiv_policy;
+    private int _count; // number of elements in tree
+    private KdNode<T> _root;
+    private IEqualityComparer<T> _equality_comp;
   }
 }
