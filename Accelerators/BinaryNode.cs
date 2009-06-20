@@ -165,12 +165,13 @@ namespace Accelerators
     /// Test if given node is in left subtree of the current node.
     /// </summary>
     public bool ContainsInLeftSubTree(InheritedType node) {
+      // If query node equals queried node, throw an exception
       if (node == this)
         throw new InvalidOperationException("Queried node and query node cannot be the same.");
       InheritedType previous = node;
       foreach(InheritedType n in node.Ancestors) {
         if (n == this) {
-          return this.Left == previous;
+          return this.Left != null && this.Left == previous;
         }
         previous = n;
       }
