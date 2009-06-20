@@ -33,7 +33,7 @@ namespace RenderTree
       _deliminators = new char[] { deliminator };
     }
 
-    public ICollection<IVector> Parse(string path)
+    public IList<IVector> Parse(string path)
     {
       List<IVector> vecs = new List<IVector>();
       using (StreamReader sr = new StreamReader(path)) {

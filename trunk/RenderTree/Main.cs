@@ -85,7 +85,7 @@ namespace RenderTree
       Progress.Immediate(string.Format("Setting ISplitLocationSelector to '{0}'", props.ISplitLocationSelector));
       Progress.Immediate(string.Format("Setting ITrivialSplitResolver to '{0}'", props.ITrivialSplitResolver));
 
-      ICollection<IVector> vecs = null;
+      IList<IVector> vecs = null;
       using (Progress p = new Progress(string.Format("Reading data from '{0}'", props.CSVFile))) {
         CSVReader r = new CSVReader(' ');
         vecs = r.Parse(props.CSVFile);
