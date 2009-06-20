@@ -153,13 +153,13 @@ namespace AcceleratorsTests
 
     [Test]
     public void TestStaticConstruction() {
-      KdTree<IVector> tree = new KdTree<IVector>(VectorSampling.InAABB(10000, 2, -100.0, 100.0, 10), new SubdivisionPolicyConnector(1));
+      KdTree<IVector> tree = new KdTree<IVector>(VectorSampling.InAABB(1000, 2, -100.0, 100.0, 10), new SubdivisionPolicyConnector(1));
       KdNodeInvariants.AreMetBy(tree.Root);
       int count = 0;
       foreach (KdNode<IVector> n in tree.Root.Leaves) {
         count += n.Vectors.Count;
       }
-      Assert.AreEqual(count, 10000);
+      Assert.AreEqual(count, 1000);
     }
   }
 }

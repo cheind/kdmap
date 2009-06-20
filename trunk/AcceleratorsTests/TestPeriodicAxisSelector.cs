@@ -37,7 +37,6 @@ namespace AcceleratorsTests
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f), Vector.Create(1.0f, 0.0f)});
       n.InternalBounds = new AABB(2);
       n.InternalBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.InternalBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       s.Select(n);
     }
@@ -48,14 +47,12 @@ namespace AcceleratorsTests
       n.Vectors = new List<IVector>(new IVector[]{Vector.Create(1.0f, 0.5), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0), Vector.Create(1.0f, 0.0)});
       n.InternalBounds = new AABB(2);
       n.InternalBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.InternalBounds);
       PeriodicAxisSelector s = new PeriodicAxisSelector();
       Assert.AreEqual(1, s.Select(n));
       
       n.Vectors[0][0] = 0.5;
       n.InternalBounds.Reset();
       n.InternalBounds.Enlarge<IVector>(n.Vectors);
-      n.InternalBounds = new AABB(n.InternalBounds);
       Assert.AreEqual(0, s.Select(n));
     }
     
