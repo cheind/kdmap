@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
 using System;
-using Cairo;
 using Accelerators;
 using Accelerators.Subdivision;
 using System.Collections.Generic;
@@ -103,7 +102,7 @@ namespace RenderTree
       }
       
       using (Progress p = new Progress(string.Format("Rendering kd-tree to '{0}'", props.OutFile))) {
-        RenderTreeCairo render = new RenderTreeCairo();
+        Rendering.RenderTreeCairo render = new Rendering.RenderTreeCairo();
         render.Render(tree.Root, 
                     props.ProjectionDimensions,
                     props.OutFile, 
