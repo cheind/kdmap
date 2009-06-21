@@ -38,6 +38,7 @@ namespace Accelerators
     public KdTree(int dimensions, Subdivision.ISubdivisionPolicy policy) {
       _subdiv_policy = policy;
       _root = this.CreateRootNode(dimensions);
+      _cls = new Searches.ClosestLeafSearch<T>(_root);
       _count = 0;
     }
 
@@ -48,6 +49,7 @@ namespace Accelerators
     {
       _subdiv_policy = policy;
       _root = this.CreateRootNode(vecs);
+      _cls = new Searches.ClosestLeafSearch<T>(_root);
       _count = _root.Vectors.Count;
       this.Split(_root);
     }
@@ -66,10 +68,7 @@ namespace Accelerators
     /// Creates the root kd-tree node that contains the entire scene
     /// </summary>
     private KdNode<T> CreateRootNode(IEnumerable<T> vecs) {
-      T first;
-      if (!this.FirstFromEnumerable(vecs, out first))
-        throw new ArgumentOutOfRangeException("Cannot work on empty collection");
-      
+      T first = Numbered.First(vecs);
       KdNode<T> n = new KdNode<T>();
       n.InternalBounds = new AABB(first.Dimensions);
       n.InternalBounds.Enlarge(vecs);
@@ -85,21 +84,6 @@ namespace Accelerators
       n.InternalBounds = new AABB(dimensions);
       n.Vectors = new List<T>();
       return n;
-    }
-    
-    /// <summary>
-    /// Find the first element in the Enumerable.
-    /// </summary>
-    private bool FirstFromEnumerable(IEnumerable<T> vecs, out T first) {
-      bool non_empty = false;
-      first = default(T);
-      using (IEnumerator<T> e = vecs.GetEnumerator()) {
-        if (e.MoveNext()) {
-          first = e.Current;
-          non_empty = true;
-        }
-      }
-      return non_empty;
     }
     
     /// <summary>
@@ -143,7 +127,7 @@ namespace Accelerators
     /// Duplicate IVectors are allowed to be contained.
     /// </remarks>
     public void Add(T item) {
-      KdNode<T> leaf = this.FindClosestLeaf(item);
+      KdNode<T> leaf = _cls.FindClosestLeaf(item);
       bool need_stretching = !leaf.InternalBounds.Inside(item);
       leaf.Vectors.Add(item);
       
@@ -169,7 +153,7 @@ namespace Accelerators
     }
 
     public bool Remove(T item) {
-      KdNode<T> leaf = this.FindClosestLeaf(item);
+      KdNode<T> leaf = _cls.FindClosestLeaf(item);
       int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(item, obj); });
       if (index < 0) { // Item not found
         return false;
@@ -256,5 +240,6 @@ namespace Accelerators
     private Subdivision.ISubdivisionPolicy _subdiv_policy;
     private int _count; // number of elements in tree
     private KdNode<T> _root;
+    private Searches.ClosestLeafSearch<T> _cls;
   }
 }

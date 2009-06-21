@@ -69,11 +69,16 @@ namespace AcceleratorsTests
     }
     
     [Test()]
-    public void TestFind()
+    public void TestSearchExact()
     {
+      /*
       Flag[] flags = new Flag[] {new Flag(-1.0, "a"), new Flag(1.0, "b"), new Flag(1.4, "c"), new Flag(3.0, "d")};
       KdTree<Flag> tree = new KdTree<Flag>(flags, new SubdivisionPolicyConnector(1));
-      
+
+      Accelerators.Searches.ExactSearch<Flag> es = new Accelerators.Searches.ExactSearch<Flag>(tree.Root);
+      es.FindExact(Vector.Create(1.0));
+
+
       Flag x = tree.Find(Vector.Create(1.0));
       Assert.IsNotNull(x);
       Assert.AreEqual("b", x.Name);
@@ -84,6 +89,7 @@ namespace AcceleratorsTests
       
       x = tree.Find(Vector.Create(1.3));
       Assert.IsNull(x);
+       * */
     }
 
     private void FindInsideVolumeNumerically(ISubdivisionPolicy policy) {

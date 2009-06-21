@@ -22,44 +22,7 @@ namespace Accelerators
 {
   public partial class KdTree<T> : ICollection<T> where T : IVector
   {
-    
-    /// <summary>
-    /// Find the closest leaf to the given vector.
-    /// This finds the closest leaf even if the vector is outside of the root bounding box.
-    /// </summary>
-    public KdNode<T> FindClosestLeaf(IVector x) {
-      KdNode<T> n = _root;
-      while (n.Intermediate) {
-        if (x[n.SplitDimension] <= n.SplitLocation)
-          n = n.Left;
-        else
-          n = n.Right;
-      }
-      return n;
-    }
-    
-    /// <summary>
-    /// Find the stored element corresponding to the given location. This is an exact search and
-    /// does thus not allow for a tolerance to be specified.
-    /// </summary>
-    public T Find(IVector x) {
-      // If point is not within root-bounds we can exit early
-      if (!this.Root.InternalBounds.Inside(x))
-        return default(T);
-      
-      // Find the closest leaf. As the point is within root bounds the closest leaf is the 
-      // smallest room that can contain the point
-      KdNode<T> leaf = FindClosestLeaf(x);
-      
-      // Scan
-      foreach(T t in leaf.Vectors) {
-        if (VectorComparison.Equal(x, t))
-          return t;
-      }
-     
-      // Nothing found
-      return default(T);      
-    }
+   
     
     /// <summary>
     /// Find all elements that are inside the given bounding volume
