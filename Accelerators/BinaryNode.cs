@@ -166,11 +166,11 @@ namespace Accelerators
     /// </summary>
     public bool ContainsInLeftSubTree(InheritedType node) {
       // If query node equals queried node, throw an exception
-      if (node == this)
+      if (node == (InheritedType)this)
         throw new InvalidOperationException("Queried node and query node cannot be the same.");
       InheritedType previous = node;
       foreach(InheritedType n in node.Ancestors) {
-        if (n == this) {
+        if (n == (InheritedType)this) {
           return this.Left != null && this.Left == previous;
         }
         previous = n;
