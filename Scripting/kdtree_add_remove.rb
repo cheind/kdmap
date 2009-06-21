@@ -46,7 +46,7 @@ r.Render(
 )
 
 # Remove single element
-p t.Remove(Accelerators::Vector.Create(-5, -5))
+t.Remove(Accelerators::Vector.Create(-5, -5))
 r.Render(
   t.Root, # Starting at root node
   Accelerators::Pair[System::Int32,System::Int32].new(0,1),  # Projecting onto xy-plane
