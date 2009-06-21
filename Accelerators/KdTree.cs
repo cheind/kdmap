@@ -54,6 +54,12 @@ namespace Accelerators
       this.Split(_root);
     }
 
+    /// <summary>
+    /// Instance a new kd-tree with the given collection of points and a subdivision policy.
+    /// </summary>
+    /// <remarks>
+    /// Helps scripting languages that do not support constructor overloading.
+    /// </remarks>
     public static KdTree<T> FromEnumerable(IEnumerable<T> vecs, Subdivision.ISubdivisionPolicy policy) {
       return new KdTree<T>(vecs, policy);
     }
