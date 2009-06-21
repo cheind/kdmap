@@ -53,6 +53,10 @@ namespace Accelerators
       _equality_comp = EqualityComparer<T>.Default;
       this.Split(_root);
     }
+
+    public static KdTree<T> FromEnumerable(IEnumerable<T> vecs, Subdivision.ISubdivisionPolicy policy) {
+      return new KdTree<T>(vecs, policy);
+    }
     
     /// <summary>
     /// Creates the root kd-tree node that contains the entire scene
@@ -180,6 +184,8 @@ namespace Accelerators
       } else {
         // No more items contained
         leaf.InternalBounds.Reset();
+        this.ShrinkAncestorBounds(leaf); // Need to shrink here: else space encapsulated by 
+                                         // empty leaf is not freed up to root
         this.Collapse(leaf);
       }
       _count -= 1;
