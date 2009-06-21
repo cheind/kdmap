@@ -44,10 +44,14 @@ namespace Accelerators.Subdivision
     /// the right child.
     /// </summary>
     void Split<T>(KdNode<T> target) where T : IVector;
-    
+
+
     /// <summary>
-    /// Collapse the leaf-children of the given parental node and return true when successful.
+    /// Collapse the target leaf node.
     /// </summary>
-    void Collapse<T>(KdNode<T> parent) where T : IVector;
+    /// <typeparam name="T"></typeparam>
+    /// <param name="target">Leaf node to collapse</param>
+    /// <returns>Next valid ancestor (including target)</returns>
+    void Collapse<T>(KdNode<T> target) where T : IVector;
   }
 }
