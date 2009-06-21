@@ -1,7 +1,7 @@
 #summary Technical RoadMap of kdmap
 #labels Featured,Phase-Requirements
 
-Releases are scheduled on a two-monthly basis. The major release number corresponds to the year of the release, the minor release number corresponds the month respectively.
+Releases are scheduled on a two-monthly basis. The major release number corresponds to the year of the release, the minor release number corresponds to the month respectively.
 
 == Version 9.8 ==
   * Minimal overhead to integrate kdmap into existing projects.
