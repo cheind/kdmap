@@ -109,16 +109,13 @@ namespace Accelerators
     /// <summary>
     /// Perform a single collapse on the target node
     /// </summary>
-    private bool Collapse(KdNode<T> target) {
-      if (target.Root) {
-        return false;
-      } else {
-        try {
-          _subdiv_policy.Collapse(target.Parent);
-          return true;
-        } catch (Subdivision.SubdivisionException) {
-          return false;
-        }
+    private KdNode<T> Collapse(KdNode<T> target) {
+      try {
+        KdNode<T> parent = target.Parent;
+        _subdiv_policy.Collapse(target);
+        return parent;
+      } catch (Subdivision.SubdivisionException) {
+        return target;
       }
     }
     
@@ -166,7 +163,36 @@ namespace Accelerators
     public bool Remove(T item) {
       KdNode<T> leaf = this.FindClosestLeaf(item);
       int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(item, obj); });
-      throw new Exception("The method or operation is not implemented.");
+      if (index < 0) { // Item not found
+        return false;
+      }
+      leaf.Vectors.RemoveAt(index);
+      if (leaf.Vectors.Count > 0) {
+        // Still items to process
+        AABB aabb = new AABB(leaf.InternalBounds.Dimensions);
+        aabb.Enlarge<T>(leaf.Vectors);
+        if (!((VectorComparison.Equal(aabb.Lower, leaf.InternalBounds.Lower)) &&
+            (VectorComparison.Equal(aabb.Upper, leaf.InternalBounds.Upper))))
+        {
+          leaf.InternalBounds = aabb;
+          this.ShrinkAncestorBounds(leaf);
+        }
+      } else {
+        // No more items contained
+        leaf.InternalBounds.Reset();
+        this.Collapse(leaf);
+      }
+      _count -= 1;
+      return true;
+    }
+
+    private void ShrinkAncestorBounds(KdNode<T> leaf) {
+      if (!leaf.Root) {
+        foreach (KdNode<T> n in leaf.Parent.Ancestors) {
+          AABB aabb = n.InternalBounds;
+          AABB.Union(n.Left.InternalBounds, n.Right.InternalBounds, ref aabb);
+        }
+      }
     }
 
     /// <summary>

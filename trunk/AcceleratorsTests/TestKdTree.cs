@@ -175,5 +175,22 @@ namespace AcceleratorsTests
       }
       Assert.AreEqual(5000, count);
     }
+
+    [Test]
+    public void TestDynamicRemoval() {
+      List<IVector> vecs = new List<IVector>(VectorSampling.InAABB(5000, 2, -100.0, 100.0, 10));
+      KdTree<IVector> tree = new KdTree<IVector>(vecs, new SubdivisionPolicyConnector(1));
+
+      for (int i = 0; i < 500; ++i) {
+        tree.Remove(vecs[i]);
+      }
+      KdNodeInvariants.AreMetBy(tree.Root);
+      Assert.AreEqual(5000 -500, tree.Count);
+      int count = 0;
+      foreach (KdNode<IVector> n in tree.Root.Leaves) {
+        count += n.Vectors.Count;
+      }
+      Assert.AreEqual(5000 - 500, count);
+    }
   }
 }
