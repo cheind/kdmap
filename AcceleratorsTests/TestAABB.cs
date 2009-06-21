@@ -218,6 +218,39 @@ namespace AcceleratorsTests
       Assert.AreEqual(a.Upper[0], -0.5, FloatComparison.DefaultEps);
       Assert.AreEqual(a.Upper[1], -1.5, FloatComparison.DefaultEps);
     }
+
+    [Test]
+    public void TestUnion() {
+      AABB a = new AABB(Vector.Create(-5.0, -5.0), Vector.Create(1.0, 1.0));
+      AABB b = new AABB(Vector.Create(-3.0, -6.0), Vector.Create(0.0, 4.0));
+      AABB merged = new AABB(2);
+      AABB.Union(a, b, ref merged);
+
+      Assert.AreEqual(merged.Lower[0], -5.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Lower[1], -6.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[0], 1.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[1], 4.0, FloatComparison.DefaultEps);
+    }
+
+    [Test]
+    public void TestUnionEmpty() {
+      AABB a = new AABB(Vector.Create(-5.0, -5.0), Vector.Create(1.0, 1.0));
+      AABB b = new AABB(2);
+      AABB merged = new AABB(2);
+      AABB.Union(a, b, ref merged);
+
+      Assert.AreEqual(merged.Lower[0], -5.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Lower[1], -5.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[0], 1.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[1], 1.0, FloatComparison.DefaultEps);
+
+      AABB.Union(b, a, ref merged);
+
+      Assert.AreEqual(merged.Lower[0], -5.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Lower[1], -5.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[0], 1.0, FloatComparison.DefaultEps);
+      Assert.AreEqual(merged.Upper[1], 1.0, FloatComparison.DefaultEps);
+    }
     
     
   }

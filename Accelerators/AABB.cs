@@ -71,6 +71,28 @@ namespace Accelerators
         if (vi > _max[i]) _max[i] = vi;
       }
     }
+
+    /// <summary>
+    /// Enlarge AABBs lower corner to contain the given vector.
+    /// </summary>
+    public void EnlargeLower<T>(T v) where T : IVector {
+      for (int i = 0; i < this.Dimensions; ++i) {
+        double vi = v[i];
+        if (vi < _min[i]) _min[i] = vi;
+      }
+    }
+
+    /// <summary>
+    /// Enlarge AABBs upper corner to contain the given vector.
+    /// </summary>
+    public void EnlargeUpper<T>(T v) where T : IVector {
+      for (int i = 0; i < this.Dimensions; ++i) {
+        double vi = v[i];
+        if (vi > _max[i]) _max[i] = vi;
+      }
+    }
+
+   
     
     /// <summary>
     /// Split AABB into two parts using an axis aligned splitting plane. The plane
@@ -276,6 +298,17 @@ namespace Accelerators
       IVector closest = new Vector(this.Dimensions);
       this.Closest(x, ref closest);
       return closest;
+    }
+
+    /// <summary>
+    /// Create the union of the left and right bounds.
+    /// </summary>
+    public static void Union(AABB left, AABB right, ref AABB dest) {
+      VectorOperations.Copy(left.Lower, dest.Lower);
+      VectorOperations.Copy(left.Upper, dest.Upper);
+      // Selective enlargement to cope with possibly unbounded regions in right.
+      dest.EnlargeLower(right.Lower); 
+      dest.EnlargeUpper(right.Upper);
     }
     
     /// <summary>
