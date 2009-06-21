@@ -39,7 +39,6 @@ namespace Accelerators
       _subdiv_policy = policy;
       _root = this.CreateRootNode(dimensions);
       _count = 0;
-      _equality_comp = EqualityComparer<T>.Default;
     }
 
     /// <summary>
@@ -50,7 +49,6 @@ namespace Accelerators
       _subdiv_policy = policy;
       _root = this.CreateRootNode(vecs);
       _count = _root.Vectors.Count;
-      _equality_comp = EqualityComparer<T>.Default;
       this.Split(_root);
     }
 
@@ -258,6 +256,5 @@ namespace Accelerators
     private Subdivision.ISubdivisionPolicy _subdiv_policy;
     private int _count; // number of elements in tree
     private KdNode<T> _root;
-    private IEqualityComparer<T> _equality_comp;
   }
 }
