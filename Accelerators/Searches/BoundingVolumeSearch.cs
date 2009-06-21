@@ -58,7 +58,7 @@ namespace Accelerators.Searches {
             s.Push(n.Right);
           } else if (pos == EPlanePosition.RightOfBV) {
             s.Push(n.Left);
-          } else {
+          } else { // Intersecting
             s.Push(n.Right);
             s.Push(n.Left);
           }
