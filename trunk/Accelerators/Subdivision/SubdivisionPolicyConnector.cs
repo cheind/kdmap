@@ -34,9 +34,9 @@ namespace Accelerators.Subdivision {
   public class IntermediateNodeException : SubdivisionException { }
 
   /// <summary>
-  /// Exception thrown when a leaf node is attempted to be collapsed.
+  /// Exception thrown when collapsing the root node is attempted.
   /// </summary>
-  public class LeafNodeException : SubdivisionException { }
+  public class RootNodeException : SubdivisionException { }
 
   /// <summary>
   /// Exception thrown when the dataset to be split is degenerate in some geometric sense.
@@ -137,8 +137,42 @@ namespace Accelerators.Subdivision {
     /// <summary>
     /// Default collapsing strategy
     /// </summary>
-    public void Collapse<T>(KdNode<T> parent) where T : IVector {
-      throw new NotImplementedException("The method or operation is not implemented.");
+    public void Collapse<T>(KdNode<T> target) where T : IVector {
+      if (!target.Leaf)
+        throw new IntermediateNodeException();
+      if (target.Root)
+        throw new RootNodeException();
+
+      KdNode<T> parent = target.Parent;
+      if (parent.Left.Leaf && parent.Right.Leaf) {
+        // When both children are leaves we push their content to the parent
+        int capacity = parent.Left.Vectors.Count + parent.Right.Vectors.Count;
+        parent.Vectors = new List<T>(capacity);
+        parent.Vectors.AddRange(parent.Left.Vectors);
+        parent.Vectors.AddRange(parent.Right.Vectors);
+        AABB aabb = parent.InternalBounds;
+        AABB.Union(parent.Left.InternalBounds, parent.Right.InternalBounds, ref aabb);
+        parent.UnSetLeftChild();
+        parent.UnSetRightChild();
+      } else {
+        // The sibling of 'target' is not a leaf. We replace the content of parent with the content of the sibling.
+        KdNode<T> sibling = (parent.ContainsInLeftSubTree(target) ? parent.Right : parent.Left);
+        parent.UnSetLeftChild();
+        parent.UnSetRightChild();
+
+        // Copy kdtree content
+        parent.SplitDimension = sibling.SplitDimension;
+        parent.SplitLocation = sibling.SplitLocation;
+        parent.Vectors = sibling.Vectors;
+        parent.InternalBounds = sibling.InternalBounds;
+
+        // Copy structural info
+        KdNode<T> sibling_left = sibling.UnSetLeftChild();
+        KdNode<T> sibling_right = sibling.UnSetRightChild();
+        parent.Left = sibling_left;
+        parent.Right = sibling_right;
+      }
+
     }
 
     
