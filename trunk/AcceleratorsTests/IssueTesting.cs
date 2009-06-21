@@ -37,8 +37,8 @@ namespace AcceleratorsTests
       n.InternalBounds.Enlarge<IVector>(n.Vectors);
       AxisOfMaximumSpreadSelector aom = new AxisOfMaximumSpreadSelector();
       PeriodicAxisSelector pas = new PeriodicAxisSelector();
-      Assert.Throws(typeof(DegenerateDatasetException), delegate { aom.Select(n); });
-      Assert.Throws(typeof(DegenerateDatasetException), delegate { pas.Select(n); });
+      NUnitExtensions.Assert.Throws(typeof(DegenerateDatasetException), delegate { aom.Select(n); });
+      NUnitExtensions.Assert.Throws(typeof(DegenerateDatasetException), delegate { pas.Select(n); });
     }
 	}
 }

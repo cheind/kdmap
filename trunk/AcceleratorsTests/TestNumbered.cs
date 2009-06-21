@@ -34,9 +34,9 @@ namespace AcceleratorsTests
       Assert.AreEqual(8, Accelerators.Numbered.Third(numbers));
 
       numbers = new int[] {};
-      Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.First(numbers); });
-      Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.Second(numbers); });
-      Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.Third(numbers); });
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.First(numbers); });
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.Second(numbers); });
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException), delegate { Numbered.Third(numbers); });
     }
 
     [Test]

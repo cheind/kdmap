@@ -138,14 +138,14 @@ namespace AcceleratorsTests
       Assert.IsTrue(leaf_parents[1].ContainsInRightSubTree(leaves[2]));
 
       // When query node is not part of subtree the method throws an exception
-      Assert.Throws(typeof(InvalidOperationException),
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException),
         delegate { leaf_parents[1].ContainsInRightSubTree(leaves[0]); });
 
       // When the query node is the same node as the node the query is executed on
       // an exception is thrown
-      Assert.Throws(typeof(InvalidOperationException),
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException),
         delegate { leaf_parents[1].ContainsInRightSubTree(leaf_parents[1]); });
-      Assert.Throws(typeof(InvalidOperationException),
+      NUnitExtensions.Assert.Throws(typeof(InvalidOperationException),
         delegate { leaf_parents[1].ContainsInLeftSubTree(leaf_parents[1]); });
     }
 
