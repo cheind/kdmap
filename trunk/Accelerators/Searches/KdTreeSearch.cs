@@ -71,7 +71,7 @@ namespace Accelerators.Searches {
 
       List<T> list = new List<T>();
       using (IEnumerator<T> e = leaf.Vectors.GetEnumerator()) {
-        while (e.MoveNext() && found <= this.Limit) {
+        while (e.MoveNext() && found < this.Limit) {
           if (pred(e.Current)) {
             list.Add(e.Current);
             found += 1;
