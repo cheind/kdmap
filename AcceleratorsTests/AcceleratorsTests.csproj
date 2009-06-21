@@ -61,6 +61,7 @@
     <Compile Include="TestSubdivisionPolicyConnector.cs" />
     <Compile Include="TestSlidingPlaneResolver.cs" />
     <Compile Include="NUnitExtensions.cs" />
+    <Compile Include="Searches\TestExactSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">
@@ -83,4 +84,7 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Searches\" />
+  </ItemGroup>
 </Project>
