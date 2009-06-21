@@ -46,7 +46,7 @@ namespace AcceleratorsTests
       Assert.IsNull(leaf.Left);
       Assert.IsNull(leaf.Right);
       // Empty vector of elements present
-      Assert.NotNull(leaf.Vectors);
+      Assert.IsNotNull(leaf.Vectors);
       // Each element must be contained in the inner bounds and split bounds up to root
       // Additionally the element has to lie to the left of each ancestor node if the element is behind or
       // on the split plane. It has to lie to the right of each ancestor node if the element is in front of 
@@ -71,12 +71,12 @@ namespace AcceleratorsTests
 
     private static void AreMetByIntermediate<T>(KdNode<T> n) where T : IVector {
       // Each intermediate node has two children
-      Assert.NotNull(n.Left);
-      Assert.NotNull(n.Right);
+      Assert.IsNotNull(n.Left);
+      Assert.IsNotNull(n.Right);
       // If not root, each node has a parent which itself references the node in either left or righ
       // child property
       if (!n.Root) {
-        Assert.NotNull(n.Parent);
+        Assert.IsNotNull(n.Parent);
         Assert.IsTrue(n.Parent.Left == n || n.Parent.Right == n);
       }
       // Split dimension must be within bounds
