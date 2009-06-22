@@ -32,7 +32,7 @@ namespace AcceleratorsTests
     {
       Vector a = Vector.Create(1.0, 2.0);
       Vector b = Vector.Create(-1.0, 3.0);
-      VectorOperations.Add(a, b, a);
+      VectorOperations.Add(a, b, ref a);
       Assert.IsTrue(VectorComparison.Close(a, Vector.Create(0.0, 5.0), FloatComparison.DefaultEps));
     }
     
@@ -41,7 +41,7 @@ namespace AcceleratorsTests
     {
       Vector a = Vector.Create(1.0, 2.0);
       Vector b = Vector.Create(-1.0, 3.0);
-      VectorOperations.Sub(a, b, a);
+      VectorOperations.Sub(a, b, ref a);
       Assert.IsTrue(VectorComparison.Close(a, Vector.Create(2.0, -1.0), FloatComparison.DefaultEps));
     }
     
@@ -49,7 +49,7 @@ namespace AcceleratorsTests
     public void TestScalarMul()
     {
       Vector a = Vector.Create(1.0, 2.0);
-      VectorOperations.ScalarMul(a, 0.5, a);
+      VectorOperations.ScalarMul(a, 0.5, ref a);
       Assert.IsTrue(VectorComparison.Close(a, Vector.Create(0.5, 1.0), FloatComparison.DefaultEps));
     }
     
@@ -66,7 +66,7 @@ namespace AcceleratorsTests
     {
       Vector a = Vector.Create(1.0, 2.0);
       Vector na = new Vector(2);
-      double old_len = VectorOperations.Normalize(a, na);
+      double old_len = VectorOperations.Normalize(a, ref na);
       Assert.AreEqual((double)Math.Sqrt(5.0), old_len, FloatComparison.DefaultEps);
       double new_len = VectorReductions.L2Norm(na);
       Assert.AreEqual(1.0, new_len, FloatComparison.DefaultEps);
@@ -76,21 +76,21 @@ namespace AcceleratorsTests
     [ExpectedException(typeof(DivideByZeroException))]
     public void TestNormalizeZero() {
       Vector a =Vector.Create(0.0, 0.0);
-      VectorOperations.Normalize(a, a);
+      VectorOperations.Normalize(a, ref a);
     }
     
     [Test()]
     public void TestCopy() {
       Vector a = Vector.Create(3.0, 4.0);
       Vector b = new Vector(2);
-      VectorOperations.Copy(a, b);
+      VectorOperations.Copy(a, ref b);
       Assert.IsTrue(VectorComparison.Close(a, b, FloatComparison.DefaultEps));      
     }
     
     [Test()]
     public void TestFill() {
       Vector a = new Vector(2);
-      VectorOperations.Fill(a, 2.0);
+      VectorOperations.Fill(ref a, 2.0);
       Assert.AreEqual(2.0, a[0], FloatComparison.DefaultEps);
       Assert.AreEqual(2.0, a[1], FloatComparison.DefaultEps);
     }
