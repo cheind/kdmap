@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IssueTesting.cs" />
+    <Compile Include="Issues\Issue3.cs" />
     <Compile Include="KdNodeInvariants.cs" />
     <Compile Include="TestKdNode.cs" />
     <Compile Include="TestNumbered.cs" />
@@ -84,7 +84,4 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Searches\" />
-  </ItemGroup>
 </Project>
