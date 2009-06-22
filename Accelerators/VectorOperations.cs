@@ -30,7 +30,7 @@ namespace Accelerators
     /// Calculate component-wise subtraction of a and b. 
     /// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
     /// </summary>
-    public static void Sub(IVector a, IVector b, IVector dest) {
+    public static void Sub<T>(IVector a, IVector b, ref T dest) where T : IVector {
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i] - b[i];
       }
@@ -40,7 +40,7 @@ namespace Accelerators
     /// Calculate component-wise addition of a and b.
     /// Equal dimensionality assumed and dimensions of resulting vector must be pre-allocated.
     /// </summary>
-    public static void Add(IVector a, IVector b, IVector dest) {
+    public static void Add<T>(IVector a, IVector b, ref T dest) where T : IVector {
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i] + b[i];
       }
@@ -60,7 +60,7 @@ namespace Accelerators
     /// <summary>
     /// Calculate the component-wise multiplication with a scalar
     /// </summary>
-    public static void ScalarMul(IVector a, double s, IVector dest) {
+    public static void ScalarMul<T>(IVector a, double s, ref T dest) where T : IVector {
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i] * s;
       }
@@ -71,7 +71,7 @@ namespace Accelerators
     /// <summary>
     /// Normalize the given vector using the L2 norm.
     /// </summary>
-    public static double Normalize(IVector a, IVector dest) {
+    public static double Normalize<T>(IVector a, ref T dest) where T : IVector {
       double len = VectorReductions.L2Norm(a);
       if (FloatComparison.CloseZero(len, FloatComparison.DefaultEps))
         throw new DivideByZeroException();
@@ -85,7 +85,7 @@ namespace Accelerators
     /// <summary>
     /// Copy components of one vector to destination vector
     /// </summary>
-    public static void Copy(IVector a, IVector dest) {
+    public static void Copy<T>(IVector a, ref T dest) where T : IVector {
       for (int i = 0; i < a.Dimensions; ++i) {
         dest[i] = a[i];
       }
@@ -94,7 +94,7 @@ namespace Accelerators
     /// <summary>
     /// Set each coordinate to the given value
     /// </summary>
-    public static void Fill(IVector a, double val) { 
+    public static void Fill<T>(ref T a, double val) where T : IVector { 
       for (int i = 0; i < a.Dimensions; ++i) {
         a[i] = val;
       }

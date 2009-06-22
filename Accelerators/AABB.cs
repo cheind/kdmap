@@ -135,8 +135,8 @@ namespace Accelerators
     /// Reset to empty state.
     /// </summary>
     public void Reset() {
-      VectorOperations.Fill(_min, Double.MaxValue);
-      VectorOperations.Fill(_max, Double.MinValue);
+      VectorOperations.Fill(ref _min, Double.MaxValue);
+      VectorOperations.Fill(ref _max, Double.MinValue);
     }
     
     /// <value>
@@ -304,8 +304,8 @@ namespace Accelerators
     /// Create the union of the left and right bounds.
     /// </summary>
     public static void Union(AABB left, AABB right, ref AABB dest) {
-      VectorOperations.Copy(left.Lower, dest.Lower);
-      VectorOperations.Copy(left.Upper, dest.Upper);
+      VectorOperations.Copy(left.Lower, ref dest._min);
+      VectorOperations.Copy(left.Upper, ref dest._max);
       // Selective enlargement to cope with possibly unbounded regions in right.
       dest.EnlargeLower(right.Lower); 
       dest.EnlargeUpper(right.Upper);
