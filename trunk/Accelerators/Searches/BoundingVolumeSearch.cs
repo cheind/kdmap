@@ -24,7 +24,7 @@ namespace Accelerators.Searches {
   /// <summary>
   /// Search for all elements within bounding volume
   /// </summary>
-  class BoundingVolumeSearch<T> : KdTreeSearch<T> where T : IVector {
+  public class BoundingVolumeSearch<T> : KdTreeSearch<T> where T : IVector {
 
      /// <summary>
     /// Initialize with the kd-tree node to start search at.
