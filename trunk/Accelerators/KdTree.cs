@@ -51,7 +51,7 @@ namespace Accelerators
       _root = this.CreateRootNode(vecs);
       _cls = new Searches.ClosestLeafSearch<T>(_root);
       _count = _root.Vectors.Count;
-      this.Split(_root);
+      this.TrySplit(_root);
     }
 
     /// <summary>
@@ -89,19 +89,19 @@ namespace Accelerators
     /// <summary>
     /// Perform recursive splitting as long as possible
     /// </summary>
-    private void Split(KdNode<T> target) {
+    private void TrySplit(KdNode<T> target) {
       try {
         _subdiv_policy.Split(target);
         target.Vectors = null;
-        Split(target.Left);
-        Split(target.Right);
+        TrySplit(target.Left);
+        TrySplit(target.Right);
       } catch (Subdivision.SubdivisionException) {}
     }
 
     /// <summary>
     /// Perform a single collapse on the target node
     /// </summary>
-    private KdNode<T> Collapse(KdNode<T> target) {
+    private KdNode<T> TryCollapse(KdNode<T> target) {
       try {
         KdNode<T> parent = target.Parent;
         _subdiv_policy.Collapse(target);
@@ -118,120 +118,6 @@ namespace Accelerators
       get {
         return _root;
       }
-    }
-
-    /// <summary>
-    /// Add an item to the kd-tree.
-    /// </summary>
-    /// <remarks>
-    /// Duplicate IVectors are allowed to be contained.
-    /// </remarks>
-    public void Add(T item) {
-      KdNode<T> leaf = _cls.FindClosestLeaf(item);
-      bool need_stretching = !leaf.InternalBounds.Inside(item);
-      leaf.Vectors.Add(item);
-      
-      if (need_stretching)
-        this.StretchAncestorBounds(leaf, item);
-      else
-        leaf.InternalBounds.Enlarge(item);
-
-      this.Split(leaf);
-      _count += 1;
-    }
-
-    /// <summary>
-    /// Enlarge the internal bounds of all ancestors of the target node including
-    /// the target node itself.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="item"></param>
-    private void StretchAncestorBounds(KdNode<T> target, T item) {
-      foreach(KdNode<T> n in target.Ancestors) {
-        n.InternalBounds.Enlarge(item);
-      }
-    }
-
-    public bool Remove(T item) {
-      KdNode<T> leaf = _cls.FindClosestLeaf(item);
-      int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(item, obj); });
-      if (index < 0) { // Item not found
-        return false;
-      }
-      leaf.Vectors.RemoveAt(index);
-      if (leaf.Vectors.Count > 0) {
-        // Still items to process, test if removal of item changed internal bounds
-        AABB aabb = new AABB(leaf.InternalBounds.Dimensions);
-        aabb.Enlarge<T>(leaf.Vectors);
-        if (!aabb.Equals(leaf.InternalBounds)) {
-          leaf.InternalBounds = aabb;
-          this.ShrinkAncestorBounds(leaf);
-        }
-      } else {
-        // No more items contained
-        leaf.InternalBounds.Reset();
-        this.ShrinkAncestorBounds(leaf); // Need to shrink here: else space encapsulated by 
-                                         // empty leaf is not freed up to root
-        this.Collapse(leaf);
-      }
-      _count -= 1;
-      return true;
-    }
-
-    private void ShrinkAncestorBounds(KdNode<T> leaf) {
-      if (!leaf.Root) {
-        foreach (KdNode<T> n in leaf.Parent.Ancestors) {
-          AABB aabb = n.InternalBounds;
-          AABB.Union(n.Left.InternalBounds, n.Right.InternalBounds, ref aabb);
-        }
-      }
-    }
-
-    /// <summary>
-    /// Remove all items.
-    /// </summary>
-    public void Clear() {
-      throw new Exception("The method or operation is not implemented.");
-    }
-
-    /// <summary>
-    /// Determines whether the kd-tree contains a specific value.
-    /// </summary>
-    public bool Contains(T item) {
-      throw new Exception("The method or operation is not implemented.");
-    }
-
-    /// <summary>
-    /// Copies the elements of the kd-tree to an Array, starting at a particular Array index.
-    /// </summary>
-    public void CopyTo(T[] array, int arrayIndex) {
-      throw new Exception("The method or operation is not implemented.");
-    }
-
-    /// <summary>
-    /// Gets the number of elements contained.
-    /// </summary>
-    public int Count {
-      get {
-        return _count;
-      }
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether the kd-tree is read only.
-    /// </summary>
-    public bool IsReadOnly {
-      get { 
-        return false; 
-      }
-    }
-
-    public IEnumerator<T> GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
-    }
-
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
     }
 
 
