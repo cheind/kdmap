@@ -24,7 +24,7 @@ namespace Accelerators
   /// <summary>
   /// Axis-aligned bounding box
   /// </summary>
-  public class AABB : IBoundingVolume
+  public class AABB : IBoundingVolume, IEquatable<AABB>
   {
     
     /// <summary>
@@ -232,6 +232,13 @@ namespace Accelerators
       get {
         return _min.Dimensions;
       }
+    }
+
+    /// <summary>
+    /// Test for equality with zero tolerance
+    /// </summary>
+    public bool Equals(AABB other) {
+      return _min.Equals(other._min) && _max.Equals(other._max);
     }
     
     /// <summary>

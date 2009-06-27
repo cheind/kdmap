@@ -160,12 +160,10 @@ namespace Accelerators
       }
       leaf.Vectors.RemoveAt(index);
       if (leaf.Vectors.Count > 0) {
-        // Still items to process
+        // Still items to process, test if removal of item changed internal bounds
         AABB aabb = new AABB(leaf.InternalBounds.Dimensions);
         aabb.Enlarge<T>(leaf.Vectors);
-        if (!((VectorComparison.Equal(aabb.Lower, leaf.InternalBounds.Lower)) &&
-            (VectorComparison.Equal(aabb.Upper, leaf.InternalBounds.Upper))))
-        {
+        if (!aabb.Equals(leaf.InternalBounds)) {
           leaf.InternalBounds = aabb;
           this.ShrinkAncestorBounds(leaf);
         }

@@ -30,7 +30,11 @@ namespace AcceleratorsTests
 	public class KdNodeInvariants
 	{
 
-
+    /// <summary>
+    /// Test if node adheres kd-tree invariants.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="root"></param>
     public static void AreMetBy<T>(KdNode<T> root) where T : IVector {
       foreach (KdNode<T> n in root.PreOrder) {
         if (n.Intermediate) {
