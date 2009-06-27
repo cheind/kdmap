@@ -32,16 +32,18 @@ namespace Accelerators.Searches {
     /// <param name="tree"></param>
     public KdTreeSearch(KdNode<T> tree) {
       _tree = tree;
-      _limit = Int32.MaxValue;
+      this.CountLimit = Int32.MaxValue;
+      this.DistanceLimit = Double.MaxValue;
     }
 
     /// <summary>
     /// Initialize with the kd-tree node to start search at and a custom limit
     /// </summary>
     /// <param name="tree"></param>
-    public KdTreeSearch(KdNode<T> tree, int limit) {
+    public KdTreeSearch(KdNode<T> tree, int count_limit, double distance_limit) {
       _tree = tree;
-      _limit = limit;
+      this.CountLimit = count_limit;
+      this.DistanceLimit = distance_limit;
     }
 
     /// <summary>
@@ -55,9 +57,35 @@ namespace Accelerators.Searches {
     /// <summary>
     /// Limit the number of elements found to the given value
     /// </summary>
-    public int Limit {
+    public int CountLimit {
       get { return _limit; }
       set { _limit = value; }
+    }
+    
+    /// <value>
+    /// Access the distance (L2norm) the query results are limited to. 
+    /// </value>
+    public double DistanceLimit {
+      get {return _limit_distance;}
+      set {
+        // Make sure provided value fits into double
+        if (value < _sqrt_max_double) {
+          _limit_distance = value;
+          _limit_distance2 = value * value;
+        } else {
+          _limit_distance = _sqrt_max_double;
+          _limit_distance2 = Double.MaxValue;
+        }
+      }
+    }
+    
+    /// <value>
+    /// Access the squared maximum distance 
+    /// </value>
+    protected double SquaredDistanceLimit {
+      get {
+        return _limit_distance2;
+      }
     }
 
     /// <summary>
@@ -71,7 +99,7 @@ namespace Accelerators.Searches {
 
       List<T> list = new List<T>();
       using (IEnumerator<T> e = leaf.Vectors.GetEnumerator()) {
-        while (e.MoveNext() && found < this.Limit) {
+        while (e.MoveNext() && found < this.CountLimit) {
           if (pred(e.Current)) {
             list.Add(e.Current);
             found += 1;
@@ -94,6 +122,8 @@ namespace Accelerators.Searches {
     }
 
     private int _limit;
+    private double _limit_distance, _limit_distance2;
     private KdNode<T> _tree;
+    private double _sqrt_max_double = Math.Sqrt(Double.MaxValue);
   }
 }

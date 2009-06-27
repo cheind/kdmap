@@ -86,9 +86,43 @@ namespace AcceleratorsTests.Searches
       Ball b = new Ball(Vector.Create(1.0, 4.0), 1.0);
       
       BoundingVolumeSearch<Vector> s = new BoundingVolumeSearch<Vector>(_tree.Root);
-      s.Limit = 2;
+      s.CountLimit = 2;
       List<Vector> result = new List<Vector>(s.FindInsideBoundingVolume(b));
       Assert.AreEqual(2, result.Count);
+    }
+    
+    [Test()]
+    public void TestAABB() {
+      Vector[] vecs = new Vector[] { Vector.Create(-1.0, -1.0), Vector.Create(1.0, 1.0), Vector.Create(2.0, 2.0), Vector.Create(3.0, 3.0) };
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, new Accelerators.Subdivision.SubdivisionPolicyConnector(1));
+      BoundingVolumeSearch<Vector> s = new BoundingVolumeSearch<Vector>(tree.Root);
+
+      List<Vector> found = 
+        new List<Vector>(s.FindInsideBoundingVolume(new AABB(Vector.Create(0.5, 0.5), Vector.Create(2.5, 2.5))));
+
+      Assert.AreEqual(found.Count, 2);
+      Assert.IsTrue(VectorComparison.Equal(vecs[1], found[0]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[2], found[1]));
+
+      found = new List<Vector>(
+        s.FindInsideBoundingVolume(
+          new AABB(Vector.Create(0.0, 0.0), Vector.Create(0.5, 0.5))
+        )
+      );
+
+      Assert.IsEmpty(found);
+
+      found = new List<Vector>(
+        s.FindInsideBoundingVolume(
+          new AABB(Vector.Create(-2.0, -2.0), Vector.Create(4.5, 4.5))
+        )
+      );
+
+      Assert.AreEqual(4, found.Count);
+      Assert.IsTrue(VectorComparison.Equal(vecs[0], found[0]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[1], found[1]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[2], found[2]));
+      Assert.IsTrue(VectorComparison.Equal(vecs[3], found[3]));
     }
   }
 }

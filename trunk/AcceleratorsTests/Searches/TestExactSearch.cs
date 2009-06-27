@@ -70,7 +70,7 @@ namespace AcceleratorsTests.Searches
     [Test]
     public void TestLimitResultset() {
       ExactSearch<Vector> es = new ExactSearch<Vector>(_tree.Root);
-      es.Limit = 2;
+      es.CountLimit = 2;
       List<Vector> elements = new List<Vector>(es.FindExact(Vector.Create(1.0, 5.0)));
       Assert.AreEqual(2, elements.Count);
     }

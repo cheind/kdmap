@@ -43,7 +43,7 @@ namespace Accelerators.Searches {
       s.Push(this.Tree);
       int found = 0;
       // Run
-      while (s.Count > 0 && found <= this.Limit) {
+      while (s.Count > 0 && found < this.CountLimit) {
         KdNode<T> n = s.Pop();
         if (n.Leaf) {
           // Once we encounter a leaf an exhaustive search is performed for all elements inside

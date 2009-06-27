@@ -29,7 +29,7 @@ namespace Accelerators.Searches {
     /// <summary>
     /// Initialize with the kd-tree node to start search at.
     /// </summary>
-    public ClosestLeafSearch(KdNode<T> tree) : base(tree, 1) {}
+    public ClosestLeafSearch(KdNode<T> tree) : base(tree, 1, Double.MaxValue) {}
 
     /// <summary>
     /// Find the closest leaf to the given element.
