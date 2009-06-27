@@ -52,6 +52,15 @@ namespace Accelerators {
     }
 
     /// <summary>
+    /// Test if enumerable is empty
+    /// </summary>
+    public static bool Empty<T>(IEnumerable<T> e) {
+      using (IEnumerator<T> en = e.GetEnumerator()) {
+        return !en.MoveNext();
+      }
+    }
+
+    /// <summary>
     /// N-th element of enumeration
     /// </summary>
     public static T Nth<T>(IEnumerable<T> enumerable, int nth) {
