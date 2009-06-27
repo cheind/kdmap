@@ -16,6 +16,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace Accelerators
 {
@@ -23,7 +24,7 @@ namespace Accelerators
   /// <summary>
   /// N-Dimensional vector implementation
   /// </summary>
-  public class Vector : IVector
+  public class Vector : IVector, IEquatable<IVector>
   {
     /// <summary>
     /// Create a vector that can hold n-dimensions.
@@ -141,6 +142,12 @@ namespace Accelerators
       return sb.ToString();
     }
 
+    /// <summary>
+    /// Component-wise equality with zero tolerance.
+    /// </summary>
+    public bool Equals(IVector other) {
+      return VectorComparison.Equal(this, other);
+    }
     
     private double[] _coordinates;
   }
