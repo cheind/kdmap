@@ -80,5 +80,15 @@ namespace AcceleratorsTests.Searches
       Assert.IsTrue(VectorComparison.Equal(result[1], _vecs[5]));
       Assert.IsTrue(VectorComparison.Equal(result[2], _vecs[6]));
     }
+    
+    [Test()]
+    public void TestBallLimit() {
+      Ball b = new Ball(Vector.Create(1.0, 4.0), 1.0);
+      
+      BoundingVolumeSearch<Vector> s = new BoundingVolumeSearch<Vector>(_tree.Root);
+      s.Limit = 2;
+      List<Vector> result = new List<Vector>(s.FindInsideBoundingVolume(b));
+      Assert.AreEqual(2, result.Count);
+    }
   }
 }
