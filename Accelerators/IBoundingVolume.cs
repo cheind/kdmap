@@ -31,7 +31,7 @@ namespace Accelerators
   
   /// <summary>
   /// Interface that defines a bounding volume. Implementing this interface allowes efficient
-  /// bounding volume queries using the KdTree.
+  /// bounding volume queries using kd-tree searches.
   /// </summary>
   public interface IBoundingVolume
   { 
