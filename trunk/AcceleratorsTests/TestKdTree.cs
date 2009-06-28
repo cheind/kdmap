@@ -39,5 +39,19 @@ namespace AcceleratorsTests
       Assert.AreEqual(5000, count);
     }
     
+    [Test]
+    public void TestOptimize() {
+      List<IVector> vecs = new List<IVector>(VectorSampling.InAABB(500, 2, -100.0, 100.0, 10));
+      KdTree<IVector> tree = new KdTree<IVector>(2, new SubdivisionPolicyConnector(1));
+      foreach(IVector iv in vecs) {
+        tree.Add(iv);
+      }
+      
+      SubdivisionPolicyConnector spc = new SubdivisionPolicyConnector(3, new AxisOfMaximumSpreadSelector(), new MedianSelector(), new NoOperationResolver());
+      tree.Optimize(spc);
+      
+      Assert.AreEqual(500, tree.Count);
+      KdNodeInvariants.AreMetBy(tree.Root);
+    }
   }
 }
