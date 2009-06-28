@@ -51,5 +51,23 @@ namespace AcceleratorsTests
       Assert.AreEqual(0, Accelerators.Numbered.SecondOrDefault(numbers));
       Assert.AreEqual(0, Accelerators.Numbered.ThirdOrDefault(numbers));
     }
+    
+    [Test]
+    public void TestTryFirstSecondThird() {
+      int[] numbers = new int[] { 3, 6, 8, 10, 12, 14 };
+      int val;
+      Assert.IsTrue(Accelerators.Numbered.TryFirst(numbers, out val));
+      Assert.AreEqual(3, val);
+      Assert.IsTrue(Accelerators.Numbered.TrySecond(numbers, out val));
+      Assert.AreEqual(6, val);
+      Assert.IsTrue(Accelerators.Numbered.TryThird(numbers, out val));
+      Assert.AreEqual(8, val);
+      Assert.IsFalse(Accelerators.Numbered.TryNth(numbers, 10, out val));
+
+      numbers = new int[] { };
+      Assert.IsFalse(Accelerators.Numbered.TryFirst(numbers, out val));
+      Assert.IsFalse(Accelerators.Numbered.TrySecond(numbers, out val));
+      Assert.IsFalse(Accelerators.Numbered.TryThird(numbers, out val));
+    }
 	}
 }
