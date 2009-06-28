@@ -98,7 +98,7 @@ namespace Accelerators {
           n.Vectors = null;
         }
       }
-      _root = this.CreateRootNode(dimensions);
+      this.InitializeNode(_root, dimensions);
       _count = 0;
     }
 
