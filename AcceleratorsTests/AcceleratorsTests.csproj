@@ -65,6 +65,7 @@
     <Compile Include="Searches\TestExactSearch.cs" />
     <Compile Include="Searches\TestBoundingVolumeSearch.cs" />
     <Compile Include="Searches\TestIncrementalDistanceSearch.cs" />
+    <Compile Include="TestKdTreeICollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerators\Accelerators.csproj">

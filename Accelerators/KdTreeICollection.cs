@@ -99,6 +99,7 @@ namespace Accelerators {
         }
       }
       _root = this.CreateRootNode(dimensions);
+      _count = 0;
     }
 
     /// <summary>
