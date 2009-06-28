@@ -24,7 +24,7 @@ namespace Accelerators
   /// <summary>
   /// Generic pair structure
   /// </summary>
-  public struct Pair<T,U>
+  public class Pair<T,U>
 	{
     /// <summary>
     /// Construct from first and second.
