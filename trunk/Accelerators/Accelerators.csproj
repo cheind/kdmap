@@ -38,7 +38,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IVector.cs" />
     <Compile Include="FloatComparison.cs" />
-    <Compile Include="KdTree_ICollection_Impl.cs" />
     <Compile Include="Numbered.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PriorityQueue.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Subdivision\NoOperationResolver.cs" />
     <Compile Include="Searches\IncrementalDistanceSearch.cs" />
     <Compile Include="KdTreeEnumerator.cs" />
+    <Compile Include="KdTreeICollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
