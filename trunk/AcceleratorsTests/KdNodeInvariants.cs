@@ -40,12 +40,15 @@ namespace AcceleratorsTests
         if (n.Intermediate) {
           AreMetByIntermediate(n);
         } else {
-          AreMetByChild(n);
+          AreMetByLeaf(n);
         }
       }
     }
 
-    private static void AreMetByChild<T>(KdNode<T> leaf) where T : IVector {
+    /// <summary>
+    /// Test invariants on leaf
+    /// </summary>
+    private static void AreMetByLeaf<T>(KdNode<T> leaf) where T : IVector {
       // No child nodes are present
       Assert.IsNull(leaf.Left);
       Assert.IsNull(leaf.Right);
@@ -73,6 +76,9 @@ namespace AcceleratorsTests
       }
     }
 
+    /// <summary>
+    /// Test invariants on children
+    /// </summary>
     private static void AreMetByIntermediate<T>(KdNode<T> n) where T : IVector {
       // Each intermediate node has two children
       Assert.IsNotNull(n.Left);
