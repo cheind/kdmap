@@ -32,6 +32,8 @@ namespace Accelerators {
     /// </summary>
     public KdMap(int dimensions) {
       _kdtree = new KdTree<LocatablePair<TKey, TValue>>(dimensions, new Subdivision.SubdivisionPolicyConnector());
+      _es = new Searches.ExactSearch<LocatablePair<TKey, TValue>>(_kdtree.Root);
+      _es.CountLimit = 1;
     }
     
     /// <summary>
@@ -40,7 +42,22 @@ namespace Accelerators {
     public KdTree<LocatablePair<TKey, TValue>> KdTree {
       get { return _kdtree; }
     }
+    
+    /// <summary>
+    /// Try to find the first element that matches the given key. 
+    /// </summary>
+    private bool TryFindFirst(TKey key, out TValue value) {
+      IEnumerable<LocatablePair<TKey, TValue>> elements = _es.FindExact(key);
+      LocatablePair<TKey, TValue> tmp;
+      if (Numbered.TryFirst(elements, out tmp)) {
+        value = tmp.Second;
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     private KdTree<LocatablePair<TKey, TValue>> _kdtree;
+    private Searches.ExactSearch<LocatablePair<TKey, TValue>> _es;
   }
 }
