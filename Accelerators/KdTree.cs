@@ -120,7 +120,6 @@ namespace Accelerators
       }
     }
 
-
     private Subdivision.ISubdivisionPolicy _subdiv_policy;
     private int _count; // number of elements in tree
     private KdNode<T> _root;
