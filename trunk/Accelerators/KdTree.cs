@@ -37,7 +37,8 @@ namespace Accelerators
     /// <param name="policy"></param>
     public KdTree(int dimensions, Subdivision.ISubdivisionPolicy policy) {
       _subdiv_policy = policy;
-      _root = this.CreateRootNode(dimensions);
+      _root = new KdNode<T>();
+      this.InitializeNode(_root, dimensions);
       _cls = new Searches.ClosestLeafSearch<T>(_root);
       _count = 0;
     }
@@ -48,7 +49,8 @@ namespace Accelerators
     public KdTree(IEnumerable<T> vecs, Subdivision.ISubdivisionPolicy policy)
     {
       _subdiv_policy = policy;
-      _root = this.CreateRootNode(vecs);
+      _root = new KdNode<T>();
+      this.InitializeNode(_root, vecs);
       _cls = new Searches.ClosestLeafSearch<T>(_root);
       _count = _root.Vectors.Count;
       this.TrySplit(_root);
@@ -65,25 +67,28 @@ namespace Accelerators
     }
     
     /// <summary>
-    /// Creates the root kd-tree node that contains the entire scene
+    /// Initialize a node based on elements.
     /// </summary>
-    private KdNode<T> CreateRootNode(IEnumerable<T> vecs) {
+    private void InitializeNode(KdNode<T> n, IEnumerable<T> vecs) {
       T first = Numbered.First(vecs);
-      KdNode<T> n = new KdNode<T>();
-      n.InternalBounds = new AABB(first.Dimensions);
+      
+      if (n.Vectors == null)
+        n.Vectors = new List<T>();
+      n.Vectors.Clear();
+      n.Vectors.AddRange(vecs);
+
+      if (n.InternalBounds == null)
+        n.InternalBounds = new AABB(first.Dimensions);
+      n.InternalBounds.Reset();
       n.InternalBounds.Enlarge(vecs);
-      n.Vectors = new List<T>(vecs);
-      return n;
     }
 
     /// <summary>
-    /// Create empty root node
+    /// Initialize a node base on dimensional info
     /// </summary>
-    private KdNode<T> CreateRootNode(int dimensions) {
-      KdNode<T> n = new KdNode<T>();
-      n.InternalBounds = new AABB(dimensions);
+    private void InitializeNode(KdNode<T> n, int dimensions) {
       n.Vectors = new List<T>();
-      return n;
+      n.InternalBounds = new AABB(dimensions);
     }
     
     /// <summary>
@@ -118,6 +123,32 @@ namespace Accelerators
       get {
         return _root;
       }
+    }
+
+    /// <summary>
+    /// Optimize tree using the given subdivision policy.
+    /// </summary>
+    public void Optimize(Subdivision.ISubdivisionPolicy policy) {
+      _subdiv_policy = policy;
+      if (this.Count > 0) {
+        // Save all elements
+        T[] elements = new T[this.Count];
+        this.CopyTo(elements, 0);
+        // Clean-Up
+        this.Clear(); // note: this sets number of elements to be zero.
+        // Reconstruct
+        this.InitializeNode(_root, elements);
+        this.TrySplit(_root);
+        // Update missing info
+        _count = elements.Length;
+      }
+    }
+
+    /// <summary>
+    /// Optimize tree.
+    /// </summary>
+    public void Optimize() {
+      this.Optimize(_subdiv_policy);
     }
 
     private Subdivision.ISubdivisionPolicy _subdiv_policy;
