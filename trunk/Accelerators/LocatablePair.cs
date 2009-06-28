@@ -22,7 +22,7 @@ using System.Text;
 namespace Accelerators {
 
   /// <summary>
-  /// Represents a key/value pair that acts as an IVector.
+  /// Represents a key/value pair insertable into a kd-tree
   /// </summary>
   public class LocatablePair<T, U> : Pair<T,U>, IVector where T : IVector {
 
@@ -30,6 +30,11 @@ namespace Accelerators {
     /// Construct from first and second parameter.
     /// </summary>
     public LocatablePair(T t, U u) : base(t, u) {}
+    
+    /// <summary>
+    /// Construct from key/value pair 
+    /// </summary>
+    public LocatablePair(KeyValuePair<T,U> pair) : base (pair.Key, pair.Value) {}
 
     /// <summary>
     /// Access dimensionality of pair.

@@ -26,24 +26,42 @@ namespace Accelerators {
   /// </summary>
   public partial class KdMap<TKey, TValue> : IDictionary<TKey, TValue> where TKey : IVector {
 
+    /// <summary>
+    /// Add item to the kd-map. 
+    /// </summary>
     public void Add(TKey key, TValue value) {
-      throw new Exception("The method or operation is not implemented.");
+      if (this.ContainsKey(key)) {
+        throw new ArgumentException("Key already contained in Kd-Map.");
+      }
+      _kdtree.Add(new LocatablePair<TKey,TValue>(key, value));
     }
 
+    /// <summary>
+    /// Test if kd-map contains the specified key. 
+    /// </summary>
     public bool ContainsKey(TKey key) {
-      throw new Exception("The method or operation is not implemented.");
+      return _es.Contains(key);
     }
 
+    /// <value>
+    /// Get a collection of the contained keys 
+    /// </value>
     public ICollection<TKey> Keys {
       get { throw new Exception("The method or operation is not implemented."); }
     }
 
+    /// <summary>
+    /// Remove item by key from the kd-map.
+    /// </summary>
     public bool Remove(TKey key) {
-      throw new Exception("The method or operation is not implemented.");
+      return _kdtree.Remove(new LocatablePair<TKey, TValue>(key, default(TValue)));
     }
 
+    /// <summary>
+    /// Try accessing the item hold by the given key 
+    /// </summary>
     public bool TryGetValue(TKey key, out TValue value) {
-      throw new Exception("The method or operation is not implemented.");
+      return this.TryFindFirst(key, out value);
     }
 
     public ICollection<TValue> Values {
@@ -55,6 +73,7 @@ namespace Accelerators {
         throw new Exception("The method or operation is not implemented.");
       }
       set {
+        
         throw new Exception("The method or operation is not implemented.");
       }
     }

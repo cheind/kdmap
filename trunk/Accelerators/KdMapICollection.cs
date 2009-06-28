@@ -23,32 +23,56 @@ namespace Accelerators {
 
   public partial class KdMap<TKey, TValue> : IDictionary<TKey, TValue> where TKey : IVector {
 
+    /// <summary>
+    /// Add item to kd-map if not contained. 
+    /// </summary>
     public void Add(KeyValuePair<TKey, TValue> item) {
-      throw new Exception("The method or operation is not implemented.");
+      if (this.ContainsKey(item.Key)) {
+        throw new ArgumentException("Key already contained in Kd-Map.");
+      }
+      _kdtree.Add(new LocatablePair<TKey, TValue>(item));
     }
 
+    /// <summary>
+    /// Remove all items from the kd-map 
+    /// </summary>
     public void Clear() {
-      throw new Exception("The method or operation is not implemented.");
+      _kdtree.Clear();
     }
 
+    /// <summary>
+    /// Test if item is contained in kd-map. 
+    /// </summary>
     public bool Contains(KeyValuePair<TKey, TValue> item) {
-      throw new Exception("The method or operation is not implemented.");
+      return this.ContainsKey(item.Key);
     }
 
+    /// <summary>
+    /// Copy all elements to array starting at the provided index.
+    /// </summary>
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) {
       throw new Exception("The method or operation is not implemented.");
     }
 
+    /// <value>
+    /// Return the number of elements contained 
+    /// </value>
     public int Count {
-      get { throw new Exception("The method or operation is not implemented."); }
+      get { return _kdtree.Count; }
     }
 
+    /// <value>
+    /// Test if this kd-map is read-only 
+    /// </value>
     public bool IsReadOnly {
-      get { throw new Exception("The method or operation is not implemented."); }
+      get { return _kdtree.IsReadOnly; }
     }
 
+    /// <summary>
+    /// Remove the given item 
+    /// </summary>
     public bool Remove(KeyValuePair<TKey, TValue> item) {
-      throw new Exception("The method or operation is not implemented.");
+      return _kdtree.Remove(new LocatablePair<TKey, TValue>(item));
     }
   }
 }
