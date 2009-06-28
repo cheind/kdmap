@@ -54,10 +54,17 @@ namespace Accelerators
     }
 
     /// <summary>
-    /// Stringify pair
+    /// Convert pair to string
     /// </summary>
     public override string ToString() {
       return string.Format("<{0},{1}>", _t, _u);
+    }
+
+    /// <summary>
+    /// Convert pair to KeyValuePair.
+    /// </summary>
+    public KeyValuePair<T,U> ToKeyValuePair() {
+      return new KeyValuePair<T, U>(_t, _u);
     }
 
     private T _t;
