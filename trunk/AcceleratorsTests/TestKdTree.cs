@@ -69,5 +69,29 @@ namespace AcceleratorsTests
       }
       Assert.AreEqual(5000 - 500, count);
     }
+    
+    [Test]
+    public void TestEnumerationOfEmptyTree() {
+      KdTree<IVector> tree = new KdTree<IVector>(2, new SubdivisionPolicyConnector(1));
+      using (IEnumerator<IVector> e = tree.GetEnumerator()) {
+        Assert.IsFalse(e.MoveNext());
+      }
+    }
+
+    [Test]
+    public void TestEnumeration() {
+      Vector[] vecs = new Vector[] { Vector.Create(-1.0, -1.0), Vector.Create(0.0, 0.0), Vector.Create(1.0, 1.0), Vector.Create(2.0, 2.0) };
+      KdTree<Vector> tree = new KdTree<Vector>(vecs, new Accelerators.Subdivision.SubdivisionPolicyConnector(1));
+      int index = 0;
+      using (IEnumerator<Vector> e = tree.GetEnumerator()) {
+        while (e.MoveNext()) {
+          // iterator traverses nodes from left to right
+          Assert.IsTrue(vecs[index].Equals(e.Current));
+          index += 1;
+        }
+        Assert.AreEqual(4, index);
+      }
+    }
+    
   }
 }

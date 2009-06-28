@@ -139,12 +139,18 @@ namespace Accelerators {
       }
     }
 
+    /// <summary>
+    /// Retrieve a new element iterator 
+    /// </summary>
     public IEnumerator<T> GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
+      return new KdTreeEnumerator<T>(this);
     }
 
+    /// <summary>
+    /// Retrieve a new element iterator 
+    /// </summary>
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
+      return new KdTreeEnumerator<T>(this);
     }
   }
 }
