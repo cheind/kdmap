@@ -130,8 +130,8 @@ namespace AcceleratorsTests
     
     [Test]
     public void TestCopyTo() {
-      IVector[] dest = new IVector[10];    
-      List<IVector> vecs = new List<IVector>(VectorSampling.InAABB(3, 2, -100.0, 100.0, 10));
+      IVector[] dest = new IVector[10];
+      Vector[] vecs = new Vector[] { Vector.Create(-1.0, -1.0), Vector.Create(0.0, 0.0), Vector.Create(1.0, 1.0), Vector.Create(2.0, 2.0) };
       KdTree<IVector> tree = new KdTree<IVector>(2, new Accelerators.Subdivision.SubdivisionPolicyConnector(1));
       
       tree.CopyTo(dest, 0);
