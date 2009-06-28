@@ -29,7 +29,9 @@ namespace Accelerators.Searches {
     /// <summary>
     /// Initialize with the kd-tree node to start search at.
     /// </summary>
-    public ExactSearch(KdNode<T> tree) : base(tree) {}
+    public ExactSearch(KdNode<T> tree) : base(tree) {
+      _cls = new ClosestLeafSearch<T>(tree);
+    }
 
     /// <summary>
     /// Search for elements with exact matching coordinates
@@ -40,8 +42,7 @@ namespace Accelerators.Searches {
         yield break;
 
       // Else we fetch the leaf which x resides in
-      ClosestLeafSearch<T> cls = new ClosestLeafSearch<T>(this.Tree);
-      KdNode<T> leaf = cls.FindClosestLeaf(x);
+      KdNode<T> leaf = _cls.FindClosestLeaf(x);
 
       // Search through leaf and report all found up to the limit.
       int found = 0;
@@ -50,5 +51,22 @@ namespace Accelerators.Searches {
         yield return t;
       }
     }
+    
+    /// <summary>
+    /// Test if element with same coordinates is contained 
+    /// </summary>
+    public bool Contains(IVector x) {
+       // If point is not within root-bounds we can exit early
+      if (!this.Tree.InternalBounds.Inside(x))
+        return false;
+
+      // Else we fetch the leaf x possibly resides in
+      KdNode<T> leaf = _cls.FindClosestLeaf(x);
+      // And test for containment
+      int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(x, obj); });
+      return index >= 0;
+    }
+    
+    private ClosestLeafSearch<T> _cls;
   }
 }
