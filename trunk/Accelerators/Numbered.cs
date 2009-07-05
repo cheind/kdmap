@@ -102,6 +102,7 @@ namespace Accelerators {
           value = e.Current;
           return true;
         } else {
+          value = default(T);
           return false;
         }
       }
