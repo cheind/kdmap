@@ -62,43 +62,43 @@ namespace AcceleratorsTests
     public void IllustrateKdMap() {
       // Create a new KdMap (with the desired number of dimensions) 
       // and access it through the generic IDictionary interface.
-      IDictionary<GeoCoord, string> marks = new Accelerators.KdMap<GeoCoord, string>(2);
+      IDictionary<GeoCoord, string> cities = new Accelerators.KdMap<GeoCoord, string>(2);
 
       // Add some elements to the dictionary. There are no duplicate keys in terms of their
       // coordinates.
-      marks.Add(new GeoCoord(48.2, 16.3), "Vienna");
-      marks.Add(new GeoCoord(40.7, -73.9), "New York");
-      marks.Add(new GeoCoord(59.9, 30.3), "Sankt Petersburg");
-      marks.Add(new GeoCoord(52.5, 13.4), "Berlin");
-      marks.Add(new GeoCoord(47.0, 15.4), "Graz");
-      marks.Add(new GeoCoord(47.8, 13.0), "Salzburg");
-      marks.Add(new GeoCoord(48.8, 2.3), "Paris");
-      marks.Add(new GeoCoord(41.9, 12.4), "Rome");
+      cities.Add(new GeoCoord(48.2, 16.3), "Vienna");
+      cities.Add(new GeoCoord(40.7, -73.9), "New York");
+      cities.Add(new GeoCoord(59.9, 30.3), "Sankt Petersburg");
+      cities.Add(new GeoCoord(52.5, 13.4), "Berlin");
+      cities.Add(new GeoCoord(47.0, 15.4), "Graz");
+      cities.Add(new GeoCoord(47.8, 13.0), "Salzburg");
+      cities.Add(new GeoCoord(48.8, 2.3), "Paris");
+      cities.Add(new GeoCoord(41.9, 12.4), "Rome");
 
       
       // Adding an element whose coordinates are already present throws and exception
       try {
-        marks.Add(new GeoCoord(48.2, 16.3), "Vienna2");
+        cities.Add(new GeoCoord(48.2, 16.3), "Vienna2");
       } catch (ArgumentException) {
         System.Console.WriteLine("Key (48.2, 16.3) is already present.");
       }
       
       // The item property is a way to access values associated with keys
-      System.Console.WriteLine("Label at (48.2, 16.3) is '{0}'.", marks[new GeoCoord(48.2, 16.3)]);
+      System.Console.WriteLine("Label at (48.2, 16.3) is '{0}'.", cities[new GeoCoord(48.2, 16.3)]);
 
       // Accessing keys is provided through a read-only collection
-      ICollection<GeoCoord> keys = marks.Keys;
+      ICollection<GeoCoord> keys = cities.Keys;
       // Accessing values is provided as well.
-      ICollection<string> values = marks.Values;
+      ICollection<string> values = cities.Values;
 
       // Elements are removed by matching their coordinates via the IVector interface.
       // Testing equality of double values is considered numerically instable, which is
       // why you should first search for the closest element and than remove the element returned
       // from this search.
-      marks.Remove(new GeoCoord(47.8, 13.0));
+      cities.Remove(new GeoCoord(47.8, 13.0));
 
       // Iterating over the collection of key-value pairs
-      foreach (KeyValuePair<GeoCoord, string> kvp in marks) {
+      foreach (KeyValuePair<GeoCoord, string> kvp in cities) {
         System.Console.WriteLine("<{0}, {1}>", kvp.Key, kvp.Value);
       }
 
