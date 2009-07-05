@@ -26,12 +26,18 @@ namespace Accelerators {
   /// </summary>
   public partial class KdMap<TKey, TValue> : IDictionary<TKey, TValue> where TKey : IVector {
 
+    /// <summary>
+    /// Access KdMap enumerator
+    /// </summary>
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
+      return new KdMapEnumerator<TKey, TValue>(this);
     }
 
+    /// <summary>
+    /// Access KdMap enumerator
+    /// </summary>
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-      throw new Exception("The method or operation is not implemented.");
+      return new KdMapEnumerator<TKey, TValue>(this);
     }
   }
 }
