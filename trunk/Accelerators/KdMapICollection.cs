@@ -30,7 +30,7 @@ namespace Accelerators {
       if (this.ContainsKey(item.Key)) {
         throw new ArgumentException("Key already contained in Kd-Map.");
       }
-      _kdtree.Add(new LocatablePair<TKey, TValue>(item));
+      _kdtree.Add((LocatablePair<TKey, TValue>)item);
     }
 
     /// <summary>

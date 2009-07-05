@@ -56,5 +56,24 @@ namespace Accelerators {
         this.First[index] = value;
       }
     }
+
+    /// <summary>
+    /// Explicit conversion from KeyValuePair to LocatablePair
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public static explicit operator LocatablePair<T,U>(KeyValuePair<T,U> other) {
+      return new LocatablePair<T, U>(other);
+    }
+
+    /// <summary>
+    /// Explicit conversion from LocatablePair to KeyValuePair
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public static explicit operator KeyValuePair<T,U>(LocatablePair<T,U> other) {
+      return other.ToKeyValuePair();
+    }
+
   }
 }
