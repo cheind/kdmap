@@ -51,20 +51,37 @@ namespace Accelerators.Searches {
         yield return t;
       }
     }
+
+    /// <summary>
+    /// Specialized exact search for the first matching item. This method
+    /// does not carry the overhead of creating IEnumerables for its result set.
+    /// </summary>
+    public bool TryFindExactFirst(IVector x, out T first) {
+      // If point is not within root-bounds we can exit early
+      if (!this.Tree.InternalBounds.Inside(x)) {
+        first = default(T);
+        return false;
+      }
+        
+      // Else we fetch the leaf x possibly resides in
+      KdNode<T> leaf = _cls.FindClosestLeaf(x);
+      // And test for containment
+      int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(x, obj); });
+      if (index < 0) {
+        first = default(T);
+        return false;
+      } else {
+        first = leaf.Vectors[index];
+        return true;
+      }
+    }
     
     /// <summary>
     /// Test if element with same coordinates is contained 
     /// </summary>
     public bool Contains(IVector x) {
-       // If point is not within root-bounds we can exit early
-      if (!this.Tree.InternalBounds.Inside(x))
-        return false;
-
-      // Else we fetch the leaf x possibly resides in
-      KdNode<T> leaf = _cls.FindClosestLeaf(x);
-      // And test for containment
-      int index = leaf.Vectors.FindIndex(delegate(T obj) { return VectorComparison.Equal(x, obj); });
-      return index >= 0;
+      T tmp;
+      return this.TryFindExactFirst(x, out tmp);
     }
     
     private ClosestLeafSearch<T> _cls;
