@@ -51,7 +51,10 @@ namespace Accelerators {
     /// Copy all elements to array starting at the provided index.
     /// </summary>
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) {
-      throw new Exception("The method or operation is not implemented.");
+      foreach(KeyValuePair<TKey, TValue> p in this) {
+        array[arrayIndex] = p;
+        arrayIndex += 1;
+      }
     }
 
     /// <value>
