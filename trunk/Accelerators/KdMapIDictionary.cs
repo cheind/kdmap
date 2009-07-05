@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace Accelerators {
 
@@ -43,13 +44,6 @@ namespace Accelerators {
       return _es.Contains(key);
     }
 
-    /// <value>
-    /// Get a collection of the contained keys 
-    /// </value>
-    public ICollection<TKey> Keys {
-      get { throw new Exception("The method or operation is not implemented."); }
-    }
-
     /// <summary>
     /// Remove item by key from the kd-map.
     /// </summary>
@@ -64,17 +58,51 @@ namespace Accelerators {
       return this.TryFindFirst(key, out value);
     }
 
+    /// <summary>
+    /// Get a collection of the contained values
+    /// </summary>
     public ICollection<TValue> Values {
-      get { throw new Exception("The method or operation is not implemented."); }
+      get {
+        List<TValue> vals  = new List<TValue>();
+        foreach(LocatablePair<TKey, TValue> p in _kdtree) {
+          vals.Add(p.Second);
+        }
+        return vals;
+      }
     }
 
+    /// <value>
+    /// Get a read-only collection of the contained keys 
+    /// </value>
+    public ICollection<TKey> Keys {
+      get {
+        List<TKey> keys = new List<TKey>();
+        foreach (LocatablePair<TKey, TValue> p in _kdtree) {
+          keys.Add(p.First);
+        }
+        return new ReadOnlyCollection<TKey>(keys);
+      }
+    }
+
+    /// <summary>
+    /// Access item by key
+    /// </summary>
     public TValue this[TKey key] {
       get {
-        throw new Exception("The method or operation is not implemented.");
+        TValue val;
+        if (!this.TryFindFirst(key, out val))
+          throw new KeyNotFoundException(String.Format("Key {0} was not found in dictionary.", key));
+        else
+          return val;
       }
       set {
-        
-        throw new Exception("The method or operation is not implemented.");
+        LocatablePair<TKey, TValue> pair;
+        if (!_es.TryFindExactFirst(key, out pair)) {
+          this.Add(key, value);
+        } else {
+          // LocatablePair is a reference type, so we can update it.
+          pair.Second = value;
+        }
       }
     }
   }
