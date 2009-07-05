@@ -36,13 +36,18 @@ namespace Accelerators
       _enumerator = _tree.GetEnumerator();
     }
 
+    /// <summary>
+    /// Access current enumerated item
+    /// </summary>
     public KeyValuePair<TKey, TValue> Current {
       get {
-        LocatablePair<TKey, TValue> current = _enumerator.Current;
-        return current.ToKeyValuePair();
+        return (KeyValuePair<TKey, TValue>)_enumerator.Current;
       }
     }
 
+    /// <summary>
+    /// Dispose enumerator.
+    /// </summary>
     public void Dispose() {
       _tree = null;
       if (_enumerator != null)
@@ -50,16 +55,25 @@ namespace Accelerators
       _enumerator = null;
     }
 
+    /// <summary>
+    /// Access current enumerated item
+    /// </summary>
     object System.Collections.IEnumerator.Current {
       get {
         return this.Current;
       }
     }
 
+    /// <summary>
+    /// Move enumerator forward
+    /// </summary>
     public bool MoveNext() {
       return _enumerator.MoveNext();
     }
 
+    /// <summary>
+    /// Reset enumerator to initial state.
+    /// </summary>
     public void Reset() {
       _enumerator = _tree.GetEnumerator();
     }
