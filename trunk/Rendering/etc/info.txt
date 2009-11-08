@@ -1,0 +1,1 @@
+http://anonsvn.mono-project.com/viewvc/trunk/win32-installers/modules/mono-cairo-lib/source/lib/2.0/
