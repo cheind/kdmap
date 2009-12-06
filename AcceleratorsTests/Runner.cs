@@ -1,4 +1,4 @@
-// 
+﻿// 
 //  Copyright (c) 2009, Christoph Heindl
 //  All rights reserved.
 // 
@@ -24,43 +24,18 @@
 // 
 
 using System;
-using NUnit.Framework;
-using Accelerators;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AcceleratorsTests
 {
-  [TestFixture()]
-	public class TestKdNode
-	{
-    [Test]
-    public void TestSplitBounds() {
-      
-      // +-------------+
-      // |      |      |
-      // |      |      |
-      // +--+---|      |
-      // |  | x |      |
-      // +--+---+------+
-      
-      KdNode<Vector> root = new KdNode<Vector>();
-      root.InternalBounds = new AABB(Vector.Create(-5, -5), Vector.Create(5, 5));
-      root.SplitDimension = 0;
-      root.SplitLocation = 0;
-      KdNode<Vector> left = root.SetLeftChild(new KdNode<Vector>());
-      left.SplitDimension = 1;
-      left.SplitLocation = 0;
-      left = left.SetLeftChild(new KdNode<Vector>());
-      left.SplitDimension = 0;
-      left.SplitLocation = -2.5;
-      KdNode<Vector> right = left.SetRightChild(new KdNode<Vector>());
-      right.InternalBounds = new AABB(2);
-
-      AABB bounds = right.SplitBounds;
-      Assert.AreEqual(bounds.Lower[0], -2.5, FloatComparison.DefaultEps);
-      Assert.AreEqual(bounds.Lower[1], -5, FloatComparison.DefaultEps);
-      Assert.AreEqual(bounds.Upper[0], 0, FloatComparison.DefaultEps);
-      Assert.AreEqual(bounds.Upper[1], 0, FloatComparison.DefaultEps);
+  class Runner
+  { 
+    [STAThread]
+    static void Main(string[] args)
+    {
+      // Note: add nunit-console-runner.dll from <nunit-dir>/libs as reference
+      NUnit.ConsoleRunner.Runner.Main(args);
     }
-	}
+  }
 }
